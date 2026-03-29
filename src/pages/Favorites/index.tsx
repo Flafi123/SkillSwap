@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const FavoritesPage: React.FC = () => {
-    return <div>Страница - избранное.</div>
+  return <div>Страница - избранное.</div>
 }

@@ -1,5 +1,5 @@
-import styles from './Logo.module.css';
-import logo from '../../assets/logo.svg';
+import styles from './Logo.module.css'
+import logo from '../../assets/logo.svg'
 
 export const Logo = () => {
   return (
@@ -7,5 +7,5 @@ export const Logo = () => {
       <img src={logo} alt="Logo" className={styles.logoImage} />
       <span className={styles.text}>SkillSwap</span>
     </div>
-  );
-};
+  )
+}

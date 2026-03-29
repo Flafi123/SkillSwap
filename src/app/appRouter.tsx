@@ -12,39 +12,39 @@ import { ServerErrorPage } from '../pages/Error/ServerErrorPage'
 import { MainLayout } from '../layouts/MainLayout'
 
 export const appRouter = createBrowserRouter([
-    {
-        path: '/',
-        element: <MainLayout />,
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: 'favorites',
+        element: <FavoritesPage />,
+      },
+      {
+        path: 'skill/:id',
+        element: <SkillPage />,
+      },
+      {
+        path: 'register',
         children: [
-            {
-                index: true,
-                element: <HomePage />,
-            },
-            {
-                path: 'profile',
-                element: <ProfilePage />,
-            },
-            {
-                path: 'favorites',
-                element: <FavoritesPage />,
-            },
-            {
-                path: 'skill/:id',
-                element: <SkillPage />,
-            },
-            {
-                path: 'register',
-                children: [
-                    { path: 'step-1', element: <AuthStepFirstPage /> },
-                    { path: 'step-2', element: <AuthStepSecondPage /> },
-                    { path: 'step-3', element: <AuthStepThirdPage /> },
-                ],
-            },
-            {
-                path: '500',
-                element: <ServerErrorPage />,
-            },
-            { path: '*', element: <NotFoundPage /> },
+          { path: 'step-1', element: <AuthStepFirstPage /> },
+          { path: 'step-2', element: <AuthStepSecondPage /> },
+          { path: 'step-3', element: <AuthStepThirdPage /> },
         ],
-    },
+      },
+      {
+        path: '500',
+        element: <ServerErrorPage />,
+      },
+      { path: '*', element: <NotFoundPage /> },
+    ],
+  },
 ])

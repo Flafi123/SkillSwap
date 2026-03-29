@@ -1,0 +1,17 @@
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.logoImage {
+  width: 40px;
+  height: 40px;
+}
+
+.text {
+  font-size: 24px;
+  font-family: 'Jost', Arial;
+  color: #253017;
+}

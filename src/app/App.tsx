@@ -1,4 +1,5 @@
 import './index.css';
+import '../shared/assets/fonts/fonts.css'; 
 
 function App() {
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 // import { useLocation, Link } from "react-router-dom";
+import { Footer } from '../widgets/Footer'
 
 export const MainLayout: React.FC = () => {
   // const { pathname } = useLocation();
@@ -28,7 +29,7 @@ export const MainLayout: React.FC = () => {
       <main>
         <Outlet />
       </main>
-      <footer></footer>
+      <Footer/>
     </div>
   )
 }

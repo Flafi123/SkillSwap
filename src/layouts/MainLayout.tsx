@@ -29,7 +29,7 @@ export const MainLayout: React.FC = () => {
       <main>
         <Outlet />
       </main>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

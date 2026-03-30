@@ -1,0 +1,64 @@
+{
+  "categoryList": [
+    {
+      "id": 1,
+      "title": "Бизнес и карьера",
+      "value": "business",
+      "subcategories": [
+        {
+          "id": 1,
+          "title": "Управление командой",
+          "value": "team",
+          "skills": [
+            {
+              "id": 1,
+              "title": "Делать вид, что всё под контролем",
+              "description": "Очень важный навык. Редкий",
+              "imageUrl": ["../src/shared/assets/avatars/default-avatar.png"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Творчество и искусство",
+      "value": "creativity",
+      "subcategories": [
+        {
+          "id": 6,
+          "title": "Рисование и иллюстрация",
+          "value": "painting",
+          "skills": [
+            {
+              "id": 6,
+              "title": "Работа с тенями",
+              "description": "Нужен, чтобы изображение выглядело объемным",
+              "imageUrl": ["../src/shared/assets/avatars/default-avatar.png"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Иностранные языки",
+      "value": "languages",
+      "subcategories": [
+        {
+          "id": 11,
+          "title": "Английский язык",
+          "value": "en",
+          "skills": [
+            {
+              "id": 11,
+              "title": "Произношение, как у native",
+              "description": "Вас будет не отличить от носителя языка",
+              "imageUrl": ["../src/shared/assets/avatars/default-avatar.png"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

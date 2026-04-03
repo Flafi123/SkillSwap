@@ -1,11 +1,6 @@
 import { request } from './base'
-
-//вот это надо вынести в папку типов
-export type TCategory = {
-  id: number
-  title: string
-}
-//
+import type { TCategory } from '../shared/utils/types'
+import { delay } from '../shared/lib/delay'
 
 type TCategoryResponse = {
   categoryList: TCategory[]
@@ -13,6 +8,7 @@ type TCategoryResponse = {
 
 //метод для получения всех категорий из json
 export const getCategoriesApi = async (): Promise<TCategory[]> => {
+  await delay()
   const data = await request<TCategoryResponse>('/db/categories.json')
   return data.categoryList
 }

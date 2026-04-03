@@ -1,35 +1,7 @@
 import { request } from './base'
+import { delay } from '../shared/lib/delay'
 import { postToStorage, patchToStorage } from './localStorageApi'
-
-//вот это надо вынести в папку типов
-export type TUser = {
-  id: number
-  name: string
-  city: string
-  birthDate: string
-  gender: string
-  email: string
-  about: string
-  skillOfferedId: number
-  subcategoriesWanted: number[]
-  favoritesSkills: number[]
-  createdAt: string
-  updatedAt: string
-  avatarUrl: string
-}
-
-export type TRegisterData = {
-  email: string
-  password: string
-  name: string
-  city: string
-  birthDate: string
-  gender: string
-  about?: string
-  subcategoriesWanted: number[]
-  avatarUrl: string
-}
-//
+import type { TUser, TRegisterData } from '../shared/utils/types'
 
 type TUserResponse = {
   users: TUser[]
@@ -37,16 +9,30 @@ type TUserResponse = {
 
 //метод для получения всех пользователей из json
 export const getUsersApi = async (): Promise<TUser[]> => {
+  await delay()
   const data = await request<TUserResponse>('/db/users.json')
   return data.users
 }
 
 //обертка-метод для эмуляции создания нового пользователя(на самом деле записывается в localStorage)
-export const registerUserApi = (data: TRegisterData) => {
-  return postToStorage('draftUser', data)
+export const registerUserApi = async (data: TRegisterData): Promise<TUser> => {
+  await delay()
+  const newUser: TUser = {
+    ...data,
+    id: Date.now(),
+    subcategoriesWanted: data.subcategoriesWanted,
+    favoritesSkills: [],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  }
+  return postToStorage('draftUser', newUser)
 }
 
 //обертка-метод для эмуляции обновления информации о пользователе(на самом деле записывается в localStorage)
-export const updateUserApi = (data: Partial<TRegisterData>) => {
-  return patchToStorage('draftUser', data)
+export const updateUserApi = async (data: Partial<TUser>): Promise<TUser> => {
+  await delay()
+  return patchToStorage('draftUser', {
+    ...data,
+    updatedAt: new Date().toISOString(),
+  })
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import styles from './NotFoundPage.module.css'
-import { Button } from '../../../shared/ui/Button/Button'
+import styles from './ErrorPage.module.css'
+import { Button } from '../../shared/ui/Button/Button'
 import { Link } from 'react-router-dom'
 
-import errorImage_404 from '../../../shared/assets/svg/error_404.svg'
+import errorImage_404 from '../../shared/assets/svg/error_404.svg'
 
 export const NotFoundPage: React.FC = () => {
   return (

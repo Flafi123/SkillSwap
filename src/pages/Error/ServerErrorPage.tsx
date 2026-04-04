@@ -1,9 +1,9 @@
 import React from 'react'
-import styles from '../ServerErrorPage/ServerErrorPage.module.css'
-import { Button } from '../../../shared/ui/Button/Button'
+import styles from './ErrorPage.module.css'
+import { Button } from '../../shared/ui/Button/Button'
 import { Link } from 'react-router-dom'
 
-import errorImage_500 from '../../../shared/assets/svg/error_500.svg'
+import errorImage_500 from '../../shared/assets/svg/error_500.svg'
 
 export const ServerErrorPage: React.FC = () => {
   return (

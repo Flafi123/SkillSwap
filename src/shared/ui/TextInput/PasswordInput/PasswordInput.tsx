@@ -3,6 +3,7 @@ import { TextInput } from '../TextInput/TextInput'
 import styles from './PasswordInput.module.css'
 import eyeIcon from '../../../assets/icons/eye.png'
 import eyeSlashIcon from '../../../assets/icons/eye-slash.png'
+import { IconButton } from '../../IconButton'
 
 interface PasswordInputProps {
   value: string
@@ -36,13 +37,10 @@ export const PasswordInput = ({
       placeholder={placeholder}
       className={styles.passwordInput}
       rightSlot={
-        <button
-          type="button"
-          className={styles.iconButton}
+        <IconButton
+          icon={<img src={visible ? eyeIcon : eyeSlashIcon} alt="глазик показать/скрыть пароль" />}
           onClick={() => setVisible((prev) => !prev)}
-        >
-          <img src={visible ? eyeIcon : eyeSlashIcon} alt="глазик показать/скрыть пароль" />
-        </button>
+        />
       }
     />
   )

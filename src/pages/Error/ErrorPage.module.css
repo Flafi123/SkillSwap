@@ -43,6 +43,6 @@
   flex-wrap: wrap;
 }
 
-button {
+.button {
   min-width: 218px;
 }

@@ -19,10 +19,10 @@ export const NotFoundPage: React.FC = () => {
         </p>
 
         <div className={styles.actions}>
-          <Button variant="secondary">Сообщить об ошибке</Button>
+          <Button className={styles.button} variant="secondary">Сообщить об ошибке</Button>
 
           <Link to="/">
-            <Button>На главную</Button>
+            <Button className={styles.button}>На главную</Button>
           </Link>
         </div>
       </div>

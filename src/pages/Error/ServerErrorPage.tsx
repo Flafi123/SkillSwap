@@ -15,10 +15,10 @@ export const ServerErrorPage: React.FC = () => {
 
         <p className={styles.description}>Попробуйте позже или вернитесь на главную страницу</p>
         <div className={styles.actions}>
-          <Button variant="secondary">Сообщить об ошибке</Button>
+          <Button variant="secondary" className={styles.button}>Сообщить об ошибке</Button>
 
           <Link to="/">
-            <Button>На главную</Button>
+            <Button className={styles.button}>На главную</Button>
           </Link>
         </div>
       </div>

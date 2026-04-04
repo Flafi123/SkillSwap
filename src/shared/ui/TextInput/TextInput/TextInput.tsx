@@ -2,6 +2,7 @@ import { type ChangeEvent, type ReactNode } from 'react'
 import clsx from 'clsx'
 import styles from './TextInput.module.css'
 import crossIcon from '../../../assets/icons/cross.png'
+import { IconButton } from '../../IconButton'
 
 interface TextInputProps {
   value: string
@@ -54,9 +55,13 @@ export const TextInput = ({
         {rightSlot && <div className={styles.rightSlot}>{rightSlot}</div>}
         {withClearButton && value && (
           <div className={styles.rightSlot}>
-            <button type="button" className={styles.iconButton} onClick={() => onChange('')}>
+            {/* <button type="button" className={styles.iconButton} onClick={() => onChange('')}>
               <img className={styles.icon} src={crossIcon} alt="крестик очистить поле" />
-            </button>
+            </button> */}
+            <IconButton
+              icon={<img src={crossIcon} alt="крестик очистить поле" />}
+              onClick={() => onChange('')}
+            />
           </div>
         )}
       </div>

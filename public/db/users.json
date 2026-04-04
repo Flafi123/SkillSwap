@@ -5,51 +5,48 @@
       "name": "Матвей",
       "city": "Казань",
       "birthDate": "1995-06-12",
-      "gender": "Мужской",
+      "gender": "male",
       "email": "matvei@example.com",
+      "password": "SkillSwap47!",
       "about": "Даже когда нет шансов, всегда есть шанс",
-      "skillOffered": 1,
-      "skillsWanted": [6, 11],
-      "favorites": {
-        "added": [2],
-        "addedBy": [2, 3]
-      },
-      "createdAt": "2024-11-05T12:34:00Z",
-      "avatarUrl": "../src/shared/assets/avatars/default-avatar.png"
+      "skillOfferedId": 1,
+      "subcategoriesWanted": [6, 11],
+      "favoritesSkills": [2],
+      "createdAt": "2025-11-05T12:34:00Z",
+      "updatedAt": "2025-12-05T12:34:00Z",
+      "avatarUrl": "/images/users/default-avatar.png"
     },
     {
       "id": 2,
       "name": "Оленька",
       "city": "Казань",
       "birthDate": "1995-05-20",
-      "gender": "Женский",
+      "gender": "female",
       "email": "olenka111@example.com",
+      "password": "SkillSwap47!",
       "about": "Иллюстратор, ищу людей для совместных проектов",
-      "skillOffered": 6,
-      "skillsWanted": [1, 11],
-      "favorites": {
-        "added": [1],
-        "addedBy": [1, 3]
-      },
-      "createdAt": "2024-09-12T09:20:00Z",
-      "avatarUrl": "../src/shared/assets/avatars/default-avatar.png"
+      "skillOfferedId": 2,
+      "subcategoriesWanted": [1, 11],
+      "favoritesSkills": [1],
+      "createdAt": "2025-01-12T09:20:00Z",
+      "updatedAt": "2025-02-05T12:34:00Z",
+      "avatarUrl": "/images/users/default-avatar.png"
     },
     {
       "id": 3,
       "name": "Борис",
       "city": "Казань",
       "birthDate": "2015-01-31",
-      "gender": "Мужской",
+      "gender": "male",
       "email": "borusss@example.com",
+      "password": "SkillSwap47!",
       "about": "Путешествия — моя жизнь",
-      "skillOffered": 11,
-      "skillsWanted": [1, 6],
-      "favorites": {
-        "added": [1, 2],
-        "addedBy": []
-      },
-      "createdAt": "2025-09-12T09:20:00Z",
-      "avatarUrl": "../src/shared/assets/avatars/default-avatar.png"
+      "skillOfferedId": 3,
+      "subcategoriesWanted": [1, 6],
+      "favoritesSkills": [1, 2],
+      "createdAt": "2025-03-12T09:20:00Z",
+      "updatedAt": "2025-04-05T12:34:00Z",
+      "avatarUrl": "/images/users/default-avatar.png"
     }
   ]
 }

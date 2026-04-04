@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import skillSlice from '../../entities/Skill/model/skillSlice'
 import userSlice from '../../entities/user/model/userSlice'
+import filterSlice from '../../entities/user/model/filterSlice'
 
 import {
   type TypedUseSelectorHook,
@@ -11,6 +12,7 @@ import {
 export const rootReducer = combineReducers({
   user: userSlice,
   skill: skillSlice,
+  filter: filterSlice,
 })
 
 const store = configureStore({

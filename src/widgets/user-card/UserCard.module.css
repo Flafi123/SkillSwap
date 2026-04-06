@@ -1,161 +1,69 @@
-/* Карточка: токены и базовая оболочка */
 .card {
-  --uc-text: #253017;
-  --uc-text-muted: #69735d;
-  --uc-border: #e4e8df;
-  --uc-surface: #fff;
-  --uc-like-icon: #abd27a;
-  --uc-like-hover-bg: #f4f6f1;
-  --uc-like-active: #508826;
-  --uc-radius: 12px;
-  --uc-font: roboto, arial, sans-serif;
-  --uc-padding: 20px;
-
+  flex: 2;
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  border: 1px solid var(--uc-border);
-  border-radius: var(--uc-radius);
-  background: var(--uc-surface);
-  font-family: var(--uc-font);
-  text-align: left;
+  gap: 20px;
+  font-family: roboto, arial, sans-serif;
 }
 
-.compact {
-  gap: 0;
-  padding: var(--uc-padding);
-}
-
-.detailed {
-  gap: 0;
-  padding: var(--uc-padding);
-}
-
-/* Верх карточки: якорь для абсолютного лайка */
-.topSection {
-  position: relative;
-}
-
-.compact .topSection {
-  margin-bottom: 20px;
-  padding-right: 36px;
-}
-
-.detailed .topSection {
-  margin-bottom: 0;
-}
-
-/* Лайк (compact), позиционирование относительно .topSection */
+/* Кнопка лайка в углу (только для компактной) */
 .likeButton {
   position: absolute;
   top: 0;
   right: 0;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  line-height: 0;
-  background-color: var(--uc-surface);
-  color: var(--uc-text);
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
 }
 
-.likeButton:hover {
-  background-color: var(--uc-like-hover-bg);
-}
-
-.likeIcon {
-  display: block;
-  flex-shrink: 0;
-  width: 20px;
-  height: 17.9px;
-}
-
-.likeIcon path {
-  transition:
-    fill 0.2s ease,
-    stroke 0.2s ease;
-}
-
-.likeIconInactive {
-  color: var(--uc-like-icon);
-}
-
-.likeIconInactive path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.35;
-  stroke-linejoin: round;
-}
-
-.likeIconActive {
-  color: var(--uc-like-active);
-}
-
-.likeIconActive path {
-  fill: currentColor;
-  stroke: none;
-}
-
-/* Шапка: аватар плюс имя */
-.header {
+/* Шапка: Аватар + Инфо */
+.top {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.detailed .header {
-  margin-bottom: 20px;
-}
-
-/* Средняя зона макета: «Может научить» + «Хочет научиться» */
-.skillsColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.compact .skillsColumn {
-  margin-bottom: 20px;
+  max-width: 284px;
 }
 
 .avatar {
-  flex-shrink: 0;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--uc-border);
-}
-
-.userInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
 }
 
 .name {
-  overflow-wrap: anywhere;
-  color: var(--uc-text);
+  margin: 0;
   font-size: 20px;
   font-weight: 600;
-  line-height: 24px;
+  color: #253017;
 }
 
 .meta {
-  color: var(--uc-text-muted);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #253017;
+}
+
+/* Текст "О себе" (только в Detailed) */
+.about {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailedContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 /* Секции навыков */
@@ -165,48 +73,71 @@
   gap: 8px;
 }
 
-.sectionTitle {
-  color: var(--uc-text);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
+.detailedSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
+.sectionTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #253017;
+}
+
+/* Список тегов */
 .skillList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 .skillTag {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background-color: var(--uc-border);
-  color: var(--uc-text);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  display: flex;
+  padding: 8px 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  white-space: nowrap;
+  background: #e8ecf7;
 }
 
-/* Только detailed */
-.about {
-  margin: 0 0 20px;
-  color: var(--uc-text);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-}
-
-/* Нижняя зона: кнопка «Подробнее» (compact) */
-.footer {
-  margin-top: auto;
+/* Футер с кнопкой "Подробнее" */
+.bottom {
+  margin-top: 8px;
 }
 
 .detailsButton {
   width: 100%;
 }
+
+/* .business {
+  background: #EEE7F7;
+}
+
+.art {
+  background: #F7E7F2;
+}
+
+.languages {
+  background: #EBE5C5;
+}
+
+.education {
+  background: #E7F2F6;
+}
+
+.home {
+  background: #F7EBE5;
+}
+
+.lifestyle {
+  background: #E9F7E7;
+}
+
+.default {
+  background: #808080;
+} */

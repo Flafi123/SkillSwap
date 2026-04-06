@@ -1,124 +1,125 @@
+import { useState } from 'react'
 import clsx from 'clsx'
-import { useId } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '../../shared/ui/Button'
+import { getAge } from '../../shared/lib/getAge'
+import type { TUser, TSubcategory, TSkill } from '../../shared/utils/types'
 import styles from './UserCard.module.css'
+import { IconButton } from '../../shared/ui/IconButton'
+
+const categoryColors: Record<number, string> = {
+  1: '#EEE7F7',
+  2: '#F7E7F2',
+  3: '#EBE5C5',
+  4: '#E7F2F6',
+  5: '#F7EBE5',
+  6: '#E9F7E7',
+}
 
 export interface UserCardProps {
+  user: TUser
+  subcategories: TSubcategory[]
+  skill: TSkill
+  onLikeClick?: () => void // для отправки данных в json
+  // isLiked?: boolean
   variant?: 'compact' | 'detailed'
-  avatarSrc: string
-  avatarAlt?: string
-  name: string
-  city: string
-  age: number
-  canTeachSkills: string[]
-  wantToLearnSkills: string[]
-  about?: string
-  /** В избранном: залитое сердце; иначе — только контур */
-  isLiked?: boolean
-  onLikeClick?: () => void
-  onDetailsClick?: () => void
   className?: string
 }
 
-function LikeIcon({ liked }: { liked: boolean }) {
-  return (
-    <svg
-      className={clsx(styles.likeIcon, liked ? styles.likeIconActive : styles.likeIconInactive)}
-      viewBox="2 3.45 20 17.9"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-      focusable="false"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      <path
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-      />
-    </svg>
-  )
-}
-
 export const UserCard = ({
-  variant = 'compact',
-  avatarSrc,
-  avatarAlt,
-  name,
-  city,
-  age,
-  canTeachSkills,
-  wantToLearnSkills,
-  about,
-  isLiked = false,
+  user,
+  subcategories,
+  skill,
   onLikeClick,
-  onDetailsClick,
+  // isLiked = false,
+  variant = 'compact',
   className,
 }: UserCardProps) => {
-  const profileHeadingId = useId()
-  const teachHeadingId = useId()
-  const learnHeadingId = useId()
-  const teachToShow = variant === 'compact' ? canTeachSkills.slice(0, 1) : canTeachSkills
+  const [isLiked, setIsLiked] = useState(false)
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsLiked(!isLiked)
+    onLikeClick?.()
+  }
 
   return (
     <article className={clsx(styles.card, styles[variant], className)}>
-      <section className={styles.topSection} aria-labelledby={profileHeadingId}>
-        <div className={styles.header}>
-          <img className={styles.avatar} src={avatarSrc} alt={avatarAlt ?? name} width={100} height={100} />
-          <div className={styles.userInfo}>
-            <h3 id={profileHeadingId} className={styles.name}>
-              {name}
-            </h3>
-            <p className={styles.meta}>
-              {city}, {age} лет
-            </p>
-          </div>
-        </div>
+      <div className={styles.top}>
         {variant === 'compact' && (
-          <button
-            type="button"
+          <IconButton
+            icon={
+              <img
+                src={
+                  isLiked
+                    ? '/src/shared/assets/icons/HeartFilled.png'
+                    : '/src/shared/assets/icons/HeartIcon.png'
+                }
+                alt="лайк"
+              />
+            }
             className={styles.likeButton}
-            onClick={onLikeClick}
-            aria-pressed={isLiked}
-            aria-label={isLiked ? 'Убрать из избранного' : 'Добавить в избранное'}
-          >
-            <LikeIcon liked={isLiked} />
-          </button>
+            onClick={handleLikeClick}
+          />
         )}
-        {variant === 'detailed' && about != null && about !== '' && <p className={styles.about}>{about}</p>}
-      </section>
+        <img className={styles.avatar} src={user.avatarUrl} alt={user.name} />
+        <div className={styles.userInfo}>
+          <h3 className={styles.name}>{user.name}</h3>
+          <p className={styles.meta}>
+            {user.city}, {getAge(user.birthDate)} лет
+          </p>
+        </div>
+      </div>
 
-      <div className={styles.skillsColumn}>
-        <section className={styles.section} aria-labelledby={teachHeadingId}>
-          <h4 id={teachHeadingId} className={styles.sectionTitle}>
-            Может научить:
-          </h4>
-          <ul className={styles.skillList}>
-            {teachToShow.map((skill) => (
-              <li key={skill}>
-                <span className={styles.skillTag}>{skill}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+      <div className={variant === 'detailed' ? styles.detailedContent : styles.content}>
+        {variant === 'detailed' && user.about && <p className={styles.about}>{user.about}</p>}
 
-        <section className={styles.section} aria-labelledby={learnHeadingId}>
-          <h4 id={learnHeadingId} className={styles.sectionTitle}>
-            Хочет научиться:
-          </h4>
+        <div className={variant === 'detailed' ? styles.detailedSection : styles.section}>
+          <h4 className={styles.sectionTitle}>Может научить</h4>
           <ul className={styles.skillList}>
-            {wantToLearnSkills.map((skill) => (
-              <li key={skill}>
-                <span className={styles.skillTag}>{skill}</span>
-              </li>
-            ))}
+            <li
+              key={skill.id}
+              className={styles.skillTag}
+              style={{ backgroundColor: categoryColors[skill.categoryId] || '#eee' }}
+            >
+              {skill.title}
+            </li>
           </ul>
-        </section>
+        </div>
+
+        <div className={variant === 'detailed' ? styles.detailedSection : styles.section}>
+          <h4 className={styles.sectionTitle}>Хочет научиться</h4>
+          <ul className={styles.skillList}>
+            <li
+              key={subcategories[0].id}
+              className={styles.skillTag}
+              style={{ backgroundColor: categoryColors[subcategories[0].categoryId] || '#eee' }}
+            >
+              {subcategories[0].title}
+            </li>
+            <li
+              key={subcategories[1].id}
+              className={styles.skillTag}
+              style={{ backgroundColor: categoryColors[subcategories[1].categoryId] || '#eee' }}
+            >
+              {subcategories[1].title}
+            </li>
+            <li>
+              {subcategories.length > 2 && (
+                <span className={styles.skillTag}>+{subcategories.length - 2}</span>
+              )}
+            </li>
+          </ul>
+        </div>
       </div>
 
       {variant === 'compact' && (
-        <div className={styles.footer}>
-          <Button type="button" variant="primary" className={styles.detailsButton} onClick={onDetailsClick}>
-            Подробнее
-          </Button>
+        <div className={styles.bottom}>
+          <Link to={`/skill/${user.skillOfferedId}`}>
+            <Button variant="primary" className={styles.detailsButton}>
+              Подробнее
+            </Button>
+          </Link>
         </div>
       )}
     </article>

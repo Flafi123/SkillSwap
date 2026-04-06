@@ -2,6 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 // import { useLocation, Link } from "react-router-dom";
 import { Footer } from '../widgets/Footer'
+import { Header } from '../widgets/Header'
 
 export const MainLayout: React.FC = () => {
   // const { pathname } = useLocation();
@@ -17,7 +18,7 @@ export const MainLayout: React.FC = () => {
 
   return (
     <div>
-      {/* <Header variant={getHeaderVariant()}>Здесь будет шапка.</Header> */}
+      <Header />
 
       {/* Линки ниже должен находиться внутри хэдэра */}
       {/* <Link to={'/register/step-1'}>

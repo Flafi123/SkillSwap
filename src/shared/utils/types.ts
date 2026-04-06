@@ -8,7 +8,7 @@ export type TUser = {
   email?: string
   password?: string
   about?: string
-  skillOfferedId?: number
+  skillOfferedId: number
   subcategoriesWanted: number[]
   favoritesSkills?: number[]
   createdAt?: string

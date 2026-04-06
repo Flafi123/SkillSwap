@@ -35,7 +35,7 @@
     {
       "id": 3,
       "name": "Борис Ленский",
-      "city": "Казань",
+      "city": "Владивосток",
       "birthDate": "2015-01-31",
       "gender": "male",
       "email": "boris.lenskiy@example.com",
@@ -51,7 +51,7 @@
     {
       "id": 4,
       "name": "Джеффри Эпштейн",
-      "city": "Казань",
+      "city": "Москва",
       "birthDate": "1953-01-20",
       "gender": "male",
       "email": "epshtein@example.com",
@@ -67,7 +67,7 @@
     {
       "id": 5,
       "name": "Анна Смирнова",
-      "city": "Казань",
+      "city": "Санкт-Петербург",
       "birthDate": "1998-04-12",
       "gender": "female",
       "email": "anna.smirnova@example.com",
@@ -83,7 +83,7 @@
     {
       "id": 6,
       "name": "Фродо Бэггинс",
-      "city": "Казань",
+      "city": "Калининград",
       "birthDate": "1999-09-22",
       "gender": "male",
       "email": "frodo@example.com",
@@ -99,7 +99,7 @@
     {
       "id": 7,
       "name": "Гэндальф",
-      "city": "Казань",
+      "city": "Калининград",
       "birthDate": "1960-01-01",
       "gender": "male",
       "email": "gandalf@example.com",
@@ -115,7 +115,7 @@
     {
       "id": 8,
       "name": "Иван Козлов",
-      "city": "Казань",
+      "city": "Москва",
       "birthDate": "1996-09-21",
       "gender": "male",
       "email": "ivan.kozlov@example.com",
@@ -147,7 +147,7 @@
     {
       "id": 10,
       "name": "Мария Лебедева",
-      "city": "Казань",
+      "city": "Санкт-Петербург",
       "birthDate": "2000-07-05",
       "gender": "female",
       "email": "maria.lebedeva@example.com",
@@ -163,7 +163,7 @@
     {
       "id": 11,
       "name": "Алексей Новиков",
-      "city": "Казань",
+      "city": "Москва",
       "birthDate": "1995-11-11",
       "gender": "male",
       "email": "alex.novikov@example.com",
@@ -179,7 +179,7 @@
     {
       "id": 12,
       "name": "Леви Аккерман",
-      "city": "Казань",
+      "city": "Екатеринбург",
       "birthDate": "1992-12-25",
       "gender": "male",
       "email": "levi@example.com",
@@ -195,7 +195,7 @@
     {
       "id": 13,
       "name": "Эрен Йегер",
-      "city": "Казань",
+      "city": "Екатеринбург",
       "birthDate": "2000-03-30",
       "gender": "male",
       "email": "eren@example.com",
@@ -211,7 +211,7 @@
     {
       "id": 14,
       "name": "Екатерина Волкова",
-      "city": "Казань",
+      "city": "Санкт-Петербург",
       "birthDate": "1997-03-30",
       "gender": "female",
       "email": "katya.volkova@example.com",
@@ -227,7 +227,7 @@
     {
       "id": 15,
       "name": "Эдвард Каллен",
-      "city": "Казань",
+      "city": "Красноярск",
       "birthDate": "1901-06-20",
       "gender": "male",
       "email": "advard.kallen@example.com",
@@ -243,7 +243,7 @@
     {
       "id": 16,
       "name": "Сатору Годжо",
-      "city": "Казань",
+      "city": "Красноярск",
       "birthDate": "1998-12-07",
       "gender": "male",
       "email": "satoru.gojo@example.com",
@@ -259,7 +259,7 @@
     {
       "id": 17,
       "name": "Дмитрий Соколов",
-      "city": "Казань",
+      "city": "Санкт-Петербург",
       "birthDate": "1969-06-14",
       "gender": "male",
       "email": "dima.sokolov@example.com",
@@ -275,7 +275,7 @@
     {
       "id": 18,
       "name": "Джоэл Миллер",
-      "city": "Казань",
+      "city": "Саратов",
       "birthDate": "1985-09-26",
       "gender": "male",
       "email": "joel@example.com",
@@ -291,7 +291,7 @@
     {
       "id": 19,
       "name": "Ольга Морозова",
-      "city": "Казань",
+      "city": "Москва",
       "birthDate": "1994-12-01",
       "gender": "female",
       "email": "olga.morozova@example.com",
@@ -307,7 +307,7 @@
     {
       "id": 20,
       "name": "Никита Павлов",
-      "city": "Казань",
+      "city": "Москва",
       "birthDate": "2003-08-22",
       "gender": "male",
       "email": "nikita.pavlov@example.com",
@@ -323,7 +323,7 @@
     {
       "id": 21,
       "name": "Какаши Хатаке",
-      "city": "Казань",
+      "city": "Томск",
       "birthDate": "1990-09-15",
       "gender": "male",
       "email": "kakashi@example.com",
@@ -339,7 +339,7 @@
     {
       "id": 22,
       "name": "Алина Федорова",
-      "city": "Казань",
+      "city": "Калининград",
       "birthDate": "2001-02-17",
       "gender": "female",
       "email": "alina.fedorova@example.com",
@@ -355,7 +355,7 @@
     {
       "id": 23,
       "name": "Ольга Счастье Внутри",
-      "city": "Казань",
+      "city": "Уфа",
       "birthDate": "1983-01-30",
       "gender": "female",
       "email": "olga.happy@example.com",
@@ -371,7 +371,7 @@
     {
       "id": 24,
       "name": "Сергей Иванов",
-      "city": "Казань",
+      "city": "Томск",
       "birthDate": "1992-10-10",
       "gender": "male",
       "email": "sergey.ivanov@example.com",
@@ -387,7 +387,7 @@
     {
       "id": 25,
       "name": "Ягами Лайт",
-      "city": "Казань",
+      "city": "Северобайкальск",
       "birthDate": "1997-02-28",
       "gender": "male",
       "email": "light@example.com",
@@ -403,7 +403,7 @@
     {
       "id": 26,
       "name": "Полина Зайцева",
-      "city": "Казань",
+      "city": "Барнаул",
       "birthDate": "1999-01-19",
       "gender": "female",
       "email": "polina.zaitseva@example.com",
@@ -419,7 +419,7 @@
     {
       "id": 27,
       "name": "Марина Нежность Весны",
-      "city": "Казань",
+      "city": "Барнаул",
       "birthDate": "1976-04-18",
       "gender": "female",
       "email": "marina.spring@example.com",
@@ -435,7 +435,7 @@
     {
       "id": 28,
       "name": "Артем Крылов",
-      "city": "Казань",
+      "city": "Уфа",
       "birthDate": "1999-01-19",
       "gender": "male",
       "email": "artem.krylov@example.com",
@@ -451,7 +451,7 @@
     {
       "id": 29,
       "name": "Волк Одиночка",
-      "city": "Казань",
+      "city": "Северобайкальск",
       "birthDate": "1991-03-12",
       "gender": "male",
       "email": "wolf@example.com",
@@ -467,7 +467,7 @@
     {
       "id": 30,
       "name": "Владислав Егоров",
-      "city": "Казань",
+      "city": "Котлас",
       "birthDate": "2000-09-09",
       "gender": "male",
       "email": "vlad.egorov@example.com",
@@ -483,7 +483,7 @@
     {
       "id": 31,
       "name": "Сергей Орлов",
-      "city": "Казань",
+      "city": "Котлас",
       "birthDate": "1995-04-08",
       "gender": "male",
       "email": "max.orlov@example.com",
@@ -499,7 +499,7 @@
     {
       "id": 32,
       "name": "Рик Санчез",
-      "city": "Казань",
+      "city": "Магадан",
       "birthDate": "1985-01-20",
       "gender": "male",
       "email": "rick@example.com",
@@ -515,7 +515,7 @@
     {
       "id": 33,
       "name": "Морти Смит",
-      "city": "Казань",
+      "city": "Магадан",
       "birthDate": "2002-05-12",
       "gender": "male",
       "email": "morty@example.com",
@@ -531,7 +531,7 @@
     {
       "id": 34,
       "name": "Юлия Романова",
-      "city": "Казань",
+      "city": "Сочи",
       "birthDate": "1999-01-19",
       "gender": "female",
       "email": "yulia.romanova@example.com",
@@ -547,7 +547,7 @@
     {
       "id": 35,
       "name": "Том Харди",
-      "city": "Казань",
+      "city": "Саратов",
       "birthDate": "1990-09-15",
       "gender": "male",
       "email": "tom.hardi@example.com",
@@ -563,7 +563,7 @@
     {
       "id": 36,
       "name": "Дарья Белова",
-      "city": "Казань",
+      "city": "Сочи",
       "birthDate": "1998-11-27",
       "gender": "female",
       "email": "daria.belova@example.com",
@@ -579,7 +579,7 @@
     {
       "id": 37,
       "name": "Андрей Лукин",
-      "city": "Казань",
+      "city": "Тула",
       "birthDate": "1991-11-12",
       "gender": "male",
       "email": "andrey@example.com",
@@ -595,7 +595,7 @@
     {
       "id": 38,
       "name": "Ксения Тихонова",
-      "city": "Казань",
+      "city": "Тула",
       "birthDate": "1997-07-12",
       "gender": "female",
       "email": "kseniya.tikhonova@example.com",
@@ -611,7 +611,7 @@
     {
       "id": 39,
       "name": "Егор В Потоке",
-      "city": "Казань",
+      "city": "Владивосток",
       "birthDate": "1997-07-12",
       "gender": "male",
       "email": "egor.flow@example.com",
@@ -627,7 +627,7 @@
     {
       "id": 40,
       "name": "Гарри Поттер",
-      "city": "Казань",
+      "city": "Воронеж",
       "birthDate": "2001-07-31",
       "gender": "male",
       "email": "harry@example.com",
@@ -643,7 +643,7 @@
     {
       "id": 41,
       "name": "Гермиона Грейнджер",
-      "city": "Казань",
+      "city": "Воронеж",
       "birthDate": "2000-09-19",
       "gender": "female",
       "email": "harmony@example.com",

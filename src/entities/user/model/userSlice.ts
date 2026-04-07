@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit'
 import { getUsersApi, registerUserApi, updateUserApi } from '../../../api/usersApi'
 import type { TUser, TRegisterData } from '../../../shared/utils/types'
+import { delay } from '../../../shared/lib/delay'
 
 //Флоу данных для пользователей на главной странице:
 //Компонент UserList получает из стора данные(использует useAppSelector)(можно пока что для визуализации брать всех юзеров
@@ -22,9 +23,13 @@ export type userState = {
   isLoadingUsers: boolean
   isLoadingRegister: boolean
   isLoadingUpdate: boolean
+  isLoadingLogin: boolean
+  isLoadingLogout: boolean
   errorUsers: string | null
   errorRegister: string | null
   errorUpdate: string | null
+  errorLogin: string | null
+  errorLogout: string | null
 }
 
 const initialState: userState = {
@@ -34,9 +39,13 @@ const initialState: userState = {
   isLoadingUsers: false,
   isLoadingRegister: false,
   isLoadingUpdate: false,
+  isLoadingLogin: false,
+  isLoadingLogout: false,
   errorUsers: null,
   errorRegister: null,
   errorUpdate: null,
+  errorLogin: null,
+  errorLogout: null,
 }
 
 //обязательно запускается при инициализации приложения!!!
@@ -45,7 +54,7 @@ export const getAllUsers = createAsyncThunk<TUser[]>('user/getAllUsers', async (
   return data
 })
 
-//вызвать обязательно через диспатч по нажатию самой последней кнопки 3-го шага регистрации
+//НЕ ВЫЗЫВАЕМ, ТЕПЕРЬ ЕСТЬ completeRegistration
 export const registerUser = createAsyncThunk<TUser, TRegisterData>(
   'user/registerUser',
   async (userData) => {
@@ -63,8 +72,31 @@ export const updateUser = createAsyncThunk<TUser, Partial<TUser>>(
   },
 )
 
-//логин и логаут должны быть здесь
-//
+export const loginUser = createAsyncThunk<
+  TUser,
+  { email: string; password: string },
+  { state: { user: userState } }
+>('user/loginUser', async ({ email, password }, { getState }) => {
+  delay()
+  const { allUsers } = getState().user
+
+  const storeUser = allUsers.find((user) => user.email === email && user.password === password)
+  if (storeUser) return storeUser
+
+  const localUser = localStorage.getItem('draftUser')
+  if (localUser) {
+    const user: TUser = JSON.parse(localUser)
+    if (user.email === email && user.password === password) {
+      return user
+    }
+  }
+  throw new Error('Пользователь не найден')
+})
+
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+  delay()
+  return true
+})
 
 const userSlice = createSlice({
   name: 'user',
@@ -115,13 +147,30 @@ const userSlice = createSlice({
         state.errorUpdate = action.error.message || 'Не удалось обновить данные о пользователе'
         state.isLoadingUpdate = false
       })
-
-    // .addCase(loginUser.fulfilled, (state, action) => {
-    //   state.profileUser = action.payload
-    // })
-    // .addCase(logoutUser.fulfilled, (state) => {
-    //   state.profileUser = null
-    // })
+      .addCase(loginUser.pending, (state) => {
+        state.isLoadingLogin = true
+        state.errorLogin = null
+      })
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<TUser>) => {
+        state.profileUser = action.payload
+        state.isLoadingLogin = false
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.errorLogin = action.error.message || 'Не удалось войти в аккаунт'
+        state.isLoadingLogin = false
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoadingLogout = true
+        state.errorLogout = null
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.profileUser = null
+        state.isLoadingLogout = false
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.errorLogin = action.error.message || 'Не удалось выйти из аккаунта'
+        state.isLoadingLogout = false
+      })
   },
 })
 

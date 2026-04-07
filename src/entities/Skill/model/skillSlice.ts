@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../../app/store/store'
 import { getSkillsApi, createSkillApi, updateSkillApi } from '../../../api/skillsApi'
 import { getCategoriesApi } from '../../../api/categoriesApi'
 import { getSubcategoriesApi } from '../../../api/subcategoriesApi'
@@ -61,18 +60,12 @@ export const getAllSubcategories = createAsyncThunk<TSubcategory[]>(
   },
 )
 
-//нужно вызвать при нажатии последней кнопки регистрации, в качестве аргумента передается драфт скилл. шаг 3.
-// НО!
-//Сначала вызываем registerUser, дожидаемся его выполнения, потом следом сразу это, иначе созданный скилл не свяжется
-//  по айди с пользователем
-export const createSkill = createAsyncThunk<TSkill, TSkill, { state: RootState }>(
+//НЕ ВЫЗЫВАЕМ, ТЕПЕРЬ ЕСТЬ completeRegistration
+export const createSkill = createAsyncThunk<TSkill, TSkill>(
   'skill/createSkill',
-  async (skillData, { getState }) => {
-    const profileUser = getState().user.profileUser
-    if (!profileUser?.id) {
-      throw new Error('Пользователь не найден')
-    }
-    return createSkillApi({ ...skillData, userId: profileUser.id })
+  async (skillData) => {
+    const newSkill = await createSkillApi(skillData)
+    return newSkill
   },
 )
 

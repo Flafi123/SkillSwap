@@ -22,6 +22,7 @@ export const registerUserApi = async (data: TRegisterData): Promise<TUser> => {
     id: Date.now(),
     subcategoriesWanted: data.subcategoriesWanted,
     favoritesSkills: [],
+    skillOfferedId: 0,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }

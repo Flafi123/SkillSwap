@@ -9,7 +9,7 @@ export type filterState = {
   searchText: string
 }
 
-const initialState: filterState = {
+export const initialState: filterState = {
   skillsType: 'all',
   selectedCategoryIds: [],
   selectedSubcategoryIds: [],

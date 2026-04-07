@@ -20,8 +20,19 @@ interface DataInputProps {
 }
 
 export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
-  ({ label, error, value, onChange, placeholder = 'Выберите дату',minDate, // ДОБАВЛЕНО: достаем из пропсов
-      maxDate, ...props }, ref) => {
+  (
+    {
+      label,
+      error,
+      value,
+      onChange,
+      placeholder = 'Выберите дату',
+      minDate, // ДОБАВЛЕНО: достаем из пропсов
+      maxDate,
+      ...props
+    },
+    ref,
+  ) => {
     // Внутренний ref для привязки календаря
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -36,7 +47,7 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
         locale: localeRu,
         autoClose: false, // Закрывается только по кнопке
         isMobile: false,
-        minDate, 
+        minDate,
         maxDate,
         onSelect: ({ formattedDate }) => {
           // Если выбран диапазон дат, это массив. Нам нужна первая строка.

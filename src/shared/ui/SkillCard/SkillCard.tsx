@@ -23,7 +23,7 @@ export const SkillCard: React.FC<SkillCardProps> = ({
 }) => {
   const previewImages = images.slice(1, 4)
   const remaining = images.length - 3
-  const swiperRef = useRef<SwiperType | null>(null) 
+  const swiperRef = useRef<SwiperType | null>(null)
 
   return (
     <div className={styles.card}>

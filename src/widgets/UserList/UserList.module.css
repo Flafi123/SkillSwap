@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.resultsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.resultsTitle {
+    font-family: Jost, arial, sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -1.1%;
+    vertical-align: middle;
+    color: #253017;
+}
+
+.imgBtn {
+    height: 24px;
+    width: 24px;
+}
+
+.userList {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.userListSkill {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(300px, 1fr));
+    gap: 24px;
+}

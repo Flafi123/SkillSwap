@@ -107,7 +107,7 @@
 
 /* Футер с кнопкой "Подробнее" */
 .bottom {
-  margin-top: 8px;
+  margin-top: auto;
 }
 
 .detailsButton {

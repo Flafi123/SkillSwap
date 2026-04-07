@@ -1,12 +1,11 @@
+import styles from './Home.module.css'
 import React from 'react'
-// import { Link } from 'react-router-dom' // линк нужно вставить туда, где будет кнопка «Подробнее»
+import { UserList } from '../../widgets/UserList'
 export const HomePage: React.FC = () => {
   return (
-    <div>
-      <h1>Страница — главная</h1>
-      {/* <Link to={`/skill/${skill.id}`}> */}
-      <button type="button">Подробнее</button>
-      {/* </Link> */}
+    <div className={styles.container}>
+      <p style={{ width: '324px' }}>Заглушка вместо фильтров для корректного отображения HomePage</p>
+      <UserList/>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 .button {
   padding: 12px 24px;
   border-radius: 12px;
-  font-family: roboto, arial, sans-serif;
+  font-family: Roboto, arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -36,7 +36,7 @@
 /* secondary (белая с контуром) */
 .secondary {
   color: #253017;
-  border: 1px solid #abd27a;
+  border: 1px solid #69735d;
   background-color: #fff;
 }
 

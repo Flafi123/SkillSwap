@@ -1,16 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import authStyles from './Auth.module.css'
+import { getAuthStepTitleId } from './authStepIds'
+import { RegistrationStepHeader } from './RegistrationStepHeader'
 
 export const AuthStepSecondPage: React.FC = () => {
   return (
-    <div>
-      <h1>Авторизация. Шаг 2.</h1>
-      <Link to={'/register/step-1'}>
-        <button>Назад</button>
-      </Link>
-      <Link to={'/register/step-3'}>
-        <button>Продолжить</button>
-      </Link>
-    </div>
+    <section className={authStyles.page} aria-labelledby={getAuthStepTitleId(2)}>
+      <RegistrationStepHeader step={2} />
+      <div>
+        <Link to="/register/step-1">
+          <button type="button">Назад</button>
+        </Link>
+        <Link to="/register/step-3">
+          <button type="button">Продолжить</button>
+        </Link>
+      </div>
+    </section>
   )
 }

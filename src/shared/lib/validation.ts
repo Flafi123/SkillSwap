@@ -1,22 +1,19 @@
 import * as yup from 'yup'
-import users from '../../../public/db/users.json'
+// import users from '../../../public/db/users.json'
 
-const existingEmails = (users as { users: { email: string }[] }).users.map((user) =>
-  user.email.toLowerCase(),
-)
+// const existingEmails = (users as { users: { email: string }[] }).users.map((user) =>
+//   user.email.toLowerCase(),
+// )
 
 const regExpEmail: RegExp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 export const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required('Обязательное поле')
-    .matches(regExpEmail, 'Некорректный email')
-    .test('unique-email', 'Email уже используется', function (value) {
-      if (!value) return true
-      return !existingEmails.includes(value.toLowerCase())
-    }),
+  email: yup.string().required('Обязательное поле').matches(regExpEmail, 'Некорректный email'),
+  // .test('unique-email', 'Email уже используется', function (value) {
+  //   if (!value) return true
+  //   return !existingEmails.includes(value.toLowerCase())
+  // }),
   password: yup
     .string()
     .required('Обязательное поле')

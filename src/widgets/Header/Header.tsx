@@ -90,11 +90,9 @@ export const Header = () => {
             </>
           ) : (
             <div className={styles.authActions}>
-              <Link to="/register/step-1" className={styles.authButton}>
-                <Button type="button" variant="secondary" className={styles.authButton}>
-                  Войти
-                </Button>
-              </Link>
+              <Button type="button" variant="secondary" className={styles.authButton}>
+                Войти
+              </Button>
               <Link to="/register/step-1" className={styles.authButton}>
                 <Button type="button" variant="primary" className={styles.authButton}>
                   Зарегистрироваться

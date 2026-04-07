@@ -4,8 +4,12 @@ import styles from './PasswordInput.module.css'
 import eyeIcon from '../../../assets/icons/eye.png'
 import eyeSlashIcon from '../../../assets/icons/eye-slash.png'
 import { IconButton } from '../../IconButton'
+import type { InputHTMLAttributes } from 'react'
 
-interface PasswordInputProps {
+interface PasswordInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'value' | 'onChange' | 'className'
+> {
   value: string
   onChange: (value: string) => void
   label?: string
@@ -23,7 +27,7 @@ export const PasswordInput = ({
   warningMessage = 'Пароль должен содержать не менее 8 знаков',
   ...props
 }: PasswordInputProps) => {
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
 
   return (
     <TextInput
@@ -40,6 +44,7 @@ export const PasswordInput = ({
         <IconButton
           icon={<img src={visible ? eyeIcon : eyeSlashIcon} alt="глазик показать/скрыть пароль" />}
           onClick={() => setVisible((prev) => !prev)}
+          type="button"
         />
       }
     />

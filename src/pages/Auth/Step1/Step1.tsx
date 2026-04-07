@@ -39,7 +39,6 @@ export const AuthStepFirstPage: React.FC = () => {
 
   const onSubmit = (data: Step1FormData) => {
     dispatch(updateDraftUser(data))
-    console.log('Данные формы при отправке:', data)
     navigate('/register/step-2')
   }
 

@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import type { RootState } from '../../../app/store/store'
+import type { TUser } from '../../../shared/utils/types'
 
 const selectUsers = (state: RootState) => state.user.allUsers
 const selectSkills = (state: RootState) => state.skill.allSkills
@@ -16,24 +17,19 @@ export const selectFilteredUsers = createSelector(
       users
         .filter((user) => {
           const usersSkills = skills.filter((skill) => skill.userId === user.id)
-          if (filters.skillsType === 'canTeach') {
-            if (
-              filters.selectedSubcategoryIds.length > 0 &&
-              !usersSkills.some((skill) =>
-                filters.selectedSubcategoryIds.includes(skill.subcategoryId),
-              )
-            ) {
-              return false
-            }
-          } else if (filters.skillsType === 'wantToLearn') {
-            if (
-              filters.selectedSubcategoryIds.length > 0 &&
-              !user.subcategoriesWanted.some((subId) =>
-                filters.selectedSubcategoryIds.includes(subId),
-              )
-            ) {
-              return false
-            }
+          //при all не работала сортировка вообще, исправлено
+          if (filters.selectedSubcategoryIds.length > 0) {
+            const canTeach = usersSkills.some((skill) =>
+              filters.selectedSubcategoryIds.includes(skill.subcategoryId),
+            )
+
+            const wantLearn = user.subcategoriesWanted.some((subId) =>
+              filters.selectedSubcategoryIds.includes(subId),
+            )
+
+            if (filters.skillsType === 'canTeach' && !canTeach) return false
+            if (filters.skillsType === 'wantToLearn' && !wantLearn) return false
+            if (filters.skillsType === 'all' && !canTeach && !wantLearn) return false
           }
 
           if (filters.searchText) {
@@ -78,22 +74,32 @@ export const selectPopularUsers = createSelector([selectUsers], (users) => {
   })
 })
 
-export const selectNewUsers = createSelector([selectUsers], (users) => {
-  return [...users].sort((a, b) => {
-    const aTime = a.createdAt ? Date.parse(a.createdAt) : 0
-    const bTime = b.createdAt ? Date.parse(b.createdAt) : 0
+//если это просто раздел "Новое" =>
+// вызываем так const usersNew = useAppSelector(selectFilteredUsers)
 
-    //если разные даты, то по новизне
-    if (bTime !== aTime) {
-      return bTime - aTime
-    }
+//если нужно включить доп фильтрацию по кнопке "Сначала новые" => вызываем так
+// const filteredUsers = useAppSelector(selectFilteredUsers)(получение отфильтрованных пользователей в начале страницы)
+//const filteredPlusNewUsers = useAppSelector((state) => selectNewUsers(state, filteredUsers)) (по кнопке отдаем filteredPlusNewUsers, при повторном нажатии filteredUsers)
+export const selectNewUsers = createSelector(
+  [selectUsers, (_: RootState, users?: TUser[]) => users],
+  (storeUsers, filteredUsers) => {
+    const users = filteredUsers ?? storeUsers
+    return [...users].sort((a, b) => {
+      const aTime = a.createdAt ? Date.parse(a.createdAt) : 0
+      const bTime = b.createdAt ? Date.parse(b.createdAt) : 0
 
-    //если одинаковое между двумя - по алфавиту
-    return a.name.localeCompare(b.name, undefined, {
-      sensitivity: 'base',
+      //если разные даты, то по новизне
+      if (bTime !== aTime) {
+        return bTime - aTime
+      }
+
+      //если одинаковое между двумя - по алфавиту
+      return a.name.localeCompare(b.name, undefined, {
+        sensitivity: 'base',
+      })
     })
-  })
-})
+  },
+)
 
 export const selectRecommendedUsers = createSelector([selectUsers], (users) => {
   const shuffledUsers = [...users].sort(() => Math.random() - 0.5)

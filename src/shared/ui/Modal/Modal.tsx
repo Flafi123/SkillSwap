@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 import styles from './Modal.module.css'
 import clsx from 'clsx'
 
-
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
@@ -12,7 +11,13 @@ interface ModalProps {
   isDropdown?: boolean
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, isDropdown, children, className }) => {
+export const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  isDropdown,
+  children,
+  className,
+}) => {
   // Закрытие по Esc
   useEffect(() => {
     if (!isOpen) return
@@ -53,8 +58,12 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, isDropdown, child
   if (!isOpen) return null
 
   return createPortal(
-    <div className={clsx(styles.overlay, className)} onClick={handleOverlayClick} style={isDropdown ? { background: 'transparent' } : {}}>
-      <div className={clsx(styles.modal,isDropdown && styles.dropdownStyles)}>{children}</div>
+    <div
+      className={clsx(styles.overlay, className)}
+      onClick={handleOverlayClick}
+      style={isDropdown ? { background: 'transparent' } : {}}
+    >
+      <div className={clsx(styles.modal, isDropdown && styles.dropdownStyles)}>{children}</div>
     </div>,
     document.body,
   )

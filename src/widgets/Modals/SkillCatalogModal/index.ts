@@ -1,1 +1,1 @@
-export {SkillCatalogModal} from './SkillCatalogModal'
+export { SkillCatalogModal } from './SkillCatalogModal'

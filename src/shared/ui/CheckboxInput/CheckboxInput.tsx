@@ -11,9 +11,17 @@ interface PropsCheckboxInput {
   showArrow: boolean
   value?: string
   onChange: (value?: string) => void
+  className?: string
 }
 
-const CheckboxInput = ({ label, checked, showArrow, value, onChange }: PropsCheckboxInput) => {
+const CheckboxInput = ({
+  label,
+  checked,
+  showArrow,
+  value,
+  onChange,
+  className,
+}: PropsCheckboxInput) => {
   const handleChange = () => {
     onChange(value)
   }
@@ -22,10 +30,14 @@ const CheckboxInput = ({ label, checked, showArrow, value, onChange }: PropsChec
 
   return (
     <label
-      className={clsx(styles.root, {
-        [styles.expandable]: showArrow,
-        [styles.simple]: !showArrow,
-      })}
+      className={clsx(
+        styles.root,
+        {
+          [styles.expandable]: showArrow,
+          [styles.simple]: !showArrow,
+        },
+        className,
+      )}
     >
       <input type="checkbox" className={styles.input} checked={checked} onChange={handleChange} />
 

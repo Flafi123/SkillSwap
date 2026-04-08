@@ -13,162 +13,189 @@ import { Button } from '../../shared/ui/Button'
 import type { TSkill } from '../../shared/utils/types'
 
 const DEFAULT_SKILL: TSkill = {
-    id: 0,
-    categoryId: 0,
-    subcategoryId: 0,
-    userId: 0,
-    title: 'Навыки не указаны',
-    description: 'Пользователь еще не заполнил информацию о своих услугах',
-    imagesUrl: [],
+  id: 0,
+  categoryId: 0,
+  subcategoryId: 0,
+  userId: 0,
+  title: 'Навыки не указаны',
+  description: 'Пользователь еще не заполнил информацию о своих услугах',
+  imagesUrl: [],
 }
 
-export const UserList = ({ variant = 'homepage' }: { variant?: 'homepage' | 'skillpage' | 'favoritpage' }) => {
-    // Состояния для отображения
-    const [showAllPopular, toggleShowAllPopular] = useState(false);
-    const [showAllNew, toggleShowAllNew] = useState(false);
-    const [showAllSkillpage, toggleShowAllSkillpage] = useState(false);
+export const UserList = ({
+  variant = 'homepage',
+}: {
+  variant?: 'homepage' | 'skillpage' | 'favoritpage'
+}) => {
+  // Состояния для отображения
+  const [showAllPopular, toggleShowAllPopular] = useState(false)
+  const [showAllNew, toggleShowAllNew] = useState(false)
+  const [showAllSkillpage, toggleShowAllSkillpage] = useState(false)
 
-    // состояние сортировки
-    const [isNewFirst, setIsNewFirst] = useState(true)
-    const toggleSort = () => {
-        setIsNewFirst(!isNewFirst)
-        // Здесь также можно вызвать функцию самой сортировки filteredUsers
-    }
-    //вытаскиваем все фильтры
-    const filters = useAppSelector((state) => state.filter)
-    //вытаскиваем всех пользователей
-    const allUsers = useAppSelector((state) => state.user.allUsers)
-    //вытаскиваем пользователей, отфильтрованных по популярности
-    const usersPopular = useAppSelector(selectPopularUsers)
-    //вытаскиваем всех пользователей, отфильтрованных по дате
-    const usersNew = useAppSelector(selectNewUsers)
-    //вытаскиваем пользователей-список рекомендаций
-    const usersRecommended = useAppSelector(selectRecommendedUsers)
-    //вытаскиваем все подкатегории
-    const allSubcategories = useAppSelector((state) => state.skill.allSubcategories)
-    //вытаскиваем все скиллы
-    const allSkills = useAppSelector((state) => state.skill.allSkills)
-    //вытаскиваем отфильтрованных пользователей или найденных по поиску
-    const filteredUsers = useAppSelector(selectFilteredUsers)
-    // Для стабильности работы   
-    if (allSubcategories.length === 0) return null;
-    // проверка, отличается ли фильтр от начального
-    const filtersActive =
-        filters.skillsType !== initialState.skillsType ||
-        filters.gender !== initialState.gender ||
-        filters.selectedCategoryIds.length > 0 ||
-        filters.selectedSubcategoryIds.length > 0 ||
-        filters.city.length > 0 ||
-        filters.searchText.trim() !== ''
-    // || 1 === 1 //Убрать, это для теста
+  // состояние сортировки
+  const [isNewFirst, setIsNewFirst] = useState(true)
+  const toggleSort = () => {
+    setIsNewFirst(!isNewFirst)
+    // Здесь также можно вызвать функцию самой сортировки filteredUsers
+  }
+  //вытаскиваем все фильтры
+  const filters = useAppSelector((state) => state.filter)
+  //вытаскиваем всех пользователей
+  const allUsers = useAppSelector((state) => state.user.allUsers)
+  //вытаскиваем пользователей, отфильтрованных по популярности
+  const usersPopular = useAppSelector(selectPopularUsers)
+  //вытаскиваем всех пользователей, отфильтрованных по дате
+  const usersNew = useAppSelector(selectNewUsers)
+  //вытаскиваем пользователей-список рекомендаций
+  const usersRecommended = useAppSelector(selectRecommendedUsers)
+  //вытаскиваем все подкатегории
+  const allSubcategories = useAppSelector((state) => state.skill.allSubcategories)
+  //вытаскиваем все скиллы
+  const allSkills = useAppSelector((state) => state.skill.allSkills)
+  //вытаскиваем отфильтрованных пользователей или найденных по поиску
+  const filteredUsers = useAppSelector(selectFilteredUsers)
+  // Для стабильности работы
+  if (allSubcategories.length === 0) return null
+  // проверка, отличается ли фильтр от начального
+  const filtersActive =
+    filters.skillsType !== initialState.skillsType ||
+    filters.gender !== initialState.gender ||
+    filters.selectedCategoryIds.length > 0 ||
+    filters.selectedSubcategoryIds.length > 0 ||
+    filters.city.length > 0 ||
+    filters.searchText.trim() !== ''
+  // || 1 === 1 //Убрать, это для теста
 
-    const HomeLayout = () => {
-        // Сценарий 1: Пользователь что-то ищет или применил фильтры
-        if (filtersActive) {
-            return (
-                <div className={styles.container}>
-                    <section className={styles.resultsHeader}>
-                        <h2 className={styles.resultsTitle}>
-                            Подходящие предложения: {filteredUsers.length}
-                        </h2>
-                        <Button variant="tertiary" onClick={toggleSort}>
-                            <img src={sorticon} alt="сортировка" className={styles.imgBtn} />
-                            {isNewFirst ? 'Сначала новые' : 'Сначала старые'}
-                        </Button>
-                    </section>
-                    <ul className={styles.userList}>
-                        {filteredUsers.map((user) => (
-                            <UserCard
-                                key={user.id}
-                                user={user}
-                                subcategories={allSubcategories}
-                                skill={DEFAULT_SKILL}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            )
-        }
-
-        // Сценарий 2: Дефолтная главная страница (блоки по категориям)
-        return (
-            <div className={styles.container}>
-                <section className={styles.section}>
-                    <section className={styles.resultsHeader}>
-                        <h2 className={styles.resultsTitle}>Популярное</h2>
-                        <Button variant="tertiary" onClick={() => toggleShowAllPopular(!showAllPopular)}>
-                            Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
-                        </Button>
-                    </section>
-                    <ul className={styles.userList}>
-                        {(showAllPopular ? usersPopular : usersPopular.slice(0, 3)).map((user) => (
-                            <UserCard key={user.id} user={user} subcategories={allSubcategories} skill={DEFAULT_SKILL} />
-                        ))}
-                    </ul>
-                </section>
-
-                <section className={styles.section}>
-                    <section className={styles.resultsHeader}>
-                        <h2 className={styles.resultsTitle}>Новое</h2>
-                        <Button variant="tertiary" onClick={() => toggleShowAllNew(!showAllNew)}>
-                            Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
-                        </Button>
-                    </section>
-                    <ul className={styles.userList}>
-                        {(showAllNew ? usersNew : usersNew.slice(0, 3)).slice(0, 9).map((user) => (
-                            <UserCard key={user.id} user={user} subcategories={allSubcategories} skill={DEFAULT_SKILL} />
-                        ))}
-                    </ul>
-                </section>
-
-                <section className={styles.section}>
-                    <section className={styles.resultsHeader}>
-                        <h2 className={styles.resultsTitle}>Рекомендуем</h2>
-                    </section>
-                    <ul className={styles.userList}>
-                        {usersRecommended.slice(0, 9).map((user) => (
-                            <UserCard key={user.id} user={user} subcategories={allSubcategories} skill={DEFAULT_SKILL} />
-                        ))}
-                    </ul>
-                </section>
-            </div>
-        )
+  const HomeLayout = () => {
+    // Сценарий 1: Пользователь что-то ищет или применил фильтры
+    if (filtersActive) {
+      return (
+        <div className={styles.container}>
+          <section className={styles.resultsHeader}>
+            <h2 className={styles.resultsTitle}>Подходящие предложения: {filteredUsers.length}</h2>
+            <Button variant="tertiary" onClick={toggleSort}>
+              <img src={sorticon} alt="сортировка" className={styles.imgBtn} />
+              {isNewFirst ? 'Сначала новые' : 'Сначала старые'}
+            </Button>
+          </section>
+          <ul className={styles.userList}>
+            {filteredUsers.map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={allSubcategories}
+                skill={DEFAULT_SKILL}
+              />
+            ))}
+          </ul>
+        </div>
+      )
     }
 
-    const SkillLayout = () => {
-        return (
-            <div className={styles.container}>
-                <section className={styles.resultsHeader}>
-                    <h2 className={styles.resultsTitle}>Похожие предложения</h2>
-                    <Button variant="tertiary" onClick={() => toggleShowAllSkillpage(!showAllSkillpage)}>
-                        Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
-                    </Button>
-                </section>
-                <ul className={styles.userListSkill}>
-                    {(showAllSkillpage ? allUsers : allUsers.slice(0, 4)).map((user) => (
-                        <UserCard key={user.id} user={user} subcategories={allSubcategories} skill={DEFAULT_SKILL} />
-                    ))}
-                </ul>
-            </div>
-        )
-    }
+    // Сценарий 2: Дефолтная главная страница (блоки по категориям)
+    return (
+      <div className={styles.container}>
+        <section className={styles.section}>
+          <section className={styles.resultsHeader}>
+            <h2 className={styles.resultsTitle}>Популярное</h2>
+            <Button variant="tertiary" onClick={() => toggleShowAllPopular(!showAllPopular)}>
+              Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
+            </Button>
+          </section>
+          <ul className={styles.userList}>
+            {(showAllPopular ? usersPopular : usersPopular.slice(0, 3)).map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={allSubcategories}
+                skill={DEFAULT_SKILL}
+              />
+            ))}
+          </ul>
+        </section>
 
-    const FavoritesLayout = () => {
-        return (
-            <div className={styles.container}>
-                <ul className={styles.userList}>
-                    {allUsers.map((user) => (
-                        <UserCard key={user.id} user={user} subcategories={allSubcategories} skill={DEFAULT_SKILL} />
-                    ))}
-                </ul>
-            </div>
-        )
-    }
+        <section className={styles.section}>
+          <section className={styles.resultsHeader}>
+            <h2 className={styles.resultsTitle}>Новое</h2>
+            <Button variant="tertiary" onClick={() => toggleShowAllNew(!showAllNew)}>
+              Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
+            </Button>
+          </section>
+          <ul className={styles.userList}>
+            {(showAllNew ? usersNew : usersNew.slice(0, 3)).slice(0, 9).map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={allSubcategories}
+                skill={DEFAULT_SKILL}
+              />
+            ))}
+          </ul>
+        </section>
 
-    // В самом конце компонента UserList возвращаем нужный вариант:
-    if (variant === 'homepage') return <HomeLayout />
-    if (variant === 'skillpage') return <SkillLayout />
-    if (variant === 'favoritpage') return <FavoritesLayout />
+        <section className={styles.section}>
+          <section className={styles.resultsHeader}>
+            <h2 className={styles.resultsTitle}>Рекомендуем</h2>
+          </section>
+          <ul className={styles.userList}>
+            {usersRecommended.slice(0, 9).map((user) => (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={allSubcategories}
+                skill={DEFAULT_SKILL}
+              />
+            ))}
+          </ul>
+        </section>
+      </div>
+    )
+  }
 
-    return null
+  const SkillLayout = () => {
+    return (
+      <div className={styles.container}>
+        <section className={styles.resultsHeader}>
+          <h2 className={styles.resultsTitle}>Похожие предложения</h2>
+          <Button variant="tertiary" onClick={() => toggleShowAllSkillpage(!showAllSkillpage)}>
+            Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
+          </Button>
+        </section>
+        <ul className={styles.userListSkill}>
+          {(showAllSkillpage ? allUsers : allUsers.slice(0, 4)).map((user) => (
+            <UserCard
+              key={user.id}
+              user={user}
+              subcategories={allSubcategories}
+              skill={DEFAULT_SKILL}
+            />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  const FavoritesLayout = () => {
+    return (
+      <div className={styles.container}>
+        <ul className={styles.userList}>
+          {allUsers.map((user) => (
+            <UserCard
+              key={user.id}
+              user={user}
+              subcategories={allSubcategories}
+              skill={DEFAULT_SKILL}
+            />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  // В самом конце компонента UserList возвращаем нужный вариант:
+  if (variant === 'homepage') return <HomeLayout />
+  if (variant === 'skillpage') return <SkillLayout />
+  if (variant === 'favoritpage') return <FavoritesLayout />
+
+  return null
 }

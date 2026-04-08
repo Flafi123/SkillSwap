@@ -9,6 +9,7 @@ import { IconButton } from '../../shared/ui/IconButton'
 import { Logo } from '../../shared/ui/Logo'
 import { SearchInput } from '../../shared/ui/TextInput'
 import styles from './Header.module.css'
+import { SkillCatalogModal } from '../Modals/SkillCatalogModal/SkillCatalogModal'
 
 export const Header = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false)
@@ -23,6 +24,7 @@ export const Header = () => {
 
   return (
     <header className={styles.header}>
+      <SkillCatalogModal isOpen={isCatalogOpen} onClose={() => setIsCatalogOpen(false)} />
       <div className={styles.container}>
         <div className={styles.leftSide}>
           <Logo />

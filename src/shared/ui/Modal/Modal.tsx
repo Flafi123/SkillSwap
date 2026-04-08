@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import styles from './Modal.module.css'
+import clsx from 'clsx'
+
 
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
   children: React.ReactNode
+  className?: string
+  isDropdown?: boolean
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, isDropdown, children, className }) => {
   // Закрытие по Esc
   useEffect(() => {
     if (!isOpen) return
@@ -28,7 +32,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   // Блокировка скролла
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isDropdown) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -37,7 +41,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     return () => {
       document.body.style.overflow = ''
     }
-  }, [isOpen])
+  }, [isOpen, isDropdown])
 
   // Закрытие по клику на overlay
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -49,8 +53,8 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null
 
   return createPortal(
-    <div className={styles.overlay} onClick={handleOverlayClick}>
-      <div className={styles.modal}>{children}</div>
+    <div className={clsx(styles.overlay, className)} onClick={handleOverlayClick} style={isDropdown ? { background: 'transparent' } : {}}>
+      <div className={clsx(styles.modal,isDropdown && styles.dropdownStyles)}>{children}</div>
     </div>,
     document.body,
   )

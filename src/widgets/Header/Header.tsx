@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUp } from '../../shared/assets/icons'
 import likeIcon from '../../shared/assets/icons/like.png'
 import moonIcon from '../../shared/assets/icons/moon.png'
 import notificationIcon from '../../shared/assets/icons/notification.png'
+import close from '../../shared/assets/icons/close.png'
 import { Button } from '../../shared/ui/Button'
 import { IconButton } from '../../shared/ui/IconButton'
 import { Logo } from '../../shared/ui/Logo'
@@ -11,7 +12,11 @@ import { SearchInput } from '../../shared/ui/TextInput'
 import styles from './Header.module.css'
 import { SkillCatalogModal } from '../Modals/SkillCatalogModal/SkillCatalogModal'
 
-export const Header = () => {
+interface HeaderProps {
+  variant?: 'default' | 'auth' // Добавляем типы для вариантов
+}
+
+export const Header = ({ variant = 'default' }: HeaderProps) => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
@@ -22,6 +27,16 @@ export const Header = () => {
 
   const catalogIcon = isCatalogOpen ? <ArrowUp /> : <ArrowDown />
 
+  if (variant === 'auth') {
+    return (
+      <header className={styles.header}>
+        <div className={`${styles.container} ${styles.headerAuth}`}>
+          <Logo />
+          <Button variant = "tertiary" className={styles.btn} onClick={() => navigate(-1)}>Закрыть<img className = {styles.img} src={close} alt="" /></Button>
+        </div>
+      </header>
+    )
+  }
   return (
     <header className={styles.header}>
       <SkillCatalogModal isOpen={isCatalogOpen} onClose={() => setIsCatalogOpen(false)} />

@@ -13,20 +13,19 @@
 /* Кнопка лайка в углу (только для компактной) */
 .likeButton {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 20px;
+  right: 20px;
 }
 
 /* Шапка: Аватар + Инфо */
 .top {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  max-width: 284px;
 }
 
 .avatar {
+  flex-shrink: 0;
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -100,7 +99,7 @@
   display: flex;
   padding: 8px 12px;
   border-radius: 100px;
-  font-size: 13px;
+  font-size: 12px;
   white-space: nowrap;
   background: #e8ecf7;
 }

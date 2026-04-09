@@ -9,6 +9,7 @@ interface PropsCheckboxInput {
   label: string
   checked: boolean
   showArrow: boolean
+  isIndeterminate?: boolean
   value?: string
   onChange: (value?: string) => void
   className?: string
@@ -18,15 +19,15 @@ const CheckboxInput = ({
   label,
   checked,
   showArrow,
+  isIndeterminate = false,
   value,
   onChange,
-  className,
 }: PropsCheckboxInput) => {
   const handleChange = () => {
     onChange(value)
   }
 
-  const iconSrc = !checked ? checkboxEmpty : showArrow ? checkboxActiveMinus : checkboxActiveCheck
+  const iconSrc = !checked ? checkboxEmpty : isIndeterminate ? checkboxActiveMinus : checkboxActiveCheck
 
   return (
     <label

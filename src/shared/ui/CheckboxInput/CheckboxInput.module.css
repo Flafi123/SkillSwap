@@ -1,7 +1,8 @@
 .root {
   display: flex;
   align-items: center;
-  width: 284px;
+  width: 100%;
+  max-width: 284px;
   min-height: 24px;
   gap: 8px;
   padding: 0;
@@ -37,6 +38,8 @@
 .label {
   flex: 1 1 auto;
   min-width: 0;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #253017;

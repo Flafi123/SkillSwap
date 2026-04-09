@@ -32,7 +32,7 @@ export const Header = ({ variant = 'default' }: HeaderProps) => {
       <header className={styles.header}>
         <div className={`${styles.container} ${styles.headerAuth}`}>
           <Logo />
-          <Button variant = "tertiary" className={styles.btn} onClick={() => navigate(-1)}>Закрыть<img className = {styles.img} src={close} alt="" /></Button>
+          <Button variant = "tertiary" className={styles.btn} onClick={() => navigate('/')}>Закрыть<img className = {styles.img} src={close} alt="" /></Button>
         </div>
       </header>
     )

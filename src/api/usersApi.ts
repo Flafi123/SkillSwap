@@ -37,3 +37,24 @@ export const updateUserApi = async (data: Partial<TUser>): Promise<TUser> => {
     updatedAt: new Date().toISOString(),
   })
 }
+
+//метод для добавления/удаления карточки пользователя в избранное(не работает для пользователей из json)
+export const toggleFavoriteApi = async (favoriteId: number): Promise<TUser> => {
+  await delay()
+  const existingUser = localStorage.getItem('draftUser')
+  if (!existingUser) throw new Error('Пользователь не найден')
+
+  const user: TUser = JSON.parse(existingUser)
+
+  const favorites = user.favoritesSkills || []
+  const isFavorite = favorites.includes(favoriteId)
+
+  const updatedFavorites = isFavorite
+    ? favorites.filter((id) => id !== favoriteId)
+    : [...favorites, favoriteId]
+
+  return patchToStorage<TUser>('draftUser', {
+    favoritesSkills: updatedFavorites,
+    updatedAt: new Date().toISOString(),
+  })
+}

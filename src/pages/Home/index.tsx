@@ -2,7 +2,7 @@ import styles from './Home.module.css'
 import React, { useState } from 'react'
 import { UserList } from '../../widgets/UserList'
 
-export const HomePage: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <div className={styles.container}>
       <p style={{ width: '324px' }}>
@@ -12,3 +12,5 @@ export const HomePage: React.FC = () => {
     </div>
   )
 }
+
+export default HomePage

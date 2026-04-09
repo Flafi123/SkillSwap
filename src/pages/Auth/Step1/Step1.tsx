@@ -17,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
 type Step1FormData = yup.InferType<typeof validationSchema>
-export const AuthStepFirstPage: React.FC = () => {
+const AuthStepFirstPage: React.FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { draftUser } = useAppSelector((state) => state.user)
@@ -70,7 +70,10 @@ export const AuthStepFirstPage: React.FC = () => {
                 label="Email"
                 placeholder="Введите email"
                 value={watch('email')}
-                onChange={(value) => setValue('email', value, { shouldValidate: true })}
+                onChange={(value) => {
+                  setValue('email', value, { shouldValidate: true })
+                  dispatch(updateDraftUser({ email: value }))
+                }}
                 isError={!!errors.email}
                 warningMessage={errors.email?.message}
               />
@@ -79,7 +82,10 @@ export const AuthStepFirstPage: React.FC = () => {
                 label="Пароль"
                 placeholder="Придумайте надёжный пароль"
                 value={watch('password')}
-                onChange={(value) => setValue('password', value, { shouldValidate: true })}
+                onChange={(value) => {
+                  setValue('password', value, { shouldValidate: true })
+                  dispatch(updateDraftUser({ password: value }))
+                }}
                 isError={!!errors.password}
                 warningMessage={
                   errors.password?.message || 'Пароль должен содержать не менее 8 знаков'
@@ -108,3 +114,5 @@ export const AuthStepFirstPage: React.FC = () => {
     </section>
   )
 }
+
+export default AuthStepFirstPage

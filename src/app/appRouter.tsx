@@ -1,15 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom'
-
-import { HomePage } from '../pages/Home'
-import { FavoritesPage } from '../pages/Favorites'
-import { ProfilePage } from '../pages/Profile'
-import { SkillPage } from '../pages/Skill'
-import { AuthStepFirstPage } from '../pages/Auth/Step1'
-import { AuthStepSecondPage } from '../pages/Auth/Step2'
-import { AuthStepThirdPage } from '../pages/Auth/Step3'
-import { NotFoundPage } from '../pages/Error/NotFoundPage'
-import { ServerErrorPage } from '../pages/Error/ServerErrorPage'
+import { Suspense, lazy } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
+
+const HomePage = lazy(() => import('../pages/Home'))
+const FavoritesPage = lazy(() => import('../pages/Favorites'))
+const ProfilePage = lazy(() => import('../pages/Profile'))
+const SkillPage = lazy(() => import('../pages/Skill'))
+const AuthStepFirstPage = lazy(() => import('../pages/Auth/Step1/Step1'))
+const AuthStepSecondPage = lazy(() => import('../pages/Auth/Step2'))
+const AuthStepThirdPage = lazy(() => import('../pages/Auth/Step3'))
+const NotFoundPage = lazy(() => import('../pages/Error/NotFoundPage'))
+const ServerErrorPage = lazy(() => import('../pages/Error/ServerErrorPage'))
 
 export const appRouter = createBrowserRouter([
   {
@@ -18,33 +19,81 @@ export const appRouter = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <HomePage />
+          </Suspense>
+        ),
       },
       {
         path: 'profile',
-        element: <ProfilePage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ProfilePage />
+          </Suspense>
+        ),
       },
       {
         path: 'favorites',
-        element: <FavoritesPage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <FavoritesPage />
+          </Suspense>
+        ),
       },
       {
         path: 'skill/:id',
-        element: <SkillPage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <SkillPage />
+          </Suspense>
+        ),
       },
       {
         path: 'register',
         children: [
-          { path: 'step-1', element: <AuthStepFirstPage /> },
-          { path: 'step-2', element: <AuthStepSecondPage /> },
-          { path: 'step-3', element: <AuthStepThirdPage /> },
+          {
+            path: 'step-1',
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AuthStepFirstPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'step-2',
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AuthStepSecondPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'step-3',
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AuthStepThirdPage />
+              </Suspense>
+            ),
+          },
         ],
       },
       {
         path: '500',
-        element: <ServerErrorPage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ServerErrorPage />
+          </Suspense>
+        ),
       },
-      { path: '*', element: <NotFoundPage /> },
+      {
+        path: '*',
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <NotFoundPage />
+          </Suspense>
+        ),
+      },
     ],
   },
 ])

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import errorImage_404 from '../../shared/assets/svg/error_404.svg'
 
-export const NotFoundPage: React.FC = () => {
+const NotFoundPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -31,3 +31,5 @@ export const NotFoundPage: React.FC = () => {
     </div>
   )
 }
+
+export default NotFoundPage

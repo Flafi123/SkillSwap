@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import errorImage_500 from '../../shared/assets/svg/error_500.svg'
 
-export const ServerErrorPage: React.FC = () => {
+const ServerErrorPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -27,3 +27,5 @@ export const ServerErrorPage: React.FC = () => {
     </div>
   )
 }
+
+export default ServerErrorPage

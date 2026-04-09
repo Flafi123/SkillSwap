@@ -4,7 +4,7 @@ import authStyles from './Auth.module.css'
 import { getAuthStepTitleId } from './authStepIds'
 import { RegistrationStepHeader } from './RegistrationStepHeader'
 
-export const AuthStepSecondPage: React.FC = () => {
+const AuthStepSecondPage: React.FC = () => {
   return (
     <section className={authStyles.page} aria-labelledby={getAuthStepTitleId(2)}>
       <RegistrationStepHeader step={2} />
@@ -19,3 +19,5 @@ export const AuthStepSecondPage: React.FC = () => {
     </section>
   )
 }
+
+export default AuthStepSecondPage

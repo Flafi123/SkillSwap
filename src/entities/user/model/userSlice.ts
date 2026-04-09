@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit'
-import { getUsersApi, registerUserApi, updateUserApi } from '../../../api/usersApi'
+import {
+  getUsersApi,
+  registerUserApi,
+  updateUserApi,
+  toggleFavoriteApi,
+} from '../../../api/usersApi'
 import type { TUser, TRegisterData } from '../../../shared/utils/types'
 import { delay } from '../../../shared/lib/delay'
 
@@ -25,11 +30,13 @@ export type userState = {
   isLoadingUpdate: boolean
   isLoadingLogin: boolean
   isLoadingLogout: boolean
+  isLoadingFavorite: boolean
   errorUsers: string | null
   errorRegister: string | null
   errorUpdate: string | null
   errorLogin: string | null
   errorLogout: string | null
+  errorFavorite: string | null
 }
 
 const initialState: userState = {
@@ -41,11 +48,13 @@ const initialState: userState = {
   isLoadingUpdate: false,
   isLoadingLogin: false,
   isLoadingLogout: false,
+  isLoadingFavorite: false,
   errorUsers: null,
   errorRegister: null,
   errorUpdate: null,
   errorLogin: null,
   errorLogout: null,
+  errorFavorite: null,
 }
 
 //обязательно запускается при инициализации приложения!!!
@@ -97,6 +106,14 @@ export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
   delay()
   return true
 })
+
+export const toggleFavorite = createAsyncThunk<TUser, number>(
+  'user/toggleFavorite',
+  async (favoriteId) => {
+    const data = await toggleFavoriteApi(favoriteId)
+    return data
+  },
+)
 
 const userSlice = createSlice({
   name: 'user',
@@ -170,6 +187,18 @@ const userSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.errorLogin = action.error.message || 'Не удалось выйти из аккаунта'
         state.isLoadingLogout = false
+      })
+      .addCase(toggleFavorite.pending, (state) => {
+        state.isLoadingFavorite = true
+        state.errorFavorite = null
+      })
+      .addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<TUser>) => {
+        state.profileUser = action.payload
+        state.isLoadingFavorite = false
+      })
+      .addCase(toggleFavorite.rejected, (state, action) => {
+        state.errorFavorite = action.error.message || 'Не удалось добавить в избранное'
+        state.isLoadingFavorite = false
       })
   },
 })

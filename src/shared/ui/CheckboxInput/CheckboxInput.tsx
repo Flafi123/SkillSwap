@@ -22,6 +22,7 @@ const CheckboxInput = ({
   isIndeterminate = false,
   value,
   onChange,
+  className
 }: PropsCheckboxInput) => {
   const handleChange = () => {
     onChange(value)

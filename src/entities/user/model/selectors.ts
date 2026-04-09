@@ -103,5 +103,5 @@ export const selectNewUsers = createSelector(
 
 export const selectRecommendedUsers = createSelector([selectUsers], (users) => {
   const shuffledUsers = [...users].sort(() => Math.random() - 0.5)
-  return shuffledUsers.slice(0, 6)
+  return shuffledUsers.slice(0, 9)
 })

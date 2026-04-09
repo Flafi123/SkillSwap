@@ -1,5 +1,5 @@
 import styles from './Home.module.css'
-import React, { useState } from 'react'
+import React from 'react'
 import { UserList } from '../../widgets/UserList'
 import { Filters } from '../../widgets/Filters'
 

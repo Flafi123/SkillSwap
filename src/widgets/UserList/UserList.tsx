@@ -79,14 +79,20 @@ export const UserList = ({
             </Button>
           </section>
           <ul className={styles.userList}>
-            {filteredUsers.map((user) => (
-              <UserCard
-                key={user.id}
-                user={user}
-                subcategories={allSubcategories}
-                skill={DEFAULT_SKILL}
-              />
-            ))}
+            {filteredUsers.map((user) => {
+              const userSubs = allSubcategories.filter((sub) =>
+                user.subcategoriesWanted.includes(sub.id),
+              )
+              const userSkill = allSkills.find((skill) => skill.userId === user.id)
+              return (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  subcategories={userSubs}
+                  skill={userSkill || DEFAULT_SKILL}
+                />
+              )
+            })}
           </ul>
         </div>
       )
@@ -103,14 +109,20 @@ export const UserList = ({
             </Button>
           </section>
           <ul className={styles.userList}>
-            {(showAllPopular ? usersPopular : usersPopular.slice(0, 3)).map((user) => (
-              <UserCard
-                key={user.id}
-                user={user}
-                subcategories={allSubcategories}
-                skill={DEFAULT_SKILL}
-              />
-            ))}
+            {(showAllPopular ? usersPopular : usersPopular.slice(0, 3)).map((user) => {
+              const userSubs = allSubcategories.filter((sub) =>
+                user.subcategoriesWanted.includes(sub.id),
+              )
+              const userSkill = allSkills.find((skill) => skill.userId === user.id)
+              return (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  subcategories={userSubs}
+                  skill={userSkill || DEFAULT_SKILL}
+                />
+              )
+            })}
           </ul>
         </section>
 
@@ -122,14 +134,20 @@ export const UserList = ({
             </Button>
           </section>
           <ul className={styles.userList}>
-            {(showAllNew ? usersNew : usersNew.slice(0, 3)).slice(0, 9).map((user) => (
-              <UserCard
-                key={user.id}
-                user={user}
-                subcategories={allSubcategories}
-                skill={DEFAULT_SKILL}
-              />
-            ))}
+            {(showAllNew ? usersNew : usersNew.slice(0, 3)).slice(0, 9).map((user) => {
+              const userSubs = allSubcategories.filter((sub) =>
+                user.subcategoriesWanted.includes(sub.id),
+              )
+              const userSkill = allSkills.find((skill) => skill.userId === user.id)
+              return (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  subcategories={userSubs}
+                  skill={userSkill || DEFAULT_SKILL}
+                />
+              )
+            })}
           </ul>
         </section>
 
@@ -138,14 +156,20 @@ export const UserList = ({
             <h2 className={styles.resultsTitle}>Рекомендуем</h2>
           </section>
           <ul className={styles.userList}>
-            {usersRecommended.slice(0, 9).map((user) => (
-              <UserCard
-                key={user.id}
-                user={user}
-                subcategories={allSubcategories}
-                skill={DEFAULT_SKILL}
-              />
-            ))}
+            {usersRecommended.map((user) => {
+              const userSubs = allSubcategories.filter((sub) =>
+                user.subcategoriesWanted.includes(sub.id),
+              )
+              const userSkill = allSkills.find((skill) => skill.userId === user.id)
+              return (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  subcategories={userSubs}
+                  skill={userSkill || DEFAULT_SKILL}
+                />
+              )
+            })}
           </ul>
         </section>
       </div>
@@ -179,14 +203,20 @@ export const UserList = ({
     return (
       <div className={styles.container}>
         <ul className={styles.userList}>
-          {allUsers.map((user) => (
-            <UserCard
-              key={user.id}
-              user={user}
-              subcategories={allSubcategories}
-              skill={DEFAULT_SKILL}
-            />
-          ))}
+          {(showAllSkillpage ? allUsers : usersRecommended.slice(0, 4)).map((user) => {
+            const userSubs = allSubcategories.filter((sub) =>
+              user.subcategoriesWanted.includes(sub.id),
+            )
+            const userSkill = allSkills.find((skill) => skill.userId === user.id)
+            return (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={userSubs}
+                skill={userSkill || DEFAULT_SKILL}
+              />
+            )
+          })}
         </ul>
       </div>
     )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowDown, ArrowUp } from '../../shared/assets/icons'
 import likeIcon from '../../shared/assets/icons/like.png'
@@ -11,12 +11,24 @@ import { Logo } from '../../shared/ui/Logo'
 import { SearchInput } from '../../shared/ui/TextInput'
 import styles from './Header.module.css'
 import { SkillCatalogModal } from '../Modals/SkillCatalogModal/SkillCatalogModal'
+import { useDismiss } from '../../shared/lib/useDismiss'
+import { PopupNotifications } from '../PopupNotifications'
 
-interface HeaderProps {
+interface Props {
   variant?: 'default' | 'auth' // Добавляем типы для вариантов
+  withFakeNotifications?: boolean
 }
 
-export const Header = ({ variant = 'default' }: HeaderProps) => {
+export const Header = ({ withFakeNotifications = false, variant = 'default'  }: Props) => {
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
+  const [isNotificationsRead, setIsNotificationsRead] = useState(false)
+  const notificationsRef = useRef(null)
+  useDismiss({
+    ref: notificationsRef,
+    onDismiss: () => setIsNotificationsOpen(false),
+    enabled: isNotificationsOpen,
+  })
+
   const [isCatalogOpen, setIsCatalogOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
@@ -87,7 +99,15 @@ export const Header = ({ variant = 'default' }: HeaderProps) => {
                 icon={<img src={notificationIcon} alt="" className={styles.actionIcon} />}
                 aria-label="Уведомления"
                 type="button"
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  e.stopPropagation()
+                  setIsNotificationsOpen((prev) => !prev)
+                  setIsNotificationsRead(true)
+                }}
               />
+              {!isNotificationsRead && withFakeNotifications && (
+                <div className={styles.notificationsIndicator}></div>
+              )}
 
               <IconButton
                 icon={<img src={likeIcon} alt="" className={styles.actionIcon} />}
@@ -119,6 +139,9 @@ export const Header = ({ variant = 'default' }: HeaderProps) => {
           )}
         </div>
       </div>
+      {isNotificationsOpen && (
+        <PopupNotifications ref={notificationsRef} withFakeNotifications={withFakeNotifications} />
+      )}
     </header>
   )
 }

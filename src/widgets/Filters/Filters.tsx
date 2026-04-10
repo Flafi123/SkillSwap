@@ -37,11 +37,16 @@ export const Filters = () => {
     subcategories.some((subcategory) => subcategory.categoryId === category.id),
   )?.id
   const arrowCategoryId = activeArrowCategoryId ?? firstCategoryWithSubcategoriesId ?? null
-  const cities = useMemo(() => Array.from(new Set(users.map((user) => user.city))).filter(Boolean), [users])
+  const cities = useMemo(
+    () => Array.from(new Set(users.map((user) => user.city))).filter(Boolean),
+    [users],
+  )
   const visibleCities = showAllCities ? cities : cities.slice(0, DEFAULT_VISIBLE_CITY_COUNT)
 
   const handleCategoryToggle = (categoryId: number) => {
-    const hasSubcategories = subcategories.some((subcategory) => subcategory.categoryId === categoryId)
+    const hasSubcategories = subcategories.some(
+      (subcategory) => subcategory.categoryId === categoryId,
+    )
     const categorySubcategoryIds = subcategories
       .filter((subcategory) => subcategory.categoryId === categoryId)
       .map((subcategory) => subcategory.id)
@@ -52,7 +57,9 @@ export const Filters = () => {
       dispatch(setSelectedCategories(selectedCategoryIds.filter((id) => id !== categoryId)))
       dispatch(
         setSelectedSubcategories(
-          selectedSubcategoryIds.filter((subcategoryId) => !categorySubcategoryIds.includes(subcategoryId)),
+          selectedSubcategoryIds.filter(
+            (subcategoryId) => !categorySubcategoryIds.includes(subcategoryId),
+          ),
         ),
       )
       if (hasSubcategories && expandedCategoryId === categoryId) {
@@ -62,7 +69,11 @@ export const Filters = () => {
     }
 
     dispatch(setSelectedCategories([...selectedCategoryIds, categoryId]))
-    dispatch(setSelectedSubcategories([...new Set([...selectedSubcategoryIds, ...categorySubcategoryIds])]))
+    dispatch(
+      setSelectedSubcategories([
+        ...new Set([...selectedSubcategoryIds, ...categorySubcategoryIds]),
+      ]),
+    )
 
     if (hasSubcategories) {
       setActiveArrowCategoryId(categoryId)
@@ -82,7 +93,9 @@ export const Filters = () => {
       .filter((subcategory) => subcategory.categoryId === categoryId)
       .map((subcategory) => subcategory.id)
 
-    const allSubcategoriesSelected = categorySubcategoryIds.every((id) => newSubcategoryIds.includes(id))
+    const allSubcategoriesSelected = categorySubcategoryIds.every((id) =>
+      newSubcategoryIds.includes(id),
+    )
     const newCategoryIds = allSubcategoriesSelected
       ? [...new Set([...selectedCategoryIds, categoryId])]
       : selectedCategoryIds.filter((id) => id !== categoryId)
@@ -96,7 +109,9 @@ export const Filters = () => {
   }
 
   const handleCityToggle = (cityName: string) => {
-    const newCities = city.includes(cityName) ? city.filter((c) => c !== cityName) : [...city, cityName]
+    const newCities = city.includes(cityName)
+      ? city.filter((c) => c !== cityName)
+      : [...city, cityName]
     dispatch(setCity(newCities))
   }
 
@@ -142,7 +157,8 @@ export const Filters = () => {
               selectedSubcategoryIds.includes(subcategory.id),
             ).length
             const isCategoryIndeterminate =
-              selectedSubcategoriesCount > 0 && selectedSubcategoriesCount < categorySubcategories.length
+              selectedSubcategoriesCount > 0 &&
+              selectedSubcategoriesCount < categorySubcategories.length
             const isExpanded = expandedCategoryId === category.id
             const shouldShowArrow = arrowCategoryId === category.id
 
@@ -163,7 +179,9 @@ export const Filters = () => {
                       aria-label={`Показать подкатегории: ${category.title}`}
                       onClick={() => toggleCategoryExpand(category.id)}
                     >
-                      <span className={`${styles.expandIcon} ${shouldShowArrow ? '' : styles.expandIconHidden}`}>
+                      <span
+                        className={`${styles.expandIcon} ${shouldShowArrow ? '' : styles.expandIconHidden}`}
+                      >
                         {isExpanded ? <ArrowUp /> : <ArrowDown />}
                       </span>
                     </button>
@@ -189,7 +207,11 @@ export const Filters = () => {
           })}
         </ul>
 
-        <button type="button" className={styles.toggleButton} onClick={() => setShowAllCategories((prev) => !prev)}>
+        <button
+          type="button"
+          className={styles.toggleButton}
+          onClick={() => setShowAllCategories((prev) => !prev)}
+        >
           {showAllCategories ? 'Скрыть категории' : 'Все категории'}
           <span className={styles.toggleIcon}>
             <ArrowDown />
@@ -241,7 +263,11 @@ export const Filters = () => {
         </ul>
 
         {cities.length > DEFAULT_VISIBLE_CITY_COUNT && (
-          <button type="button" className={styles.toggleButton} onClick={() => setShowAllCities((prev) => !prev)}>
+          <button
+            type="button"
+            className={styles.toggleButton}
+            onClick={() => setShowAllCities((prev) => !prev)}
+          >
             {showAllCities ? 'Скрыть города' : 'Все города'}
             <span className={styles.toggleIcon}>
               <ArrowDown />

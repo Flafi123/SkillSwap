@@ -1,12 +1,13 @@
 .card {
   display: flex;
-  gap: 44px;
+  gap: 77px;
 }
 
 .info {
   display: flex;
   flex-direction: column;
   text-align: left;
+  max-width: 565px;
 }
 
 .swiper {

@@ -22,13 +22,17 @@ const CheckboxInput = ({
   isIndeterminate = false,
   value,
   onChange,
-  className
+  className,
 }: PropsCheckboxInput) => {
   const handleChange = () => {
     onChange(value)
   }
 
-  const iconSrc = !checked ? checkboxEmpty : isIndeterminate ? checkboxActiveMinus : checkboxActiveCheck
+  const iconSrc = !checked
+    ? checkboxEmpty
+    : isIndeterminate
+      ? checkboxActiveMinus
+      : checkboxActiveCheck
 
   return (
     <label

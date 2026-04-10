@@ -7,7 +7,6 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  max-width: 565px;
 }
 
 .swiper {
@@ -47,6 +46,7 @@
   display: flex;
   gap: 24px;
   align-items: flex-start;
+  flex-shrink: 0;
 }
 
 .moreWrapper {
@@ -90,6 +90,7 @@
   font-size: 16px;
   color: #253017;
   line-height: 24px;
+  margin-bottom: 28px;
 }
 
 .actions {

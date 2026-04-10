@@ -15,6 +15,7 @@ import { useDismiss } from '../../shared/lib/useDismiss'
 import { PopupNotifications } from '../PopupNotifications'
 import { setSearchText } from '../../entities/user/model/filterSlice'
 import { useAppDispatch } from '../../app/store/store'
+import { useAppSelector } from '../../app/store/store'
 
 interface Props {
   variant?: 'default' | 'auth' // Добавляем типы для вариантов
@@ -35,7 +36,7 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
 
-  const isAuth = false
+  const isAuth = useAppSelector((state) => !!state.user.profileUser);
   const userAvatar = '/images/users/default-avatar.png'
   const userName = 'Мария'
 

@@ -1,6 +1,6 @@
 .catalogDropdownOverlay {
   display: block !important; /* Отключаем центрирование flex */
-  pointer-events: auto;      /* Оверлей всё еще ловит клики для закрытия */
+  pointer-events: auto; /* Оверлей всё еще ловит клики для закрытия */
   overflow-y: scroll;
 }
 
@@ -8,12 +8,12 @@
   position: absolute;
   top: 94px;
   left: 36px;
-  
-  background: #FFFFFF;
+
+  background: #ffffff;
   box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 40px;
-  
+
   width: fit-content;
   min-width: 800px; /* Чтобы две колонки влезли как на фото */
   z-index: 1001;
@@ -25,9 +25,9 @@
   box-shadow: none !important;
   padding: 0 !important;
   border-radius: 0 !important;
-  
+
   /* Позиционируем его в нужное место */
   position: absolute !important;
-  top: 80px; 
+  top: 80px;
   right: 50px;
 }

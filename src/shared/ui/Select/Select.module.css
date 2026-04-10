@@ -1,5 +1,5 @@
 .mainContainer {
-  --select-border: #69735D;
+  --select-border: #69735d;
   --select-border-focus: #508826;
   position: relative;
   z-index: 1;
@@ -23,7 +23,7 @@
 
 .field {
   width: 100%;
-  position: absolute; 
+  position: absolute;
   top: 28px;
   left: 0;
   transition: all 0.2s ease;

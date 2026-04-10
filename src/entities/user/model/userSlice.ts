@@ -86,7 +86,7 @@ export const loginUser = createAsyncThunk<
   { email: string; password: string },
   { state: { user: userState } }
 >('user/loginUser', async ({ email, password }, { getState }) => {
-  delay()
+  await delay()
   const { allUsers } = getState().user
 
   const storeUser = allUsers.find((user) => user.email === email && user.password === password)
@@ -103,7 +103,7 @@ export const loginUser = createAsyncThunk<
 })
 
 export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
-  delay()
+  await delay()
   return true
 })
 
@@ -185,7 +185,7 @@ const userSlice = createSlice({
         state.isLoadingLogout = false
       })
       .addCase(logoutUser.rejected, (state, action) => {
-        state.errorLogin = action.error.message || 'Не удалось выйти из аккаунта'
+        state.errorLogout = action.error.message || 'Не удалось выйти из аккаунта'
         state.isLoadingLogout = false
       })
       .addCase(toggleFavorite.pending, (state) => {

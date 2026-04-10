@@ -40,6 +40,9 @@ const SkillPage: React.FC = () => {
   const navigate = useNavigate()
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false)
 
+  const [uiLiked, setUiLiked] = useState<boolean | null>(null)
+  const dispatch = useAppDispatch()
+
   const skillId = Number(id)
 
   const skill = useAppSelector((state) =>
@@ -84,122 +87,121 @@ const SkillPage: React.FC = () => {
         </div>
       </section>
     )
-  const [uiLiked, setUiLiked] = useState<boolean | null>(null)
-  const dispatch = useAppDispatch()
+  } 
 
-  const isLikedFromStore =
-    typeof skill?.id === 'number' && !Number.isNaN(skill?.id)
-      ? profileUser?.favoritesSkills?.includes(skill?.id)
-      : false
-  const isLiked = uiLiked ?? isLikedFromStore
+    const isLikedFromStore =
+      typeof skill?.id === 'number' && !Number.isNaN(skill?.id)
+        ? profileUser?.favoritesSkills?.includes(skill?.id)
+        : false
+    const isLiked = uiLiked ?? isLikedFromStore
 
-  const localUser = localStorage.getItem('draftUser')
-  const localUserId = localUser ? JSON.parse(localUser).id : null
-  const isLocalProfileUser = profileUser?.id === localUserId
+    const localUser = localStorage.getItem('draftUser')
+    const localUserId = localUser ? JSON.parse(localUser).id : null
+    const isLocalProfileUser = profileUser?.id === localUserId
 
-  const handleLikeClick = (e: React.MouseEvent) => {
-    e.preventDefault()
+    const handleLikeClick = (e: React.MouseEvent) => {
+      e.preventDefault()
 
-    if (!profileUser) return
+      if (!profileUser) return
 
-    const id = skill?.id
+      const id = skill?.id
 
-    if (typeof id !== 'number' || Number.isNaN(id)) return
+      if (typeof id !== 'number' || Number.isNaN(id)) return
 
-    if (isLocalProfileUser) {
-      dispatch(toggleFavorite(id))
-      return
+      if (isLocalProfileUser) {
+        dispatch(toggleFavorite(id))
+        return
+      }
+
+      setUiLiked((prev) => (prev === null ? !isLiked : !prev))
     }
 
-    setUiLiked((prev) => (prev === null ? !isLiked : !prev))
-  }
+    if (!skill || !user) {
+      return (
+        <section className={styles.page}>
+          <div className={styles.notFoundCard}>
+            <h1 className={styles.notFoundTitle}>Навык не найден</h1>
+            <p className={styles.notFoundText}>
+              Проверьте корректность ссылки или выберите другой навык.
+            </p>
+            <Link to="/">
+              <Button>На главную</Button>
+            </Link>
+          </div>
+        </section>
+      )
+    }
 
-  if (!skill || !user) {
+    const handleOfferClick = () => {
+      if (!profileUser) {
+        navigate('/register/step-1')
+        return
+      }
+
+      setIsOfferModalOpen(true)
+    }
+
     return (
       <section className={styles.page}>
-        <div className={styles.notFoundCard}>
-          <h1 className={styles.notFoundTitle}>Навык не найден</h1>
-          <p className={styles.notFoundText}>
-            Проверьте корректность ссылки или выберите другой навык.
-          </p>
-          <Link to="/">
-            <Button>На главную</Button>
-          </Link>
+        <div className={styles.topSection}>
+          <UserCard
+            variant="detailed"
+            user={user}
+            skill={skill}
+            subcategories={userSubcategories}
+            className={styles.userCard}
+          />
+
+          <div className={styles.skillColumn}>
+            <div className={styles.actions}>
+              <IconButton
+                icon={
+                  <img
+                    src={
+                      isLiked
+                        ? '/src/shared/assets/icons/HeartFilled.png'
+                        : '/src/shared/assets/icons/HeartIcon.png'
+                    }
+                    alt="избранное"
+                  />
+                }
+                type="button"
+                className={styles.actionButton}
+                aria-label="Добавить в избранное"
+                onClick={handleLikeClick}
+              />
+              <IconButton
+                icon={<img src={shareIcon} alt="поделиться" />}
+                type="button"
+                aria-label="Поделиться"
+                className={styles.actionButton}
+              />
+              <IconButton
+                icon={<img src={moreSquareIcon} alt="дополнительно" />}
+                type="button"
+                aria-label="Дополнительные действия"
+                className={styles.actionButton}
+              />
+            </div>
+
+            <SkillCard
+              title={skill.title}
+              category={categoryText}
+              description={skill.description}
+              images={skill.imagesUrl.length > 0 ? skill.imagesUrl : [FALLBACK_IMAGE]}
+            >
+              <Button className={styles.exchangeButton} onClick={handleOfferClick}>
+                Предложить обмен
+              </Button>
+            </SkillCard>
+          </div>
         </div>
+
+        <UserList variant="skillpage" />
+
+        <OfferCreatedModal isOpen={isOfferModalOpen} onClose={() => setIsOfferModalOpen(false)} />
       </section>
     )
   }
-
-  const handleOfferClick = () => {
-    if (!profileUser) {
-      navigate('/register/step-1')
-      return
-    }
-
-    setIsOfferModalOpen(true)
-  }
-
-  return (
-    <section className={styles.page}>
-      <div className={styles.topSection}>
-        <UserCard
-          variant="detailed"
-          user={user}
-          skill={skill}
-          subcategories={userSubcategories}
-          className={styles.userCard}
-        />
-
-        <div className={styles.skillColumn}>
-          <div className={styles.actions}>
-            <IconButton
-              icon={
-                <img
-                  src={
-                    isLiked
-                      ? '/src/shared/assets/icons/HeartFilled.png'
-                      : '/src/shared/assets/icons/HeartIcon.png'
-                  }
-                  alt="избранное"
-                />
-              }
-              type="button"
-              className={styles.actionButton}
-              aria-label="Добавить в избранное"
-              onClick={handleLikeClick}
-            />
-            <IconButton
-              icon={<img src={shareIcon} alt="поделиться" />}
-              type="button"
-              aria-label="Поделиться"
-              className={styles.actionButton}
-            />
-            <IconButton
-              icon={<img src={moreSquareIcon} alt="дополнительно" />}
-              type="button"
-              aria-label="Дополнительные действия"
-              className={styles.actionButton}
-            />
-          </div>
-
-          <SkillCard
-            title={skill.title}
-            category={categoryText}
-            description={skill.description}
-            images={skill.imagesUrl.length > 0 ? skill.imagesUrl : [FALLBACK_IMAGE]}
-          >
-            <Button className={styles.exchangeButton} onClick={handleOfferClick}>
-              Предложить обмен
-            </Button>
-          </SkillCard>
-        </div>
-      </div>
-
-      <UserList variant="skillpage" />
-
-      <OfferCreatedModal isOpen={isOfferModalOpen} onClose={() => setIsOfferModalOpen(false)} />
-    </section>
-  )
-}
 
 export default SkillPage

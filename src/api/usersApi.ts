@@ -40,7 +40,7 @@ export const updateUserApi = async (data: Partial<TUser>): Promise<TUser> => {
 
 //метод для добавления/удаления карточки пользователя в избранное(не работает для пользователей из json)
 export const toggleFavoriteApi = async (favoriteId: number): Promise<TUser> => {
-  await delay()
+  await delay(50, 500)
   const existingUser = localStorage.getItem('draftUser')
   if (!existingUser) throw new Error('Пользователь не найден')
 

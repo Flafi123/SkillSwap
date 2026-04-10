@@ -54,6 +54,9 @@ export const UserList = ({
   const allSkills = useAppSelector((state) => state.skill.allSkills)
   //вытаскиваем отфильтрованных пользователей или найденных по поиску
   const filteredUsers = useAppSelector(selectFilteredUsers)
+  //подключаем сортировку по новизне для отфильтрованных пользователей
+  const filteredPlusNewUsers = useAppSelector((state) => selectNewUsers(state, filteredUsers))
+  const displayedUsers = isNewFirst ? filteredUsers : filteredPlusNewUsers
   // Для стабильности работы
   if (allSubcategories.length === 0) return null
   // проверка, отличается ли фильтр от начального
@@ -75,11 +78,11 @@ export const UserList = ({
             <h2 className={styles.resultsTitle}>Подходящие предложения: {filteredUsers.length}</h2>
             <Button variant="tertiary" onClick={toggleSort}>
               <img src={sorticon} alt="сортировка" className={styles.imgBtn} />
-              {isNewFirst ? 'Сначала новые' : 'Сначала старые'}
+              {isNewFirst ? 'Сначала новые' : 'По алфавиту'}
             </Button>
           </section>
           <ul className={styles.userList}>
-            {filteredUsers.map((user) => {
+            {displayedUsers.map((user) => {
               const userSubs = allSubcategories.filter((sub) =>
                 user.subcategoriesWanted.includes(sub.id),
               )

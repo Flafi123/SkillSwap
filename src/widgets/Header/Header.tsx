@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowDown, ArrowUp } from '../../shared/assets/icons'
 import likeIcon from '../../shared/assets/icons/like.png'
@@ -13,13 +13,15 @@ import styles from './Header.module.css'
 import { SkillCatalogModal } from '../Modals/SkillCatalogModal/SkillCatalogModal'
 import { useDismiss } from '../../shared/lib/useDismiss'
 import { PopupNotifications } from '../PopupNotifications'
+import { setSearchText } from '../../entities/user/model/filterSlice'
+import { useAppDispatch } from '../../app/store/store'
 
 interface Props {
   variant?: 'default' | 'auth' // Добавляем типы для вариантов
   withFakeNotifications?: boolean
 }
 
-export const Header = ({ withFakeNotifications = false, variant = 'default'  }: Props) => {
+export const Header = ({ withFakeNotifications = false, variant = 'default' }: Props) => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
   const [isNotificationsRead, setIsNotificationsRead] = useState(false)
   const notificationsRef = useRef(null)
@@ -39,12 +41,24 @@ export const Header = ({ withFakeNotifications = false, variant = 'default'  }: 
 
   const catalogIcon = isCatalogOpen ? <ArrowUp /> : <ArrowDown />
 
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      dispatch(setSearchText(searchValue))
+    }, 500) //debounce поиска
+    return () => clearTimeout(timeout)
+  }, [searchValue, dispatch])
+
   if (variant === 'auth') {
     return (
       <header className={styles.header}>
         <div className={`${styles.container} ${styles.headerAuth}`}>
           <Logo />
-          <Button variant = "tertiary" className={styles.btn} onClick={() => navigate('/')}>Закрыть<img className = {styles.img} src={close} alt="" /></Button>
+          <Button variant="tertiary" className={styles.btn} onClick={() => navigate('/')}>
+            Закрыть
+            <img className={styles.img} src={close} alt="" />
+          </Button>
         </div>
       </header>
     )

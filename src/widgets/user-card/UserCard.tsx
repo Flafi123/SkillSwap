@@ -6,6 +6,8 @@ import { getAge } from '../../shared/lib/getAge'
 import type { TUser, TSubcategory, TSkill } from '../../shared/utils/types'
 import styles from './UserCard.module.css'
 import { IconButton } from '../../shared/ui/IconButton'
+import { useAppDispatch, useAppSelector } from '../../app/store/store'
+import { toggleFavorite } from '../../entities/user/model/userSlice'
 
 const categoryColors: Record<number, string> = {
   1: '#EEE7F7',
@@ -20,7 +22,7 @@ export interface UserCardProps {
   user: TUser
   subcategories: TSubcategory[]
   skill: TSkill
-  onLikeClick?: () => void // для отправки данных в json
+  onLikeClick?: () => void // для отправки данных в json ????
   // isLiked?: boolean
   variant?: 'compact' | 'detailed'
   className?: string
@@ -35,11 +37,24 @@ export const UserCard = ({
   variant = 'compact',
   className,
 }: UserCardProps) => {
-  const [isLiked, setIsLiked] = useState(false)
+  const [uiLiked, setUiLiked] = useState<boolean | null>(null)
+  const dispatch = useAppDispatch()
+  const profileUser = useAppSelector((state) => state.user.profileUser)
+  const isLikedFromStore = profileUser?.favoritesSkills?.includes(user.id)
+  const isLiked = uiLiked ?? isLikedFromStore
+  const localUser = localStorage.getItem('draftUser')
+  const localUserId = localUser ? JSON.parse(localUser).id : null
+
+  const isLocalProfileUser = profileUser?.id === localUserId
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    setIsLiked(!isLiked)
+    if (!profileUser) return //здесь потом можно добавить навигацию на логин
+    if (isLocalProfileUser) {
+      dispatch(toggleFavorite(user.id))
+      return
+    }
+    setUiLiked((prev) => (prev === null ? !isLiked : !prev))
     onLikeClick?.()
   }
 

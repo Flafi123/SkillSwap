@@ -9,9 +9,11 @@ import { OfferCreatedModal } from '../../widgets/Modals/OfferCreatedModal'
 import { UserList } from '../../widgets/UserList/UserList'
 import { UserCard } from '../../widgets/user-card'
 import styles from './Skill.module.css'
-import likeOutlineIcon from '../../shared/assets/icons/like-outline.png'
+// import likeOutlineIcon from '../../shared/assets/icons/like-outline.png'
 import shareIcon from '../../shared/assets/icons/share.png'
 import moreSquareIcon from '../../shared/assets/icons/more-square.png'
+import { useAppDispatch } from '../../app/store/store'
+import { toggleFavorite } from '../../entities/user/model/userSlice'
 
 const FALLBACK_IMAGE = '/images/skills/sk1-1.png'
 
@@ -68,6 +70,36 @@ const SkillPage: React.FC = () => {
     return [categoryTitle, subcategoryTitle].filter(Boolean).join(' / ')
   }, [skill, allCategories, allSubcategories])
 
+  const [uiLiked, setUiLiked] = useState<boolean | null>(null)
+  const dispatch = useAppDispatch()
+
+  const isLikedFromStore =
+    typeof skill?.id === 'number' && !Number.isNaN(skill?.id)
+      ? profileUser?.favoritesSkills?.includes(skill?.id)
+      : false
+  const isLiked = uiLiked ?? isLikedFromStore
+
+  const localUser = localStorage.getItem('draftUser')
+  const localUserId = localUser ? JSON.parse(localUser).id : null
+  const isLocalProfileUser = profileUser?.id === localUserId
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+
+    if (!profileUser) return
+
+    const id = skill?.id
+
+    if (typeof id !== 'number' || Number.isNaN(id)) return
+
+    if (isLocalProfileUser) {
+      dispatch(toggleFavorite(id))
+      return
+    }
+
+    setUiLiked((prev) => (prev === null ? !isLiked : !prev))
+  }
+
   if (!skill || !user) {
     return (
       <section className={styles.page}>
@@ -106,13 +138,22 @@ const SkillPage: React.FC = () => {
 
         <div className={styles.skillColumn}>
           <div className={styles.actions}>
-            <Link to="/favorites" aria-label="Открыть избранное">
-              <IconButton
-                icon={<img src={likeOutlineIcon} alt="избранное" />}
-                type="button"
-                className={styles.actionButton}
-              />
-            </Link>
+            <IconButton
+              icon={
+                <img
+                  src={
+                    isLiked
+                      ? '/src/shared/assets/icons/HeartFilled.png'
+                      : '/src/shared/assets/icons/HeartIcon.png'
+                  }
+                  alt="избранное"
+                />
+              }
+              type="button"
+              className={styles.actionButton}
+              aria-label="Добавить в избранное"
+              onClick={handleLikeClick}
+            />
             <IconButton
               icon={<img src={shareIcon} alt="поделиться" />}
               type="button"

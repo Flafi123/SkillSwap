@@ -40,7 +40,7 @@ export const UserCard = ({
   const [uiLiked, setUiLiked] = useState<boolean | null>(null)
   const dispatch = useAppDispatch()
   const profileUser = useAppSelector((state) => state.user.profileUser)
-  const isLikedFromStore = profileUser?.favoritesSkills?.includes(user.id)
+  const isLikedFromStore = profileUser?.favoritesSkills?.includes(user.skillOfferedId)
   const isLiked = uiLiked ?? isLikedFromStore
   const localUser = localStorage.getItem('draftUser')
   const localUserId = localUser ? JSON.parse(localUser).id : null
@@ -51,7 +51,7 @@ export const UserCard = ({
     e.preventDefault()
     if (!profileUser) return //здесь потом можно добавить навигацию на логин
     if (isLocalProfileUser) {
-      dispatch(toggleFavorite(user.id))
+      dispatch(toggleFavorite(user.skillOfferedId))
       return
     }
     setUiLiked((prev) => (prev === null ? !isLiked : !prev))

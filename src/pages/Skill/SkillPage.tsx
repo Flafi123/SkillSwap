@@ -70,6 +70,20 @@ const SkillPage: React.FC = () => {
     return [categoryTitle, subcategoryTitle].filter(Boolean).join(' / ')
   }, [skill, allCategories, allSubcategories])
 
+  const isLoadingSkill = useAppSelector((state) => state.skill.isLoading)
+  const isLoadingUser = useAppSelector((state) => state.user.isLoadingUsers)
+
+  if (isLoadingSkill || isLoadingUser) {
+    return (
+      <section className={styles.page}>
+        <div className={styles.notFoundCard}>
+          <h1 className={styles.notFoundTitle}>Идет загрузка навыка</h1>
+          <p className={styles.notFoundText}>
+            Гружусь и очень стараюсь. Пожалуйста, подождите, еще немного...
+          </p>
+        </div>
+      </section>
+    )
   const [uiLiked, setUiLiked] = useState<boolean | null>(null)
   const dispatch = useAppDispatch()
 

@@ -15,10 +15,13 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getAllSkills())
-    dispatch(getAllCategories())
-    dispatch(getAllSubcategories())
-    dispatch(getAllUsers())
+    const init = async () => {
+      await dispatch(getAllSkills())
+      await dispatch(getAllCategories())
+      await dispatch(getAllSubcategories())
+      await dispatch(getAllUsers())
+    }
+    init()
   }, [dispatch])
 
   return <RouterProvider router={appRouter} />

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowDown, ArrowUp } from '../../shared/assets/icons'
 import likeIcon from '../../shared/assets/icons/like.png'
@@ -35,10 +35,19 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
   const [isCatalogOpen, setIsCatalogOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
+  const profileUser = useAppSelector((state) => state.user.profileUser)
+  const isAuth = !!profileUser
+  const userAvatar = useMemo(() => {
+    if (!profileUser?.avatarUrl) return '/images/users/default-avatar.png'
+    
+    if (profileUser.avatarUrl instanceof File) {
+      return URL.createObjectURL(profileUser.avatarUrl)
+    }
+    
+    return profileUser.avatarUrl
+  }, [profileUser?.avatarUrl])
 
-  const isAuth = useAppSelector((state) => !!state.user.profileUser)
-  const userAvatar = '/images/users/default-avatar.png'
-  const userName = 'Мария'
+  const userName = profileUser?.name || 'Пользователь'
 
   const catalogIcon = isCatalogOpen ? <ArrowUp /> : <ArrowDown />
 

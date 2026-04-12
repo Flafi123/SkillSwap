@@ -140,3 +140,5 @@ export const UserCard = ({
     </article>
   )
 }
+
+export default UserCard

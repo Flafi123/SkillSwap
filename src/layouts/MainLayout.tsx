@@ -9,28 +9,19 @@ export const MainLayout: React.FC = () => {
 
   //ниже функция для рассчета текущего пути и замены хэдэра
   const getHeaderVariant = () => {
-    // if (pathname.startsWith("/profile")) return "profile";
     if (pathname.startsWith('/register')) return 'auth'
-    // if (pathname.startsWith("/favorites")) return "favorites";
-    // if (pathname.startsWith("/skill")) return "skill";
     return 'default'
   }
+  const variant = getHeaderVariant()
+
 
   return (
     <div>
-      <Header variant={getHeaderVariant()} />
-
-      {/* Линки ниже должен находиться внутри хэдэра */}
-      {/* <Link to={'/register/step-1'}>
-            <button>Зарегистрироваться</button>
-            </Link>
-            <Link to={'/profile'}>
-            <button>Личный кабинет</button>
-            </Link> */}
+      <Header variant={variant} />
       <main>
         <Outlet />
       </main>
-      <Footer />
+      {variant !== 'auth' && <Footer />}
     </div>
   )
 }

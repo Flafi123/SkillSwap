@@ -25,8 +25,11 @@ export type TRegisterData = {
   birthDate: string
   gender: string
   about?: string
+  categoryId: string
+  subcategoryId: string
+
   subcategoriesWanted: number[]
-  avatarUrl: string
+  avatarUrl: string | File | null
 }
 
 //нужно тому, кто будет делать SkillCard

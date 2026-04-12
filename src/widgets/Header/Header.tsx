@@ -36,7 +36,7 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
 
-  const isAuth = useAppSelector((state) => !!state.user.profileUser);
+  const isAuth = useAppSelector((state) => !!state.user.profileUser)
   const userAvatar = '/images/users/default-avatar.png'
   const userName = 'Мария'
 

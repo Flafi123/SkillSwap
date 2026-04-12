@@ -22,3 +22,16 @@ export const validationSchema = yup.object().shape({
     .matches(/[a-z]/, 'Должна быть хотя бы одна строчная буква')
     .matches(/[0-9]/, 'Должна быть хотя бы одна цифра'),
 })
+
+export const step2Schema = yup.object({
+  name: yup
+    .string()
+    .required('Имя обязательно')
+    .max(50, 'Имя не должно превышать 50 символов'),
+  birthDate: yup.string().required('Укажите дату рождения'),
+  gender: yup.string().default('Не указан'),
+  city: yup.string().default(''),
+  categoryId: yup.string().default(''),
+  subcategoryId: yup.string().default(''),
+  avatarUrl: yup.mixed<File | string>().nullable().required('Аватар обязателен'),
+})

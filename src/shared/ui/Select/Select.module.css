@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: 4px;
   width: 100%;
-  max-width: 436px;
+  max-width: 100%;
   font-family: Roboto, sans-serif;
   box-sizing: border-box;
   height: 76px;

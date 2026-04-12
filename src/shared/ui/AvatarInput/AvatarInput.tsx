@@ -4,7 +4,7 @@ import styles from './AvatarInput.module.css'
 import avatarIcon from '../../assets/svg/avatar-icon.svg'
 
 interface AvatarInputProps {
-  value: File | null
+  value: File | string | null
   onChange: (file: File | null) => void
 }
 
@@ -13,17 +13,20 @@ export const AvatarInput = ({ value, onChange }: AvatarInputProps) => {
 
   const preview = useMemo(() => {
     if (!value) return null
+    if (typeof value === 'string') return value
+    // Если это файл, создаем временную ссылку
     return URL.createObjectURL(value)
   }, [value])
 
   // cleanup
   useEffect(() => {
     return () => {
-      if (preview) {
+      // 3. УДАЛЯЕМ ТОЛЬКО ВРЕМЕННЫЕ ССЫЛКИ, А НЕ СТРОКИ С БЭКЕНДА
+      if (preview && typeof value !== 'string') {
         URL.revokeObjectURL(preview)
       }
     }
-  }, [preview])
+  }, [preview, value])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null

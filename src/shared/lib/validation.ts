@@ -23,6 +23,19 @@ export const validationSchema = yup.object().shape({
     .matches(/[0-9]/, 'Должна быть хотя бы одна цифра'),
 })
 
+export const step3Schema = yup.object({
+  title: yup
+    .string()
+    .required('Название навыка обязательно')
+    .max(50, 'Название не должно превышать 50 символов'),
+  categoryId: yup.string().required('Выберите категорию'),
+  subcategoryId: yup.string().required('Выберите подкатегорию'),
+  description: yup
+    .string()
+    .required('Описание обязательно')
+    .max(500, 'Описание не должно превышать 500 символов'),
+  imagesUrl: yup.array().of(yup.mixed<File>().required()).default([]),
+})
 export const step2Schema = yup.object({
   name: yup
     .string()

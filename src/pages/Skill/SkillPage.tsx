@@ -99,48 +99,6 @@ const SkillPage: React.FC = () => {
 
     setUiLiked((prev) => (prev === null ? !isLiked : !prev))
   }
-  const isLoadingSkill = useAppSelector((state) => state.skill.isLoading)
-  const isLoadingUser = useAppSelector((state) => state.user.isLoadingUsers)
-
-  if (isLoadingSkill || isLoadingUser) {
-    return (
-      <section className={styles.page}>
-        <div className={styles.notFoundCard}>
-          <h1 className={styles.notFoundTitle}>Идет загрузка навыка</h1>
-          <p className={styles.notFoundText}>
-            Гружусь и очень стараюсь. Пожалуйста, подождите, еще немного...
-          </p>
-        </div>
-      </section>
-    )
-  }
-
-  const isLikedFromStore =
-    typeof skill?.id === 'number' && !Number.isNaN(skill?.id)
-      ? profileUser?.favoritesSkills?.includes(skill?.id)
-      : false
-  const isLiked = uiLiked ?? isLikedFromStore
-
-  const localUser = localStorage.getItem('draftUser')
-  const localUserId = localUser ? JSON.parse(localUser).id : null
-  const isLocalProfileUser = profileUser?.id === localUserId
-
-  const handleLikeClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-
-    if (!profileUser) return
-
-    const id = skill?.id
-
-    if (typeof id !== 'number' || Number.isNaN(id)) return
-
-    if (isLocalProfileUser) {
-      dispatch(toggleFavorite(id))
-      return
-    }
-
-    setUiLiked((prev) => (prev === null ? !isLiked : !prev))
-  }
 
   if (!skill || !user) {
     return (

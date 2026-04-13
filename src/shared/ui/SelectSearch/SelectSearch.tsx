@@ -112,7 +112,7 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
     <div
       ref={containerRef}
       className={clsx(styles.mainContainer, className)}
-      style={{ zIndex: isOpen ? 100 : 1 }} // Взято из Select.tsx
+      style={{ zIndex: isOpen ? 2 : 1 }} // Взято из Select.tsx
     >
       {label && (
         <label className={styles.label} htmlFor={inputId}>

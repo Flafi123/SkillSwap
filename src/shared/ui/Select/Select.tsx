@@ -92,7 +92,7 @@ export const Select = ({
     <div
       ref={containerRef}
       className={clsx(styles.mainContainer, className)}
-      style={{ zIndex: open ? 100 : 1 }}
+      style={{ zIndex: open ? 2 : 1 }}
     >
       {label && (
         <label htmlFor={triggerId} className={styles.label}>

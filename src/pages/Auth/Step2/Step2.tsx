@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
@@ -57,19 +57,13 @@ const AuthStepSecondPage: React.FC = () => {
       birthDate: draftUser.birthDate || '',
       gender: draftUser.gender || 'Не указан',
       city: draftUser.city || '',
-      categoryId: draftUser.categoryId || '',
-      subcategoryId: draftUser.subcategoryId || '',
+      categoryId: localStorage.getItem('register_category') || '',
+      subcategoryId: draftUser.subcategoriesWanted?.[0]
+        ? `${draftUser.subcategoriesWanted[0]}`
+        : '',
       avatarUrl: draftUser.avatarUrl || undefined,
     },
   })
-
- 
-
-  const currentCatId = watch('categoryId')
-    const filteredSubcategories = currentCatId
-      ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
-      : subcategories
-
 
   const currentCatId = watch('categoryId')
   const filteredSubcategories = currentCatId
@@ -87,21 +81,29 @@ const AuthStepSecondPage: React.FC = () => {
       <div className={authStyles.cards}>
         <div className={`${authStyles.card} ${styles.formCard}`}>
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className={styles.avatarContainer}>
+            <div className={styles.avatarContainer}>
               <Controller
                 name="avatarUrl"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <AvatarInput 
-                      value={field.value} 
+                    <AvatarInput
+                      value={field.value}
                       onChange={(base64) => {
-                        field.onChange(base64) 
+                        field.onChange(base64)
                         dispatch(updateDraftUser({ avatarUrl: base64 })) // Идеально чисто
-                      }} 
+                      }}
                     />
                     {error && (
-                      <span style={{ color: '#bf3920', fontSize: '12px', display: 'block', textAlign: 'center', marginTop: '4px' }}>
+                      <span
+                        style={{
+                          color: '#bf3920',
+                          fontSize: '12px',
+                          display: 'block',
+                          textAlign: 'center',
+                          marginTop: '4px',
+                        }}
+                      >
                         {error.message}
                       </span>
                     )}
@@ -211,14 +213,14 @@ const AuthStepSecondPage: React.FC = () => {
                       if (cat) {
                         const newCatId = String(cat.id)
                         field.onChange(newCatId)
-                        dispatch(updateDraftUser({ categoryId: newCatId }))
+                        localStorage.setItem('register_category', newCatId)
 
                         // Проверяем подкатегорию: если не совпадает с новой категорией — стираем
                         const currentSubId = watch('subcategoryId')
                         const currentSub = subcategories.find((s) => String(s.id) === currentSubId)
                         if (currentSub && String(currentSub.categoryId) !== newCatId) {
                           setValue('subcategoryId', '', { shouldValidate: true })
-                          dispatch(updateDraftUser({ subcategoryId: '' }))
+                          dispatch(updateDraftUser({ subcategoriesWanted: [] }))
                         }
                       }
                     }}
@@ -246,13 +248,12 @@ const AuthStepSecondPage: React.FC = () => {
                       if (sub) {
                         const newSubId = String(sub.id)
                         field.onChange(newSubId)
-                        dispatch(updateDraftUser({ subcategoryId: newSubId }))
+                        dispatch(updateDraftUser({ subcategoriesWanted: [Number(newSubId)] }))
 
                         // Если выбрали подкатегорию — автоматически проставляем её родительскую категорию
                         const parentCatId = String(sub.categoryId)
                         if (watch('categoryId') !== parentCatId) {
                           setValue('categoryId', parentCatId, { shouldValidate: true })
-                          dispatch(updateDraftUser({ categoryId: parentCatId }))
                         }
                       }
                     }}

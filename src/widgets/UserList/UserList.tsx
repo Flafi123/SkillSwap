@@ -24,8 +24,12 @@ const DEFAULT_SKILL: TSkill = {
 
 export const UserList = ({
   variant = 'homepage',
+  currentCategoryId,
+  currentUserId,
 }: {
   variant?: 'homepage' | 'skillpage' | 'favoritpage'
+  currentCategoryId?: number
+  currentUserId?: number
 }) => {
   // Состояния для отображения
   const [showAllPopular, toggleShowAllPopular] = useState(false)
@@ -182,6 +186,15 @@ export const UserList = ({
   }
 
   const SkillLayout = () => {
+    if (!currentCategoryId) return null
+    const usersWithSkills = allUsers.map((user) => {
+      const userSkill = allSkills.find((skill) => skill.userId === user.id)
+      return { user, userSkill }
+    })
+    const similarUsers = usersWithSkills.filter(
+      ({ user, userSkill }) =>
+        userSkill?.categoryId === currentCategoryId && user.id !== currentUserId,
+    )
     return (
       <div className={styles.container}>
         <section className={styles.resultsHeader}>
@@ -191,21 +204,22 @@ export const UserList = ({
           </Button>
         </section>
         <ul className={styles.userListSkill}>
-          {(showAllSkillpage ? allUsers : allUsers.slice(0, 4)).map((user) => {
-            const userSubs = allSubcategories.filter((sub) =>
-              user.subcategoriesWanted.includes(sub.id),
-            )
-            const userSkill = allSkills.find((skill) => skill.userId === user.id)
+          {(showAllSkillpage ? similarUsers : similarUsers.slice(0, 4)).map(
+            ({ user, userSkill }) => {
+              const userSubs = allSubcategories.filter((sub) =>
+                user.subcategoriesWanted.includes(sub.id),
+              )
 
-            return (
-              <UserCard
-                key={user.id}
-                user={user}
-                subcategories={userSubs}
-                skill={userSkill || DEFAULT_SKILL}
-              />
-            )
-          })}
+              return (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  subcategories={userSubs}
+                  skill={userSkill || DEFAULT_SKILL}
+                />
+              )
+            },
+          )}
         </ul>
       </div>
     )

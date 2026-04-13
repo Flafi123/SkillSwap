@@ -100,6 +100,22 @@ const SkillPage: React.FC = () => {
     setUiLiked((prev) => (prev === null ? !isLiked : !prev))
   }
 
+  const isLoadingSkill = useAppSelector((state) => state.skill.isLoading)
+  const isLoadingUser = useAppSelector((state) => state.user.isLoadingUsers)
+
+  if (isLoadingSkill || isLoadingUser) {
+    return (
+      <section className={styles.page}>
+        <div className={styles.notFoundCard}>
+          <h1 className={styles.notFoundTitle}>Идет загрузка навыка</h1>
+          <p className={styles.notFoundText}>
+            Гружусь и очень стараюсь. Пожалуйста, подождите, еще немного...
+          </p>
+        </div>
+      </section>
+    )
+  }
+
   if (!skill || !user) {
     return (
       <section className={styles.page}>
@@ -118,7 +134,7 @@ const SkillPage: React.FC = () => {
 
   const handleOfferClick = () => {
     if (!profileUser) {
-      navigate('/register/step-1')
+      navigate('/login')
       return
     }
 
@@ -181,7 +197,11 @@ const SkillPage: React.FC = () => {
         </div>
       </div>
 
-      <UserList variant="skillpage" />
+      <UserList
+        variant="skillpage"
+        currentCategoryId={skill.categoryId}
+        currentUserId={skill.userId}
+      />
 
       <OfferCreatedModal isOpen={isOfferModalOpen} onClose={() => setIsOfferModalOpen(false)} />
     </section>

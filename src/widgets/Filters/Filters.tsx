@@ -180,7 +180,7 @@ export const Filters = () => {
                       onClick={() => toggleCategoryExpand(category.id)}
                     >
                       <span
-                        className={`${styles.expandIcon} ${shouldShowArrow ? '' : styles.expandIconHidden}`}
+                        className={styles.expandIconHidden}
                       >
                         {isExpanded ? <ArrowUp /> : <ArrowDown />}
                       </span>

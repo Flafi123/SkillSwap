@@ -3,7 +3,6 @@ import AirDatepicker from 'air-datepicker'
 import localeRu from 'air-datepicker/locale/ru'
 import 'air-datepicker/air-datepicker.css'
 
-// Импортируем компоненты и стили проекта
 import { TextInput } from '../TextInput/TextInput/TextInput'
 import buttonStyles from '../Button/Button.module.css'
 import styles from './DataInput.module.css'
@@ -15,8 +14,10 @@ interface DataInputProps {
   value?: string
   placeholder?: string
   onChange?: (value: string) => void
+  onBlur?: () => void // ДОБАВЛЕНО: Явно типизируем onBlur от react-hook-form
   minDate?: Date | string | number
   maxDate?: Date | string | number
+  [key: string]: any 
 }
 
 export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
@@ -26,34 +27,49 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
       error,
       value,
       onChange,
+      onBlur, // ДОБАВЛЕНО: Вытаскиваем onBlur, чтобы он не попал в TextInput напрямую
       placeholder = 'Выберите дату',
-      minDate, // ДОБАВЛЕНО: достаем из пропсов
+      minDate,
       maxDate,
       ...props
     },
     ref,
   ) => {
-    // Внутренний ref для привязки календаря
     const inputRef = useRef<HTMLInputElement>(null)
 
-    // Прокидываем ref наружу для react-hook-form
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement)
+
+    // Сохраняем функции в ref, чтобы календарь их видел, но не перерисовывался
+    const onChangeRef = useRef(onChange)
+    const onBlurRef = useRef(onBlur) 
+
+    useEffect(() => {
+      onChangeRef.current = onChange
+      onBlurRef.current = onBlur
+    }, [onChange, onBlur])
+
+    const minDateMs = minDate ? new Date(minDate).setHours(0, 0, 0, 0) : undefined
+    const maxDateMs = maxDate ? new Date(maxDate).setHours(0, 0, 0, 0) : undefined
 
     useEffect(() => {
       if (!inputRef.current) return
 
-      // Инициализация календаря
       const dp = new AirDatepicker(inputRef.current, {
         locale: localeRu,
-        autoClose: false, // Закрывается только по кнопке
+        autoClose: false,
         isMobile: false,
-        minDate,
-        maxDate,
+        minDate: minDateMs ? new Date(minDateMs) : undefined,
+        maxDate: maxDateMs ? new Date(maxDateMs) : undefined,
         onSelect: ({ formattedDate }) => {
-          // Если выбран диапазон дат, это массив. Нам нужна первая строка.
           const dateStr = Array.isArray(formattedDate) ? formattedDate[0] : formattedDate
-          if (onChange && dateStr) {
-            onChange(dateStr)
+          if (onChangeRef.current && dateStr) {
+            onChangeRef.current(dateStr)
+          }
+        },
+        // Вызываем onBlur (валидацию) ТОЛЬКО когда календарь полностью закрывается
+        onHide: () => {
+          if (onBlurRef.current) {
+            onBlurRef.current()
           }
         },
         buttons: [
@@ -70,11 +86,10 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
         ],
       })
 
-      // Очистка при размонтировании
       return () => {
         dp.destroy()
       }
-    }, [onChange])
+    }, [minDateMs, maxDateMs]) 
 
     const icon = <img src={calendarIcon} alt="Календарь" width="20" height="20" />
 
@@ -89,8 +104,8 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
           isError={!!error}
           warningMessage={error}
           rightSlot={icon}
-          readOnly
-          {...props}
+          readOnly 
+          {...props} 
         />
       </div>
     )

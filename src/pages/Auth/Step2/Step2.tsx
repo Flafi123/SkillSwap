@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
@@ -60,9 +60,15 @@ const AuthStepSecondPage: React.FC = () => {
       city: draftUser.city || '',
       categoryId: draftUser.categoryId || '',
       subcategoryId: draftUser.subcategoryId || '',
-      avatarUrl: draftUser.avatarUrl ?? undefined,
     },
   })
+
+  useEffect(() => {
+    if (draftUser.avatarUrl) {
+      // Приводим тип к File | string, чтобы TypeScript не ругался
+      setValue('avatarUrl', draftUser.avatarUrl as File | string, { shouldValidate: true })
+    }
+  }, [draftUser.avatarUrl, setValue])
 
   const currentCatId = watch('categoryId')
     const filteredSubcategories = currentCatId

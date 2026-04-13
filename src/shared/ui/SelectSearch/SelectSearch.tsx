@@ -37,7 +37,7 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
   useEffect(() => {
     const onDocMouseDown = (event: MouseEvent) => {
       if (containerRef.current?.contains(event.target as Node)) return
-      
+
       setIsOpen(false)
       // Если текст в инпуте не совпадает ни с одним городом — откатываем назад
       if (inputValue !== '' && !options.includes(inputValue)) {
@@ -72,13 +72,16 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
     )
   }, [options, normalizedQuery, isOpen])
 
-  const handleClear = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-    setInputValue('')
-    setIsOpen(false)
-    onChange?.('')
-    inputRef.current?.focus()
-  }, [onChange])
+  const handleClear = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation()
+      setInputValue('')
+      setIsOpen(false)
+      onChange?.('')
+      inputRef.current?.focus()
+    },
+    [onChange],
+  )
 
   const handleInputChange = (nextValue: string) => {
     setInputValue(nextValue)
@@ -88,11 +91,14 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
     }
   }
 
-  const handleSelect = useCallback((option: string) => {
-    setInputValue(option)
-    setIsOpen(false)
-    onChange?.(option)
-  }, [onChange])
+  const handleSelect = useCallback(
+    (option: string) => {
+      setInputValue(option)
+      setIsOpen(false)
+      onChange?.(option)
+    },
+    [onChange],
+  )
 
   const toggleOpen = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -142,8 +148,8 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
               </button>
             )}
             {/* Клик по стрелочке теперь работает надежно */}
-            <div 
-              className={clsx(styles.arrow, isOpen && styles.arrowOpen)} 
+            <div
+              className={clsx(styles.arrow, isOpen && styles.arrowOpen)}
               onClick={toggleOpen}
               style={{ cursor: 'pointer' }}
             >
@@ -161,10 +167,10 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
                     type="button"
                     role="option"
                     aria-selected={option === value}
-                    className={styles.optionButton} 
+                    className={styles.optionButton}
                     onMouseDown={(event) => {
                       // ВАЖНО: Взято из Select.tsx. Не дает инпуту потерять фокус до выбора!
-                      event.preventDefault() 
+                      event.preventDefault()
                       handleSelect(option)
                     }}
                   >

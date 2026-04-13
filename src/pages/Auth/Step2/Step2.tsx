@@ -39,9 +39,8 @@ const AuthStepSecondPage: React.FC = () => {
 
   const cities = useMemo(
     () => Array.from(new Set(allUsers?.map((user) => user.city))).filter(Boolean) as string[],
-    [allUsers]
+    [allUsers],
   )
-
 
   // Настройка формы
   const {
@@ -71,11 +70,9 @@ const AuthStepSecondPage: React.FC = () => {
   }, [draftUser.avatarUrl, setValue])
 
   const currentCatId = watch('categoryId')
-    const filteredSubcategories = currentCatId
-      ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
-      : subcategories
-
-
+  const filteredSubcategories = currentCatId
+    ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
+    : subcategories
 
   // Сохранение и переход
   const onSubmit = (data: Step2FormData) => {
@@ -94,15 +91,22 @@ const AuthStepSecondPage: React.FC = () => {
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <AvatarInput 
-                      value={field.value} 
+                    <AvatarInput
+                      value={field.value}
                       onChange={(file) => {
                         field.onChange(file)
                         dispatch(updateDraftUser({ avatarUrl: file }))
-                      }} 
+                      }}
                     />
                     {error && (
-                      <span style={{ color: '#bf3920', fontSize: '12px', display: 'block', textAlign: 'center' }}>
+                      <span
+                        style={{
+                          color: '#bf3920',
+                          fontSize: '12px',
+                          display: 'block',
+                          textAlign: 'center',
+                        }}
+                      >
                         {error.message}
                       </span>
                     )}
@@ -122,7 +126,6 @@ const AuthStepSecondPage: React.FC = () => {
                   onChange={(val) => {
                     field.onChange(val)
                     dispatch(updateDraftUser({ name: val }))
-                    
                   }}
                   maxLength={50}
                   label="Имя"
@@ -134,12 +137,11 @@ const AuthStepSecondPage: React.FC = () => {
             />
 
             <div className={styles.row}>
-              
               <Controller
                 name="birthDate"
                 control={control}
                 render={({ field }) => (
-                 <DataInput
+                  <DataInput
                     {...field}
                     onChange={(e: any) => {
                       const val = e?.target?.value || e
@@ -159,7 +161,7 @@ const AuthStepSecondPage: React.FC = () => {
                 name="gender"
                 control={control}
                 render={({ field }) => (
-                 <Select
+                  <Select
                     label="Пол"
                     placeholder="Не указан"
                     options={['Не указан', 'Мужской', 'Женский']}
@@ -174,7 +176,7 @@ const AuthStepSecondPage: React.FC = () => {
               />
             </div>
 
-           <Controller
+            <Controller
               name="city"
               control={control}
               render={({ field, fieldState: { error } }) => (
@@ -193,9 +195,7 @@ const AuthStepSecondPage: React.FC = () => {
                     }}
                   />
                   {error && (
-                    <span style={{ color: '#bf3920', fontSize: '12px' }}>
-                      {error.message}
-                    </span>
+                    <span style={{ color: '#bf3920', fontSize: '12px' }}>{error.message}</span>
                   )}
                 </div>
               )}
@@ -221,7 +221,7 @@ const AuthStepSecondPage: React.FC = () => {
 
                         // Проверяем подкатегорию: если не совпадает с новой категорией — стираем
                         const currentSubId = watch('subcategoryId')
-                        const currentSub = subcategories.find(s => String(s.id) === currentSubId)
+                        const currentSub = subcategories.find((s) => String(s.id) === currentSubId)
                         if (currentSub && String(currentSub.categoryId) !== newCatId) {
                           setValue('subcategoryId', '', { shouldValidate: true })
                           dispatch(updateDraftUser({ subcategoryId: '' }))
@@ -239,7 +239,7 @@ const AuthStepSecondPage: React.FC = () => {
               control={control}
               render={({ field }) => {
                 const currentSub = filteredSubcategories.find(
-                  (s) => String(s.id) === String(field.value)
+                  (s) => String(s.id) === String(field.value),
                 )
                 return (
                   <Select

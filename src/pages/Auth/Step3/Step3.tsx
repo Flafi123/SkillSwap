@@ -83,154 +83,153 @@ const AuthStepThirdPage: React.FC = () => {
     }
   }
 
-    return (
-      <section className={authStyles.page} aria-labelledby={getAuthStepTitleId(3)}>
-        <RegistrationStepHeader step={3} />
+  return (
+    <section className={authStyles.page} aria-labelledby={getAuthStepTitleId(3)}>
+      <RegistrationStepHeader step={3} />
 
-        <div className={authStyles.cards}>
-          <div className={`${authStyles.card} ${styles.formCard}`}>
-            <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
-              {/* Название навыка */}
+      <div className={authStyles.cards}>
+        <div className={`${authStyles.card} ${styles.formCard}`}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+            {/* Название навыка */}
 
-              <TextInput
-                name="title"
-                label="Название навыка"
-                placeholder="Введите название вашего навыка"
-                value={watch('title')}
-                onChange={(value) => {
-                  setValue('title', value, { shouldValidate: true })
-                  dispatch(updateDraftSkill({ title: value }))
-                }}
-                isError={!!errors.title}
-                warningMessage={errors.title?.message}
-              />
+            <TextInput
+              name="title"
+              label="Название навыка"
+              placeholder="Введите название вашего навыка"
+              value={watch('title')}
+              onChange={(value) => {
+                setValue('title', value, { shouldValidate: true })
+                dispatch(updateDraftSkill({ title: value }))
+              }}
+              isError={!!errors.title}
+              warningMessage={errors.title?.message}
+            />
 
-              {/* Категория */}
-              <Select
-                label="Категория навыка"
-                placeholder={isLoading ? 'Загрузка...' : 'Выберите категорию'}
-                options={categories.map((c) => c.title || '')}
-                value={currentCategory?.title || ''} // Используем нашу готовую переменную!
-                onChange={(selectedTitle) => {
-                  const cat = categories.find((c) => c.title === selectedTitle)
-                  if (cat) {
-                    const newCatId = String(cat.id)
-                    setValue('categoryId', newCatId, { shouldValidate: true })
-                    dispatch(updateDraftSkill({ categoryId: Number(newCatId) }))
+            {/* Категория */}
+            <Select
+              label="Категория навыка"
+              placeholder={isLoading ? 'Загрузка...' : 'Выберите категорию'}
+              options={categories.map((c) => c.title || '')}
+              value={currentCategory?.title || ''} // Используем нашу готовую переменную!
+              onChange={(selectedTitle) => {
+                const cat = categories.find((c) => c.title === selectedTitle)
+                if (cat) {
+                  const newCatId = String(cat.id)
+                  setValue('categoryId', newCatId, { shouldValidate: true })
+                  dispatch(updateDraftSkill({ categoryId: Number(newCatId) }))
 
-                    // Очистка подкатегории, если она не подходит
-                    if (currentSubcategory && String(currentSubcategory.categoryId) !== newCatId) {
-                      setValue('subcategoryId', '', { shouldValidate: true })
-                      dispatch(updateDraftSkill({ subcategoryId: 0 }))
-                    }
+                  // Очистка подкатегории, если она не подходит
+                  if (currentSubcategory && String(currentSubcategory.categoryId) !== newCatId) {
+                    setValue('subcategoryId', '', { shouldValidate: true })
+                    dispatch(updateDraftSkill({ subcategoryId: 0 }))
                   }
-                }}
-              />
+                }
+              }}
+            />
 
-              {/* Подкатегория */}
-              <Select
-                label="Подкатегория навыка"
-                placeholder={isLoading ? 'Загрузка...' : 'Выберите подкатегорию'}
-                options={filteredSubcategories.map((s) => s.title || '')}
-                value={currentSubcategory?.title || ''} // Используем нашу готовую переменную!
-                onChange={(selectedTitle) => {
-                  const sub = filteredSubcategories.find((s) => s.title === selectedTitle)
-                  if (sub) {
-                    const newSubId = String(sub.id)
-                    setValue('subcategoryId', newSubId, { shouldValidate: true })
-                    dispatch(updateDraftSkill({ subcategoryId: Number(newSubId) }))
+            {/* Подкатегория */}
+            <Select
+              label="Подкатегория навыка"
+              placeholder={isLoading ? 'Загрузка...' : 'Выберите подкатегорию'}
+              options={filteredSubcategories.map((s) => s.title || '')}
+              value={currentSubcategory?.title || ''} // Используем нашу готовую переменную!
+              onChange={(selectedTitle) => {
+                const sub = filteredSubcategories.find((s) => s.title === selectedTitle)
+                if (sub) {
+                  const newSubId = String(sub.id)
+                  setValue('subcategoryId', newSubId, { shouldValidate: true })
+                  dispatch(updateDraftSkill({ subcategoryId: Number(newSubId) }))
 
-                    // Авто-выбор категории
-                    const parentCatId = String(sub.categoryId)
-                    if (categoryIdValue !== parentCatId) {
-                      setValue('categoryId', parentCatId, { shouldValidate: true })
-                      dispatch(updateDraftSkill({ categoryId: Number(parentCatId) }))
-                    }
+                  // Авто-выбор категории
+                  const parentCatId = String(sub.categoryId)
+                  if (categoryIdValue !== parentCatId) {
+                    setValue('categoryId', parentCatId, { shouldValidate: true })
+                    dispatch(updateDraftSkill({ categoryId: Number(parentCatId) }))
                   }
-                }}
-              />
+                }
+              }}
+            />
 
-              {/* Описание */}
-              <TextAreaInput
-                label="Описание"
-                placeholder="Коротко опишите, чему можете научить"
-                value={watch('description')}
-                onChange={(value) => {
-                  setValue('description', value, { shouldValidate: true })
-                  dispatch(updateDraftSkill({ description: value }))
-                }}
-                isError={!!errors.description}
-                warningMessage={errors.description?.message}
-              />
+            {/* Описание */}
+            <TextAreaInput
+              label="Описание"
+              placeholder="Коротко опишите, чему можете научить"
+              value={watch('description')}
+              onChange={(value) => {
+                setValue('description', value, { shouldValidate: true })
+                dispatch(updateDraftSkill({ description: value }))
+              }}
+              isError={!!errors.description}
+              warningMessage={errors.description?.message}
+            />
 
-              {/* Загрузка изображений */}
-              <div>
-                <PhotoInput
-                  value={watch('imagesUrl') as File[]}
-                  onChange={(files) => {
-                    setValue('imagesUrl', files, { shouldValidate: true })
-                    dispatch(updateDraftSkill({ imagesUrl: files }))
+            {/* Загрузка изображений */}
+            <div>
+              <PhotoInput
+                value={watch('imagesUrl') as File[]}
+                onChange={(files) => {
+                  setValue('imagesUrl', files, { shouldValidate: true })
+                  dispatch(updateDraftSkill({ imagesUrl: files }))
+                }}
+                multiple={true}
+                accept="image/png, image/jpeg, image/webp"
+              />
+              {errors.imagesUrl && (
+                <span
+                  style={{
+                    color: '#bf3920',
+                    fontSize: '12px',
+                    display: 'block',
+                    marginTop: '4px',
                   }}
-                  multiple={true}
-                  accept="image/png, image/jpeg, image/webp"
-                />
-                {errors.imagesUrl && (
-                  <span
-                    style={{
-                      color: '#bf3920',
-                      fontSize: '12px',
-                      display: 'block',
-                      marginTop: '4px',
-                    }}
-                  >
-                    {errors.imagesUrl.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Кнопки Назад / Продолжить */}
-              <div className={styles.row}>
-                <ButtonUI
-                  type="button"
-                  variant="secondary"
-                  className={styles.actionButton}
-                  onClick={() => navigate('/register/step-2')}
                 >
-                  Назад
-                </ButtonUI>
-
-                <ButtonUI
-                  type="submit"
-                  className={styles.actionButton}
-                  disabled={!isValid || isSubmitting}
-                >
-                  {isSubmitting ? 'Отправка...' : 'Продолжить'}
-                </ButtonUI>
-              </div>
-            </form>
-          </div>
-
-          <aside
-            className={`${authStyles.card} ${authStyles.supportCard}`}
-            aria-label="Информация о шаге"
-          >
-            <div className={authStyles.supportContent}>
-              <img
-                src={step3Illustration}
-                alt="Иллюстрация"
-                className={styles.hintIcon}
-                aria-hidden
-              />
-              <h2 className={authStyles.supportTitle}>Укажите, чем вы готовы поделиться</h2>
-              <p className={authStyles.supportText}>
-                Так другие люди смогут увидеть ваши предложения и предложить вам обмен!
-              </p>
+                  {errors.imagesUrl.message}
+                </span>
+              )}
             </div>
-          </aside>
-        </div>
-      </section>
-    )
 
+            {/* Кнопки Назад / Продолжить */}
+            <div className={styles.row}>
+              <ButtonUI
+                type="button"
+                variant="secondary"
+                className={styles.actionButton}
+                onClick={() => navigate('/register/step-2')}
+              >
+                Назад
+              </ButtonUI>
+
+              <ButtonUI
+                type="submit"
+                className={styles.actionButton}
+                disabled={!isValid || isSubmitting}
+              >
+                {isSubmitting ? 'Отправка...' : 'Продолжить'}
+              </ButtonUI>
+            </div>
+          </form>
+        </div>
+
+        <aside
+          className={`${authStyles.card} ${authStyles.supportCard}`}
+          aria-label="Информация о шаге"
+        >
+          <div className={authStyles.supportContent}>
+            <img
+              src={step3Illustration}
+              alt="Иллюстрация"
+              className={styles.hintIcon}
+              aria-hidden
+            />
+            <h2 className={authStyles.supportTitle}>Укажите, чем вы готовы поделиться</h2>
+            <p className={authStyles.supportText}>
+              Так другие люди смогут увидеть ваши предложения и предложить вам обмен!
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  )
 }
 
 export default AuthStepThirdPage

@@ -18,7 +18,6 @@ export const MainLayout: React.FC = () => {
   }
   const variant = getHeaderVariant()
 
-
   return (
     <div>
       <Header variant={variant} />

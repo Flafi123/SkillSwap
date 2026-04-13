@@ -37,10 +37,7 @@ export const step3Schema = yup.object({
   imagesUrl: yup.array().of(yup.mixed<File>().required()).default([]),
 })
 export const step2Schema = yup.object({
-  name: yup
-    .string()
-    .required('Имя обязательно')
-    .max(50, 'Имя не должно превышать 50 символов'),
+  name: yup.string().required('Имя обязательно').max(50, 'Имя не должно превышать 50 символов'),
   birthDate: yup.string().required('Укажите дату рождения'),
   gender: yup.string().default('Не указан'),
   city: yup.string().default(''),

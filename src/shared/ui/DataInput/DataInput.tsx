@@ -17,7 +17,7 @@ interface DataInputProps {
   onBlur?: () => void // ДОБАВЛЕНО: Явно типизируем onBlur от react-hook-form
   minDate?: Date | string | number
   maxDate?: Date | string | number
-  [key: string]: any 
+  [key: string]: any
 }
 
 export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
@@ -41,7 +41,7 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
 
     // Сохраняем функции в ref, чтобы календарь их видел, но не перерисовывался
     const onChangeRef = useRef(onChange)
-    const onBlurRef = useRef(onBlur) 
+    const onBlurRef = useRef(onBlur)
 
     useEffect(() => {
       onChangeRef.current = onChange
@@ -89,7 +89,7 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
       return () => {
         dp.destroy()
       }
-    }, [minDateMs, maxDateMs]) 
+    }, [minDateMs, maxDateMs])
 
     const icon = <img src={calendarIcon} alt="Календарь" width="20" height="20" />
 
@@ -104,8 +104,8 @@ export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(
           isError={!!error}
           warningMessage={error}
           rightSlot={icon}
-          readOnly 
-          {...props} 
+          readOnly
+          {...props}
         />
       </div>
     )

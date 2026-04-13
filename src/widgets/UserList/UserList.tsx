@@ -57,7 +57,7 @@ export const UserList = ({
   //подключаем сортировку по новизне для отфильтрованных пользователей
   const filteredPlusNewUsers = useAppSelector((state) => selectNewUsers(state, filteredUsers))
   const displayedUsers = isNewFirst ? filteredUsers : filteredPlusNewUsers
-  // 
+  //
   const favoriteSkillIds = useAppSelector((state) => state.user.profileUser?.favoritesSkills || [])
   // Для стабильности работы
   if (allSubcategories.length === 0) return null
@@ -212,9 +212,7 @@ export const UserList = ({
   }
 
   const FavoritesLayout = () => {
-    const favoriteUsers = allUsers.filter((user) => 
-      favoriteSkillIds.includes(user.skillOfferedId)
-    )
+    const favoriteUsers = allUsers.filter((user) => favoriteSkillIds.includes(user.skillOfferedId))
     return (
       <div className={styles.container}>
         <ul className={styles.userList}>

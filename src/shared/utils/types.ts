@@ -13,7 +13,7 @@ export type TUser = {
   favoritesSkills?: number[]
   createdAt?: string
   updatedAt?: string
-  avatarUrl: string | File
+  avatarUrl: string 
 }
 
 //понадобится тому, кто будет делать компонент с формой регистрации(можете изменять под себя, если понадобится)
@@ -29,7 +29,7 @@ export type TRegisterData = {
   subcategoryId: string
 
   subcategoriesWanted: number[]
-  avatarUrl: string | File
+  avatarUrl: string 
 }
 
 //нужно тому, кто будет делать SkillCard
@@ -40,7 +40,7 @@ export type TSkill = {
   userId: number
   title: string
   description: string
-  imagesUrl: string[] | File[]
+  imagesUrl: string[] 
   updatedAt?: string
 }
 

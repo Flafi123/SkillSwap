@@ -55,7 +55,7 @@ const AuthStepThirdPage: React.FC = () => {
       categoryId: draftSkill.categoryId ? String(draftSkill.categoryId) : '',
       subcategoryId: draftSkill.subcategoryId ? String(draftSkill.subcategoryId) : '',
       description: draftSkill.description || '',
-      imagesUrl: (draftSkill.imagesUrl as File[]) || [],
+      imagesUrl: (draftSkill.imagesUrl as string[]) || [],
     },
   })
 
@@ -110,7 +110,7 @@ const AuthStepThirdPage: React.FC = () => {
               label="Категория навыка"
               placeholder={isLoading ? 'Загрузка...' : 'Выберите категорию'}
               options={categories.map((c) => c.title || '')}
-              value={currentCategory?.title || ''} // Используем нашу готовую переменную!
+              value={currentCategory?.title || ''}
               onChange={(selectedTitle) => {
                 const cat = categories.find((c) => c.title === selectedTitle)
                 if (cat) {
@@ -132,7 +132,7 @@ const AuthStepThirdPage: React.FC = () => {
               label="Подкатегория навыка"
               placeholder={isLoading ? 'Загрузка...' : 'Выберите подкатегорию'}
               options={filteredSubcategories.map((s) => s.title || '')}
-              value={currentSubcategory?.title || ''} // Используем нашу готовую переменную!
+              value={currentSubcategory?.title || ''}
               onChange={(selectedTitle) => {
                 const sub = filteredSubcategories.find((s) => s.title === selectedTitle)
                 if (sub) {
@@ -166,10 +166,10 @@ const AuthStepThirdPage: React.FC = () => {
             {/* Загрузка изображений */}
             <div>
               <PhotoInput
-                value={watch('imagesUrl') as File[]}
-                onChange={(files) => {
-                  setValue('imagesUrl', files, { shouldValidate: true })
-                  dispatch(updateDraftSkill({ imagesUrl: files }))
+                value={watch('imagesUrl') as string[]}
+                onChange={(filesBase64) => {
+                  setValue('imagesUrl', filesBase64, { shouldValidate: true })
+                  dispatch(updateDraftSkill({ imagesUrl: filesBase64 }))
                 }}
                 multiple={true}
                 accept="image/png, image/jpeg, image/webp"
@@ -230,6 +230,7 @@ const AuthStepThirdPage: React.FC = () => {
       </div>
     </section>
   )
+
 }
 
 export default AuthStepThirdPage

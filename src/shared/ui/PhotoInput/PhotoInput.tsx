@@ -3,9 +3,9 @@ import styles from './PhotoInput.module.css'
 import addIcon from '../../assets/icons/gallery-add.png'
 
 export type PhotoInputProps = {
-  value: File[]
-  onChange: (files: File[]) => void
-  onDelete?: (file: File) => void
+  value: string[] // Теперь это массив строк (base64)
+  onChange: (files: string[]) => void
+  onDelete?: (file: string) => void
   multiple?: boolean
   accept?: string
 }
@@ -18,10 +18,25 @@ export const PhotoInput: React.FC<PhotoInputProps> = ({
   accept,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
-    const existing = new Set(value.map((f) => `${f.name}_${f.size}`))
-    const uniqueFiles = files.filter((f) => !existing.has(`${f.name}_${f.size}`))
+
+    // Вспомогательная функция для конвертации в base64 через Promise
+    const fileToBase64 = (file: File): Promise<string> => {
+      return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onloadend = () => resolve(reader.result as string)
+        reader.readAsDataURL(file)
+      })
+    }
+
+    // Дожидаемся конвертации всех выбранных файлов
+    const base64Files = await Promise.all(files.map(fileToBase64))
+
+    // Убираем дубликаты
+    const existing = new Set(value)
+    const uniqueFiles = base64Files.filter((b64) => !existing.has(b64))
     const newFiles = [...value, ...uniqueFiles]
 
     onChange(newFiles)
@@ -31,10 +46,10 @@ export const PhotoInput: React.FC<PhotoInputProps> = ({
     }
   }
 
-  const handleDelete = (file: File) => {
-    const newFiles = value.filter((f) => !(f.name === file.name && f.size === file.size))
+  const handleDelete = (base64Str: string) => {
+    const newFiles = value.filter((f) => f !== base64Str)
     onChange(newFiles)
-    onDelete?.(file)
+    onDelete?.(base64Str)
   }
 
   return (
@@ -57,10 +72,12 @@ export const PhotoInput: React.FC<PhotoInputProps> = ({
 
       {value.length > 0 && (
         <ul className={styles.fileList}>
-          {value.map((file) => (
-            <li key={`${file.name}_${file.size}`} className={styles.fileItem}>
-              <span className={styles.fileName}>{file.name}</span>
-              <button type="button" className={styles.deleteBtn} onClick={() => handleDelete(file)}>
+          {value.map((b64, index) => (
+            <li key={index} className={styles.fileItem}>
+              {/* Показываем миниатюру, так как у строк base64 нет имени файла */}
+              <img src={b64} alt="Фото" style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px', marginRight: '8px' }} />
+              <span className={styles.fileName}>Изображение {index + 1}</span>
+              <button type="button" className={styles.deleteBtn} onClick={() => handleDelete(b64)}>
                 ✕
               </button>
             </li>

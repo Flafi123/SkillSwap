@@ -34,7 +34,7 @@ export const step3Schema = yup.object({
     .string()
     .required('Описание обязательно')
     .max(500, 'Описание не должно превышать 500 символов'),
-  imagesUrl: yup.array().of(yup.mixed<File>().required()).default([]),
+  imagesUrl: yup.array().of(yup.string().required()).default([]),
 })
 export const step2Schema = yup.object({
   name: yup.string().required('Имя обязательно').max(50, 'Имя не должно превышать 50 символов'),
@@ -43,5 +43,5 @@ export const step2Schema = yup.object({
   city: yup.string().default(''),
   categoryId: yup.string().default(''),
   subcategoryId: yup.string().default(''),
-  avatarUrl: yup.mixed<File | string>().nullable().required('Аватар обязателен'),
+  avatarUrl: yup.string().nullable().required('Аватар обязателен'),
 })

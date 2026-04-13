@@ -59,15 +59,17 @@ const AuthStepSecondPage: React.FC = () => {
       city: draftUser.city || '',
       categoryId: draftUser.categoryId || '',
       subcategoryId: draftUser.subcategoryId || '',
+      avatarUrl: draftUser.avatarUrl || undefined,
     },
   })
 
-  useEffect(() => {
-    if (draftUser.avatarUrl) {
-      // Приводим тип к File | string, чтобы TypeScript не ругался
-      setValue('avatarUrl', draftUser.avatarUrl as File | string, { shouldValidate: true })
-    }
-  }, [draftUser.avatarUrl, setValue])
+ 
+
+  const currentCatId = watch('categoryId')
+    const filteredSubcategories = currentCatId
+      ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
+      : subcategories
+
 
   const currentCatId = watch('categoryId')
   const filteredSubcategories = currentCatId
@@ -85,28 +87,21 @@ const AuthStepSecondPage: React.FC = () => {
       <div className={authStyles.cards}>
         <div className={`${authStyles.card} ${styles.formCard}`}>
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
-            <div className={styles.avatarContainer}>
+          <div className={styles.avatarContainer}>
               <Controller
                 name="avatarUrl"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <div>
-                    <AvatarInput
-                      value={field.value}
-                      onChange={(file) => {
-                        field.onChange(file)
-                        dispatch(updateDraftUser({ avatarUrl: file }))
-                      }}
+                    <AvatarInput 
+                      value={field.value} 
+                      onChange={(base64) => {
+                        field.onChange(base64) 
+                        dispatch(updateDraftUser({ avatarUrl: base64 })) // Идеально чисто
+                      }} 
                     />
                     {error && (
-                      <span
-                        style={{
-                          color: '#bf3920',
-                          fontSize: '12px',
-                          display: 'block',
-                          textAlign: 'center',
-                        }}
-                      >
+                      <span style={{ color: '#bf3920', fontSize: '12px', display: 'block', textAlign: 'center', marginTop: '4px' }}>
                         {error.message}
                       </span>
                     )}
@@ -189,7 +184,6 @@ const AuthStepSecondPage: React.FC = () => {
                     value={field.value}
                     onChange={(val) => {
                       const valueStr = Array.isArray(val) ? val[0] : val
-                      // SelectSearch теперь отдает только валидные значения, сохраняем смело
                       field.onChange(valueStr)
                       dispatch(updateDraftUser({ city: valueStr }))
                     }}

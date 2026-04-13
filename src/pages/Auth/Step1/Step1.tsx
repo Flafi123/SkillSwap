@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { updateDraftUser } from '../../../entities/user/model/userSlice'
-import { validationSchema } from '../../../shared/lib/validation'
+import { getStep1Schema  } from '../../../shared/lib/validation'
 import lightBulb from '../../../shared/assets/svg/light-bulb.svg'
 import googleIcon from '../../../shared/assets/svg/GoogleIcon.svg'
 import appleIcon from '../../../shared/assets/svg/AppleIcon.svg'
@@ -15,12 +15,18 @@ import styles from './Step1.module.css'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import type { TUser } from '../../../shared/utils/types'
 
-type Step1FormData = yup.InferType<typeof validationSchema>
+type Step1FormData = yup.InferType<ReturnType<typeof getStep1Schema>>
 const AuthStepFirstPage: React.FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { draftUser } = useAppSelector((state) => state.user)
+  const {allUsers, draftUser } = useAppSelector((state) => state.user)
+
+  const validationSchema = useMemo(() => {
+    const emails = (allUsers as TUser[]).map(u => u.email?.toLowerCase() || '')
+    return getStep1Schema(emails)
+  }, [allUsers])
 
   const {
     register,

@@ -207,6 +207,7 @@ const AuthStepThirdPage: React.FC = () => {
                 {isSubmitting ? 'Отправка...' : 'Продолжить'}
               </ButtonUI>
             </div>
+            <p>Размер ваших фото не должен превышать 3 МБ</p>
           </form>
         </div>
 

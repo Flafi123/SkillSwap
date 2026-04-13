@@ -59,3 +59,34 @@
   display: block;
   object-fit: contain;
 }
+
+.loginContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginText {
+  margin: 0;
+  color: #253017;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: default;
+}
+
+.loginButton {
+  background: transparent !important;
+  border: none;
+  color: #508826;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: none;
+  transition: opacity 0.2s;
+}
+
+.loginButton:hover {
+  opacity: 0.7;
+}

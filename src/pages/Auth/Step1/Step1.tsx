@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { updateDraftUser } from '../../../entities/user/model/userSlice'
-import { getStep1Schema  } from '../../../shared/lib/validation'
+import { getStep1Schema } from '../../../shared/lib/validation'
 import lightBulb from '../../../shared/assets/svg/light-bulb.svg'
 import googleIcon from '../../../shared/assets/svg/GoogleIcon.svg'
 import appleIcon from '../../../shared/assets/svg/AppleIcon.svg'
@@ -21,10 +21,10 @@ type Step1FormData = yup.InferType<ReturnType<typeof getStep1Schema>>
 const AuthStepFirstPage: React.FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const {allUsers, draftUser } = useAppSelector((state) => state.user)
+  const { allUsers, draftUser } = useAppSelector((state) => state.user)
 
   const validationSchema = useMemo(() => {
-    const emails = (allUsers as TUser[]).map(u => u.email?.toLowerCase() || '')
+    const emails = (allUsers as TUser[]).map((u) => u.email?.toLowerCase() || '')
     return getStep1Schema(emails)
   }, [allUsers])
 
@@ -101,6 +101,16 @@ const AuthStepFirstPage: React.FC = () => {
             <ButtonUI type="submit" className={styles.submit} disabled={!isValid}>
               Далее
             </ButtonUI>
+            <div className={styles.loginContainer}>
+              <span className={styles.loginText}>Уже есть аккаунт?</span>
+              <ButtonUI
+                type="button"
+                className={styles.loginButton}
+                onClick={() => navigate('/login')}
+              >
+                Войти
+              </ButtonUI>
+            </div>
           </form>
         </div>
 

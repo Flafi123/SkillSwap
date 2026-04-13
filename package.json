@@ -13,7 +13,9 @@
     "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix && npm run format",
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage --passWithNoTests",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -56,6 +58,18 @@
     "ts-jest": "^29.4.6",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.2",
-    "vite": "^8.0.1"
+    "vite": "^8.0.1",
+    "storybook": "^10.3.5",
+    "@storybook/react-vite": "^10.3.5",
+    "@chromatic-com/storybook": "^5.1.2",
+    "@storybook/addon-vitest": "^10.3.5",
+    "@storybook/addon-a11y": "^10.3.5",
+    "@storybook/addon-docs": "^10.3.5",
+    "@storybook/addon-onboarding": "^10.3.5",
+    "eslint-plugin-storybook": "^10.3.5",
+    "vitest": "^4.1.4",
+    "playwright": "^1.59.1",
+    "@vitest/browser-playwright": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.4"
   }
 }

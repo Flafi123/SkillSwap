@@ -7,8 +7,9 @@ const FavoritesPage = lazy(() => import('../pages/Favorites'))
 const ProfilePage = lazy(() => import('../pages/Profile'))
 const SkillPage = lazy(() => import('../pages/Skill'))
 const AuthStepFirstPage = lazy(() => import('../pages/Auth/Step1/Step1'))
-const AuthStepSecondPage = lazy(() => import('../pages/Auth/Step2/Step2'))
-const AuthStepThirdPage = lazy(() => import('../pages/Auth/Step3/Step3'))
+const AuthStepSecondPage = lazy(() => import('../pages/Auth/Step2'))
+const AuthStepThirdPage = lazy(() => import('../pages/Auth/Step3'))
+const LoginPage = lazy(() => import('../pages/Login/Login'))
 const NotFoundPage = lazy(() => import('../pages/Error/NotFoundPage'))
 const ServerErrorPage = lazy(() => import('../pages/Error/ServerErrorPage'))
 
@@ -46,6 +47,14 @@ export const appRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <SkillPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'login',
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LoginPage />
           </Suspense>
         ),
       },

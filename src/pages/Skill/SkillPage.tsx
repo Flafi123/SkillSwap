@@ -114,7 +114,34 @@ const SkillPage: React.FC = () => {
       </section>
     )
   }
-  
+
+  const isLikedFromStore =
+    typeof skill?.id === 'number' && !Number.isNaN(skill?.id)
+      ? profileUser?.favoritesSkills?.includes(skill?.id)
+      : false
+  const isLiked = uiLiked ?? isLikedFromStore
+
+  const localUser = localStorage.getItem('draftUser')
+  const localUserId = localUser ? JSON.parse(localUser).id : null
+  const isLocalProfileUser = profileUser?.id === localUserId
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+
+    if (!profileUser) return
+
+    const id = skill?.id
+
+    if (typeof id !== 'number' || Number.isNaN(id)) return
+
+    if (isLocalProfileUser) {
+      dispatch(toggleFavorite(id))
+      return
+    }
+
+    setUiLiked((prev) => (prev === null ? !isLiked : !prev))
+  }
+
   if (!skill || !user) {
     return (
       <section className={styles.page}>

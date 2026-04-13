@@ -151,9 +151,11 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
             </>
           ) : (
             <div className={styles.authActions}>
-              <Button type="button" variant="secondary" className={styles.authButton}>
-                Войти
-              </Button>
+              <Link to="/login">
+                <Button type="button" variant="secondary" className={styles.authButton}>
+                  Войти
+                </Button>
+              </Link>
               <Link to="/register/step-1" className={styles.authButton}>
                 <Button type="button" variant="primary" className={styles.authButton}>
                   Зарегистрироваться

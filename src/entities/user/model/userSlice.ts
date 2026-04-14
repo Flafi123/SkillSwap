@@ -39,7 +39,7 @@ export type userState = {
   errorFavorite: string | null
 }
 
-const initialState: userState = {
+export const initialState: userState = {
   allUsers: [],
   draftUser: {},
   profileUser: null,

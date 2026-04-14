@@ -14,8 +14,8 @@ export const completeRegistration = createAsyncThunk<
   const { draftUser } = getState().user
   const { draftSkill } = getState().skill
 
-  if (!draftUser) throw new Error('Нет данных пользователя')
-  if (!draftSkill) throw new Error('Нет данных навыка')
+  if (!draftUser || Object.keys(draftUser).length === 0) throw new Error('Нет данных пользователя')
+  if (!draftSkill || Object.keys(draftSkill).length === 0) throw new Error('Нет данных навыка')
 
   const user = await dispatch(registerUser(draftUser as TRegisterData)).unwrap()
 

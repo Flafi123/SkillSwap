@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useAppDispatch, useAppSelector } from '../../../app/store/store'
 import { updateDraftSkill } from '../../../entities/Skill/model/skillSlice'
 import { completeRegistration } from '../../../features/registration/registrationThunk'
+import { RegistrationPreviewModal } from '../../../widgets/Modals/RegistrationPreviewModal'
 
 // UI Компоненты
 import { Button as ButtonUI } from '../../../shared/ui/Button'
@@ -32,6 +33,7 @@ const AuthStepThirdPage: React.FC = () => {
 
   // Стейт для модалки
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isCompletingRegistration, setIsCompletingRegistration] = useState(false)
 
   // Данные из стора: вытаскиваем draftSkill, категории и статус загрузки
   const {
@@ -73,13 +75,20 @@ const AuthStepThirdPage: React.FC = () => {
   }, [filteredSubcategories, subcategoryIdValue])
 
   // Отправка формы
-  const onSubmit = async () => {
-    // Данные уже в стейте благодаря dispatch в onChange,
+  const onSubmit = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleCompleteRegistration = async () => {
     try {
-      await dispatch(completeRegistration()).unwrap()
-      setIsModalOpen(true)
+      setIsCompletingRegistration(true)
+      const { skill } = await dispatch(completeRegistration()).unwrap()
+      setIsModalOpen(false)
+      navigate(`/skill/${skill.id}`, { state: { openOfferCreatedModal: true } })
     } catch (error) {
       console.error('Ошибка при завершении регистрации:', error)
+    } finally {
+      setIsCompletingRegistration(false)
     }
   }
 
@@ -229,6 +238,17 @@ const AuthStepThirdPage: React.FC = () => {
           </div>
         </aside>
       </div>
+
+      <RegistrationPreviewModal
+        isOpen={isModalOpen}
+        isSubmitting={isCompletingRegistration}
+        onClose={() => setIsModalOpen(false)}
+        onComplete={handleCompleteRegistration}
+        title={watch('title') || 'Без названия'}
+        category={[currentCategory?.title, currentSubcategory?.title].filter(Boolean).join(' / ')}
+        description={watch('description') || 'Описание не заполнено'}
+        images={(watch('imagesUrl') as Array<File | string>) || []}
+      />
     </section>
   )
 

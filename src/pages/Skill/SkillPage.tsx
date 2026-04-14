@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/store/store'
 import type { TSubcategory } from '../../shared/utils/types'
 import { Button } from '../../shared/ui/Button'
@@ -37,8 +37,12 @@ const getSafeSubcategories = (
 
 const SkillPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
+  const location = useLocation()
   const navigate = useNavigate()
-  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false)
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(() => {
+    const locationState = location.state as { openOfferCreatedModal?: boolean } | null
+    return Boolean(locationState?.openOfferCreatedModal)
+  })
 
   const skillId = Number(id)
 

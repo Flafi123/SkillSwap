@@ -8,7 +8,7 @@ import { selectNewUsers } from '../../entities/user/model/selectors'
 import { selectRecommendedUsers } from '../../entities/user/model/selectors'
 import { selectFilteredUsers } from '../../entities/user/model/selectors'
 import { UserCard } from '../UserCard/UserCard'
-import { initialState } from '../../entities/user/model/filterSlice'
+import { isFiltersActive } from '../../entities/user/model/filterSlice'
 import { Button } from '../../shared/ui/Button'
 import type { TSkill } from '../../shared/utils/types'
 
@@ -65,15 +65,7 @@ export const UserList = ({
   const favoriteSkillIds = useAppSelector((state) => state.user.profileUser?.favoritesSkills || [])
   // Для стабильности работы
   if (allSubcategories.length === 0) return null
-  // проверка, отличается ли фильтр от начального
-  const filtersActive =
-    filters.skillsType !== initialState.skillsType ||
-    filters.gender !== initialState.gender ||
-    filters.selectedCategoryIds.length > 0 ||
-    filters.selectedSubcategoryIds.length > 0 ||
-    filters.city.length > 0 ||
-    filters.searchText.trim() !== ''
-  // || 1 === 1 //Убрать, это для теста
+  const filtersActive = isFiltersActive(filters)
 
   const HomeLayout = () => {
     // Сценарий 1: Пользователь что-то ищет или применил фильтры

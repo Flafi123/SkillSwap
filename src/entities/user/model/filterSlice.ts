@@ -18,6 +18,14 @@ export const initialState: filterState = {
   searchText: '',
 }
 
+export const isFiltersActive = (state: filterState): boolean =>
+  state.skillsType !== initialState.skillsType ||
+  state.gender !== initialState.gender ||
+  state.searchText.trim() !== '' ||
+  state.city.length > 0 ||
+  state.selectedCategoryIds.length > 0 ||
+  state.selectedSubcategoryIds.length > 0
+
 //в стор передаем каждый раз новый, обновленный массив выбранных данных
 // (кроме skillsTypeб gender, тут достаточно просто передавать новые данные, они будут заменяться - это радио кнопки)
 const filterSlice = createSlice({

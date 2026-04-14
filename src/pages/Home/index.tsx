@@ -1,12 +1,19 @@
+import type { FC } from 'react'
 import styles from './Home.module.css'
+import { AppliedFilterChips } from '../../widgets/AppliedFilterChips'
 import { UserList } from '../../widgets/UserList'
 import { Filters } from '../../widgets/Filters'
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
   return (
     <div className={styles.container}>
       <Filters />
-      <UserList />
+      <div className={styles.mainColumn}>
+        <AppliedFilterChips />
+        <div className={styles.userListSection}>
+          <UserList />
+        </div>
+      </div>
     </div>
   )
 }

@@ -62,3 +62,8 @@
   background-color: #fff;
   color: #253017;
 }
+
+.tertiary:disabled {
+  color: #9ca197 !important;
+  cursor: not-allowed !important;
+}

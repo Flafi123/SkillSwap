@@ -8,6 +8,13 @@
   background-color: #fff;
 }
 
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .heading {
   margin: 0;
   font-family: Jost, Roboto, Arial, sans-serif;
@@ -15,6 +22,58 @@
   font-size: 24px;
   line-height: 32px;
   color: #253017;
+}
+
+/* Как filterChip в UserList: подпись + крестик, без фона; акцент зелёный */
+.resetChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 6px 8px 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #508826;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.resetChip:hover:not(:disabled) {
+  color: #3d6b1d;
+}
+
+.resetChip:disabled {
+  color: #9ca197;
+  cursor: not-allowed;
+}
+
+.resetChipLabel {
+  min-width: 0;
+}
+
+.resetChipIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.resetChipIcon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.resetChip path {
+  fill: currentColor;
 }
 
 .group {

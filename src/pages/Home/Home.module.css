@@ -2,8 +2,17 @@
   margin: 32px 36px 32px 60px;
   display: flex;
   gap: 32px;
+  align-items: flex-start;
 }
 
-.stub {
-  width: 324px;
+.mainColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.userListSection {
+  min-width: 0;
 }

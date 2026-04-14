@@ -4,13 +4,16 @@ import { RadioInput } from '../../shared/ui/RadioInput'
 import { Checkbox } from '../../shared/ui/CheckboxInput'
 import { ArrowDown, ArrowUp } from '../../shared/assets/icons'
 import { useAppDispatch, useAppSelector } from '../../app/store/store'
+import { selectAppliedFilterChipCount } from '../../entities/user/model/selectors'
 import {
+  resetFilters,
   setCity,
   setGender,
   setSelectedCategories,
   setSelectedSubcategories,
   setSkillsType,
 } from '../../entities/user/model/filterSlice'
+import { CloseIcon } from '../../shared/assets/icons/CloseIcon'
 
 const DEFAULT_VISIBLE_CATEGORY_COUNT = 5
 const DEFAULT_VISIBLE_CITY_COUNT = 5
@@ -21,9 +24,9 @@ export const Filters = () => {
   const categories = useAppSelector((state) => state.skill.allCategories)
   const subcategories = useAppSelector((state) => state.skill.allSubcategories)
   const users = useAppSelector((state) => state.user.allUsers)
-  const { skillsType, gender, selectedCategoryIds, selectedSubcategoryIds, city } = useAppSelector(
-    (state) => state.filter,
-  )
+  const filterState = useAppSelector((state) => state.filter)
+  const { skillsType, gender, selectedCategoryIds, selectedSubcategoryIds, city } = filterState
+  const appliedCount = useAppSelector(selectAppliedFilterChipCount)
 
   const [showAllCategories, setShowAllCategories] = useState(false)
   const [showAllCities, setShowAllCities] = useState(false)
@@ -117,7 +120,24 @@ export const Filters = () => {
 
   return (
     <aside className={styles.root} aria-label="Фильтры">
-      <h2 className={styles.heading}>Фильтры</h2>
+      <div className={styles.headerRow}>
+        <h2 className={styles.heading}>
+          Фильтры{appliedCount > 0 ? ` (${appliedCount})` : ''}
+        </h2>
+        {appliedCount > 0 && (
+          <button
+            type="button"
+            className={styles.resetChip}
+            aria-label="Сбросить все фильтры"
+            onClick={() => dispatch(resetFilters())}
+          >
+            <span className={styles.resetChipLabel}>Сбросить</span>
+            <span className={styles.resetChipIcon}>
+              <CloseIcon />
+            </span>
+          </button>
+        )}
+      </div>
 
       <fieldset className={`${styles.group} ${styles.firstGroup}`}>
         <legend className={styles.visuallyHidden}>Тип навыков</legend>
@@ -179,7 +199,9 @@ export const Filters = () => {
                       aria-label={`Показать подкатегории: ${category.title}`}
                       onClick={() => toggleCategoryExpand(category.id)}
                     >
-                      <span className={styles.expandIconHidden}>
+                      <span
+                        className={styles.expandIcon}
+                      >
                         {isExpanded ? <ArrowUp /> : <ArrowDown />}
                       </span>
                     </button>

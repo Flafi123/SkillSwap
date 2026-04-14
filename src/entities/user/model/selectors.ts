@@ -1,10 +1,30 @@
 import { createSelector } from '@reduxjs/toolkit'
 import type { RootState } from '../../../app/store/store'
 import type { TUser } from '../../../shared/utils/types'
+import { initialState as filterInitialState } from './filterSlice'
 
 const selectUsers = (state: RootState) => state.user.allUsers
 const selectSkills = (state: RootState) => state.skill.allSkills
 const selectFilters = (state: RootState) => state.filter
+const selectAllSubcategories = (state: RootState) => state.skill.allSubcategories
+
+/** Число чипов в шапке «Фильтры (N)» — совпадает с чипами в UserList. */
+export const selectAppliedFilterChipCount = createSelector(
+  [selectFilters, selectAllSubcategories],
+  (filter, allSubcategories) => {
+    let n = 0
+    if (filter.skillsType !== filterInitialState.skillsType) n += 1
+    if (filter.gender !== filterInitialState.gender) n += 1
+    if (filter.searchText.trim() !== '') n += 1
+    n += filter.city.length
+    n += filter.selectedSubcategoryIds.length
+    const categoryIdsWithSubcategories = new Set(allSubcategories.map((s) => s.categoryId))
+    for (const categoryId of filter.selectedCategoryIds) {
+      if (!categoryIdsWithSubcategories.has(categoryId)) n += 1
+    }
+    return n
+  },
+)
 
 // Достаём отфильтрованных пользователей из селектора
 // UserList - достает всегда отфильтрованных

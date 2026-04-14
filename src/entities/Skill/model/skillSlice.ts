@@ -4,7 +4,7 @@ import { getCategoriesApi } from '../../../api/categoriesApi'
 import { getSubcategoriesApi } from '../../../api/subcategoriesApi'
 import type { TSkill, TCategory, TSubcategory } from '../../../shared/utils/types'
 
-export type userState = {
+export type skillState = {
   allSkills: TSkill[]
   //используется очень много где. Например для компонента с фильтрами на главной
   //для компонента-списка, все навыки

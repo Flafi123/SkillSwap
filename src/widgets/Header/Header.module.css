@@ -97,11 +97,45 @@
   line-height: 24px;
 }
 
-.profileLink {
+.profileBlock {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 4px 0 4px 8px;
+  cursor: pointer;
+}
+
+.profileActionsContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 260px;
+  gap: 24px;
+  position: absolute;
+  top: 70px;
+  right: 45px;
+  background-color: #fff;
+  box-shadow: 3px 3px 5px #706b6b;
+  border: 1px solid rgb(178 185 169);
+  border-radius: 12px;
+  padding: 40px;
+  z-index: 999;
+  cursor: default;
+}
+
+.profileAction {
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.profileActionButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: none;
 }
 
 .userName {

@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 import { ArrowDown, ArrowUp } from '../../shared/assets/icons'
 import likeIcon from '../../shared/assets/icons/like.png'
 import moonIcon from '../../shared/assets/icons/moon.png'
+import logoutIcon from '../../shared/assets/icons/logout.png'
 import notificationIcon from '../../shared/assets/icons/notification.png'
 import close from '../../shared/assets/icons/close.png'
 import { Button } from '../../shared/ui/Button'
@@ -14,6 +16,7 @@ import { SkillCatalogModal } from '../Modals/SkillCatalogModal/SkillCatalogModal
 import { useDismiss } from '../../shared/lib/useDismiss'
 import { PopupNotifications } from '../PopupNotifications'
 import { setSearchText } from '../../entities/user/model/filterSlice'
+import { logoutUser } from '../../entities/user/model/userSlice'
 import { useAppDispatch } from '../../app/store/store'
 import { useAppSelector } from '../../app/store/store'
 
@@ -32,6 +35,14 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
     enabled: isNotificationsOpen,
   })
 
+  const [isProfileActionsOpen, setIsProfileActionsOpen] = useState(false)
+  const profileActionsRef = useRef(null)
+  useDismiss({
+    ref: profileActionsRef,
+    onDismiss: () => setIsProfileActionsOpen(false),
+    enabled: isProfileActionsOpen,
+  })
+
   const [isCatalogOpen, setIsCatalogOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
@@ -40,9 +51,9 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
   const userAvatar = useMemo(() => {
     if (!profileUser?.avatarUrl) return '/images/users/default-avatar.png'
 
-    if (profileUser.avatarUrl instanceof File) {
-      return URL.createObjectURL(profileUser.avatarUrl)
-    }
+    // if (profileUser.avatarUrl instanceof File) {
+    //   return URL.createObjectURL(profileUser.avatarUrl)
+    // }
 
     return profileUser.avatarUrl
   }, [profileUser?.avatarUrl])
@@ -140,14 +151,35 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
                 onClick={() => navigate('/favorites')}
               />
 
-              <Link to="/profile" className={styles.profileLink}>
+              <div
+                className={styles.profileBlock}
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation()
+                  setIsProfileActionsOpen((prev) => !prev)
+                }}
+              >
                 <span className={styles.userName}>{userName}</span>
                 <img
                   src={userAvatar}
                   alt={`Аватар пользователя ${userName}`}
                   className={styles.avatar}
                 />
-              </Link>
+                {isProfileActionsOpen && (
+                  <div className={styles.profileActionsContainer} ref={profileActionsRef}>
+                    <Link to="/profile" className={styles.profileAction}>
+                      Личный кабинет
+                    </Link>
+                    <button
+                      type="button"
+                      className={clsx(styles.profileAction, styles.profileActionButton)}
+                      onClick={() => dispatch(logoutUser())}
+                    >
+                      <span>Выйти из аккаунта</span>
+                      <img src={logoutIcon} alt="иконка выхода из аккаунта" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </>
           ) : (
             <div className={styles.authActions}>

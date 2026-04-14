@@ -247,7 +247,7 @@ const AuthStepThirdPage: React.FC = () => {
         title={watch('title') || 'Без названия'}
         category={[currentCategory?.title, currentSubcategory?.title].filter(Boolean).join(' / ')}
         description={watch('description') || 'Описание не заполнено'}
-        images={(watch('imagesUrl') as Array<File | string>) || []}
+        images={(watch('imagesUrl') as Array<string>) || []}
       />
     </section>
   )

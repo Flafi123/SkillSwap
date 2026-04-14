@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react'
-import editRightIcon from '../../shared/assets/icons/edit-right.svg'
+import editRightIcon from '../../../shared/assets/icons/edit-right.svg'
 import { Button } from '../../../shared/ui/Button'
 import { Modal } from '../../../shared/ui/Modal'
-import { SkillCard } from '../../../widgets/SkillCard'
+import { SkillCard } from '../../SkillCard'
 import styles from './RegistrationPreviewModal.module.css'
 interface Props {
   isOpen: boolean

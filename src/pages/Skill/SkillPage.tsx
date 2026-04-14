@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/store/store'
 import type { TSubcategory } from '../../shared/utils/types'
@@ -43,7 +43,13 @@ const SkillPage: React.FC = () => {
     const locationState = location.state as { openOfferCreatedModal?: boolean } | null
     return Boolean(locationState?.openOfferCreatedModal)
   })
+  // Очисщаем состояние после прочтения
+  useEffect(() => {
+  if (isOfferModalOpen) {
+    window.history.replaceState({}, document.title);
+  }
 
+}, [isOfferModalOpen]);
   const skillId = Number(id)
 
   const skill = useAppSelector((state) =>

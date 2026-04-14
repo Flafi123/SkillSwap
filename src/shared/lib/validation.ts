@@ -54,8 +54,8 @@ export const step2Schema = yup.object({
   name: yup.string().required('Имя обязательно').max(50, 'Имя не должно превышать 50 символов'),
   birthDate: yup.string().required('Укажите дату рождения'),
   gender: yup.string().default('Не указан'),
-  city: yup.string().default(''),
-  categoryId: yup.string().default(''),
-  subcategoryId: yup.string().default(''),
+  city: yup.string().required("Город обязателен"),
+  categoryId: yup.string().required('Категория обязательна'),
+  subcategoryId: yup.string().required('Подкатегория обязательна'),
   avatarUrl: yup.string().nullable().required('Аватар обязателен'),
 })

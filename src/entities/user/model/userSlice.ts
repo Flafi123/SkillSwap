@@ -148,6 +148,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action: PayloadAction<TUser>) => {
         state.profileUser = action.payload
+        state.isLoadingRegister = false
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.errorRegister = action.error.message || 'Не удалось зарегистрировать пользователя'
@@ -159,6 +160,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<TUser>) => {
         state.profileUser = action.payload
+        state.isLoadingUpdate = false
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.errorUpdate = action.error.message || 'Не удалось обновить данные о пользователе'

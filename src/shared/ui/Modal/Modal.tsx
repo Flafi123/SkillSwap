@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import styles from './Modal.module.css'
 import clsx from 'clsx'
+import styles from './Modal.module.css'
+import { useModalPortalRoot } from './ModalPortalRootContext'
 
 interface ModalProps {
   isOpen: boolean
@@ -18,6 +19,8 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   className,
 }) => {
+  const portalRoot = useModalPortalRoot()
+  const portalContainer = portalRoot ?? document.body
   // Закрытие по Esc
   useEffect(() => {
     if (!isOpen) return
@@ -65,6 +68,6 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div className={clsx(styles.modal, isDropdown && styles.dropdownStyles)}>{children}</div>
     </div>,
-    document.body,
+    portalContainer,
   )
 }

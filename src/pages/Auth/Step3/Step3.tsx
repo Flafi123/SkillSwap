@@ -251,7 +251,6 @@ const AuthStepThirdPage: React.FC = () => {
       />
     </section>
   )
-
 }
 
 export default AuthStepThirdPage

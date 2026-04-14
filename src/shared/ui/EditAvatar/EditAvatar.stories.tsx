@@ -55,13 +55,7 @@ export const Default: Story = {
   render: (args) => {
     const [file, setFile] = useState<File | null>(null)
 
-    return (
-      <EditAvatar
-        {...args}
-        value={file}
-        onChange={(newFile) => setFile(newFile)}
-      />
-    )
+    return <EditAvatar {...args} value={file} onChange={(newFile) => setFile(newFile)} />
   },
 }
 
@@ -74,12 +68,6 @@ export const WithoutAvatar: Story = {
   render: (args) => {
     const [file, setFile] = useState<File | null>(null)
 
-    return (
-      <EditAvatar
-        {...args}
-        value={file}
-        onChange={(newFile) => setFile(newFile)}
-      />
-    )
+    return <EditAvatar {...args} value={file} onChange={(newFile) => setFile(newFile)} />
   },
 }

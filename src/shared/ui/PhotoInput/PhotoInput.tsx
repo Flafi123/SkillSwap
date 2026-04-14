@@ -75,7 +75,17 @@ export const PhotoInput: React.FC<PhotoInputProps> = ({
           {value.map((b64, index) => (
             <li key={index} className={styles.fileItem}>
               {/* Показываем миниатюру, так как у строк base64 нет имени файла */}
-              <img src={b64} alt="Фото" style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px', marginRight: '8px' }} />
+              <img
+                src={b64}
+                alt="Фото"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  objectFit: 'cover',
+                  borderRadius: '4px',
+                  marginRight: '8px',
+                }}
+              />
               <span className={styles.fileName}>Изображение {index + 1}</span>
               <button type="button" className={styles.deleteBtn} onClick={() => handleDelete(b64)}>
                 ✕

@@ -45,11 +45,10 @@ const SkillPage: React.FC = () => {
   })
   // Очисщаем состояние после прочтения
   useEffect(() => {
-  if (isOfferModalOpen) {
-    window.history.replaceState({}, document.title);
-  }
-
-}, [isOfferModalOpen]);
+    if (isOfferModalOpen) {
+      window.history.replaceState({}, document.title)
+    }
+  }, [isOfferModalOpen])
   const skillId = Number(id)
 
   const skill = useAppSelector((state) =>

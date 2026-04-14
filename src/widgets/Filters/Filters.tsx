@@ -179,9 +179,7 @@ export const Filters = () => {
                       aria-label={`Показать подкатегории: ${category.title}`}
                       onClick={() => toggleCategoryExpand(category.id)}
                     >
-                      <span
-                        className={styles.expandIconHidden}
-                      >
+                      <span className={styles.expandIconHidden}>
                         {isExpanded ? <ArrowUp /> : <ArrowDown />}
                       </span>
                     </button>

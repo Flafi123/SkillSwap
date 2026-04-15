@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { EditAvatar } from './EditAvatar'
 
@@ -53,7 +53,7 @@ export const Default: Story = {
     ariaLabel: 'Изменить фото профиля',
   },
   render: (args) => {
-    const [file, setFile] = useState<File | null>(null)
+    const [file, setFile] = useState<string | null>(null)
 
     return <EditAvatar {...args} value={file} onChange={(newFile) => setFile(newFile)} />
   },
@@ -66,7 +66,7 @@ export const WithoutAvatar: Story = {
     ariaLabel: 'Изменить фото профиля',
   },
   render: (args) => {
-    const [file, setFile] = useState<File | null>(null)
+    const [file, setFile] = useState<string | null>(null)
 
     return <EditAvatar {...args} value={file} onChange={(newFile) => setFile(newFile)} />
   },

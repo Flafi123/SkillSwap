@@ -15,7 +15,6 @@ const HomePage: FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(() => {
     const state = location.state as { openOfferCreatedModal?: boolean } | null
     return Boolean(state?.openOfferCreatedModal)

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useMemo, useRef } from 'react'
+import { useRef } from 'react'
 import type { ChangeEvent } from 'react'
 import avatarIcon from '../../assets/svg/avatar-icon.svg'
 import galleryAddIcon from '../../assets/icons/gallery-add.png'
@@ -28,7 +28,7 @@ export const EditAvatar = ({
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    
+
     if (!file) {
       onChange(null)
       return

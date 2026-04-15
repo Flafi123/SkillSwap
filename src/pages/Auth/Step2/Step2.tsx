@@ -46,7 +46,7 @@ const AuthStepSecondPage: React.FC = () => {
   const {
     handleSubmit,
     setValue,
-    watch,
+    getValues,
     control,
     formState: { errors, isValid },
   } = useForm<Step2FormData>({
@@ -65,7 +65,7 @@ const AuthStepSecondPage: React.FC = () => {
     },
   })
 
-  const currentCatId = watch('categoryId')
+  const currentCatId = getValues('categoryId')
   const filteredSubcategories = currentCatId
     ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
     : subcategories
@@ -140,8 +140,8 @@ const AuthStepSecondPage: React.FC = () => {
                 render={({ field }) => (
                   <DataInput
                     {...field}
-                    onChange={(e: any) => {
-                      const val = e?.target?.value || e
+                    onChange={(e: React.ChangeEvent<HTMLInputElement> | string) => {
+                      const val = typeof e === 'string' ? e : e.target.value
                       field.onChange(val)
                       dispatch(updateDraftUser({ birthDate: val }))
                     }}
@@ -216,7 +216,7 @@ const AuthStepSecondPage: React.FC = () => {
                         localStorage.setItem('register_category', newCatId)
 
                         // Проверяем подкатегорию: если не совпадает с новой категорией — стираем
-                        const currentSubId = watch('subcategoryId')
+                        const currentSubId = getValues('subcategoryId')
                         const currentSub = subcategories.find((s) => String(s.id) === currentSubId)
                         if (currentSub && String(currentSub.categoryId) !== newCatId) {
                           setValue('subcategoryId', '', { shouldValidate: true })
@@ -252,7 +252,7 @@ const AuthStepSecondPage: React.FC = () => {
 
                         // Если выбрали подкатегорию — автоматически проставляем её родительскую категорию
                         const parentCatId = String(sub.categoryId)
-                        if (watch('categoryId') !== parentCatId) {
+                        if (getValues('categoryId') !== parentCatId) {
                           setValue('categoryId', parentCatId, { shouldValidate: true })
                         }
                       }

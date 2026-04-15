@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
 
@@ -13,7 +13,7 @@ const LoginPage = lazy(() => import('../pages/Login/Login'))
 const NotFoundPage = lazy(() => import('../pages/Error/NotFoundPage'))
 const ServerErrorPage = lazy(() => import('../pages/Error/ServerErrorPage'))
 
-export const appRouter = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
@@ -106,3 +106,7 @@ export const appRouter = createBrowserRouter([
     ],
   },
 ])
+
+export const AppRouter = () => {
+  return <RouterProvider router={router} />
+}

@@ -9,22 +9,29 @@ interface SearchInputProps {
   isError?: boolean
   errorMessage?: string
   placeholder?: string
-  name?:string
+  name?: string
   autocomplete?: string
   showIcon?: boolean
   showClearButton?: boolean
 }
 
-export const SearchInput = ({ value, onChange, name, showIcon=true, showClearButton=true, ...props }: SearchInputProps) => {
+export const SearchInput = ({
+  value,
+  onChange,
+  name,
+  showIcon = true,
+  showClearButton = true,
+  ...props
+}: SearchInputProps) => {
   return (
     <TextInput
-    name={name}
+      name={name}
       {...props}
       value={value}
-      autoComplete='off'
+      autoComplete="off"
       onChange={onChange}
       type="text"
-      leftSlot={showIcon ? (<img src={searchIcon} alt="иконка поиска в виде лупы" />) : undefined}
+      leftSlot={showIcon ? <img src={searchIcon} alt="иконка поиска в виде лупы" /> : undefined}
       withClearButton={showClearButton}
       className={styles.searchInput}
     />

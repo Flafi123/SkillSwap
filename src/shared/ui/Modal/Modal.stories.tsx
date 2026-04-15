@@ -1,4 +1,4 @@
-import type { Decorator, Meta, StoryObj } from '@storybook/react'
+import type { Decorator, Meta, StoryObj } from '@storybook/react-vite'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { Button } from '../Button/Button'
 import { Modal } from './Modal'

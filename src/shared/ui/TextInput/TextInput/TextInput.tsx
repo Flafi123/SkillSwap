@@ -10,8 +10,7 @@ import styles from './TextInput.module.css'
 import crossIcon from '../../../assets/icons/cross.png'
 import { IconButton } from '../../IconButton'
 
-interface TextInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
   value?: string
   onChange?: (value: string) => void
   label?: string
@@ -74,9 +73,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               leftSlot && styles.shrinkInput,
             )}
             value={value}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              onChange?.(e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value)}
             {...props}
           />
 
@@ -97,12 +94,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 
         {/* ✅ warning / error */}
         {warningMessage && (
-          <span
-            className={clsx(
-              styles.warningMessage,
-              isError && styles.warningMessageFocus,
-            )}
-          >
+          <span className={clsx(styles.warningMessage, isError && styles.warningMessageFocus)}>
             {warningMessage}
           </span>
         )}

@@ -17,7 +17,7 @@ interface DataInputProps {
   onBlur?: () => void // ДОБАВЛЕНО: Явно типизируем onBlur от react-hook-form
   minDate?: Date | string | number
   maxDate?: Date | string | number
-  [key: string]: any
+  className?: string
 }
 
 export const DataInput = forwardRef<HTMLInputElement, DataInputProps>(

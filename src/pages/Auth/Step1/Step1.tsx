@@ -29,10 +29,9 @@ const AuthStepFirstPage: React.FC = () => {
   }, [allUsers])
 
   const {
-    register,
     handleSubmit,
     setValue,
-    watch,
+    getValues,
     formState: { errors, isValid },
   } = useForm<Step1FormData>({
     resolver: yupResolver(validationSchema),
@@ -70,12 +69,11 @@ const AuthStepFirstPage: React.FC = () => {
 
             <div className={styles.fields}>
               <TextInput
-                {...register('email')}
                 name="email"
                 type="email"
                 label="Email"
                 placeholder="Введите email"
-                value={watch('email')}
+                value={getValues('email')}
                 onChange={(value) => {
                   setValue('email', value, { shouldValidate: true })
                   dispatch(updateDraftUser({ email: value }))
@@ -87,7 +85,7 @@ const AuthStepFirstPage: React.FC = () => {
                 name="password"
                 label="Пароль"
                 placeholder="Придумайте надёжный пароль"
-                value={watch('password')}
+                value={getValues('password')}
                 onChange={(value) => {
                   setValue('password', value, { shouldValidate: true })
                   dispatch(updateDraftUser({ password: value }))

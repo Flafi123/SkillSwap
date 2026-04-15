@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { useAppDispatch, useAppSelector } from '../../app/store/store'
+import { useAppDispatch } from '../../app/store/store'
 import { loginUser } from '../../entities/user/model/userSlice'
 
 import { ButtonUI } from '../../shared/ui/Button'
@@ -26,10 +26,10 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate()
 
   const {
-    register,
     handleSubmit,
     setValue,
-    watch,
+    getValues,
+    register,
     formState: { errors, isValid },
   } = useForm<LoginFormData>({
     resolver: yupResolver(validationSchema),
@@ -76,16 +76,17 @@ const LoginPage: React.FC = () => {
                 type="email"
                 label="Email"
                 placeholder="Введите email"
-                value={watch('email')}
+                value={getValues('email') || ''}
                 onChange={(value) => setValue('email', value, { shouldValidate: true })}
                 isError={!!errors.email}
                 warningMessage={errors.email?.message}
               />
               <PasswordInput
+                {...register('password')}
                 name="password"
                 label="Пароль"
                 placeholder="Введите ваш пароль"
-                value={watch('password')}
+                value={getValues('password') || ''}
                 onChange={(value) => setValue('password', value, { shouldValidate: true })}
                 isError={!!errors.password}
                 warningMessage={

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { RouterProvider } from 'react-router-dom'
-import { appRouter } from './appRouter'
+import { AppRouter } from './appRouter'
 import './index.css'
 import '../shared/assets/fonts/fonts.css'
 import {
@@ -24,7 +23,7 @@ const App: React.FC = () => {
     init()
   }, [dispatch])
 
-  return <RouterProvider router={appRouter} />
+  return <AppRouter />
 }
 
 export default App

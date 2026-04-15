@@ -15,8 +15,8 @@ import {
 } from '../../entities/user/model/filterSlice'
 import { CloseIcon } from '../../shared/assets/icons/CloseIcon'
 
-const DEFAULT_VISIBLE_CATEGORY_COUNT = 5
-const DEFAULT_VISIBLE_CITY_COUNT = 5
+const DEFAULTVISIBLECATEGORYCOUNT = 5
+const DEFAULTVISIBLECITYCOUNT = 5
 
 export const Filters = () => {
   const dispatch = useAppDispatch()
@@ -31,20 +31,17 @@ export const Filters = () => {
   const [showAllCategories, setShowAllCategories] = useState(false)
   const [showAllCities, setShowAllCities] = useState(false)
   const [expandedCategoryId, setExpandedCategoryId] = useState<number | null>(null)
-  const [activeArrowCategoryId, setActiveArrowCategoryId] = useState<number | null>(null)
+  const [, setActiveArrowCategoryId] = useState<number | null>(null)
 
   const visibleCategories = showAllCategories
     ? categories
-    : categories.slice(0, DEFAULT_VISIBLE_CATEGORY_COUNT)
-  const firstCategoryWithSubcategoriesId = visibleCategories.find((category) =>
-    subcategories.some((subcategory) => subcategory.categoryId === category.id),
-  )?.id
-  const arrowCategoryId = activeArrowCategoryId ?? firstCategoryWithSubcategoriesId ?? null
+    : categories.slice(0, DEFAULTVISIBLECATEGORYCOUNT)
+
   const cities = useMemo(
     () => Array.from(new Set(users.map((user) => user.city))).filter(Boolean),
     [users],
   )
-  const visibleCities = showAllCities ? cities : cities.slice(0, DEFAULT_VISIBLE_CITY_COUNT)
+  const visibleCities = showAllCities ? cities : cities.slice(0, DEFAULTVISIBLECITYCOUNT)
 
   const handleCategoryToggle = (categoryId: number) => {
     const hasSubcategories = subcategories.some(
@@ -105,9 +102,7 @@ export const Filters = () => {
 
     dispatch(setSelectedCategories(newCategoryIds))
   }
-
   const toggleCategoryExpand = (categoryId: number) => {
-    setActiveArrowCategoryId(categoryId)
     setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId))
   }
 
@@ -178,7 +173,6 @@ export const Filters = () => {
               selectedSubcategoriesCount > 0 &&
               selectedSubcategoriesCount < categorySubcategories.length
             const isExpanded = expandedCategoryId === category.id
-            const shouldShowArrow = arrowCategoryId === category.id
 
             return (
               <li key={category.id} className={styles.listItem}>
@@ -278,7 +272,7 @@ export const Filters = () => {
           ))}
         </ul>
 
-        {cities.length > DEFAULT_VISIBLE_CITY_COUNT && (
+        {cities.length > DEFAULTVISIBLECITYCOUNT && (
           <button
             type="button"
             className={styles.toggleButton}

@@ -82,7 +82,7 @@ const AuthStepThirdPage: React.FC = () => {
   const handleCompleteRegistration = async () => {
     try {
       setIsCompletingRegistration(true)
-      const { skill } = await dispatch(completeRegistration()).unwrap()
+      await dispatch(completeRegistration()).unwrap()
       setIsModalOpen(false)
       navigate(`/`, { state: { openOfferCreatedModal: true } })
     } catch (error) {

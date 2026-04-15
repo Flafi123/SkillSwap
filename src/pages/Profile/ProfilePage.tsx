@@ -1,14 +1,15 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-
 import { useAppDispatch, useAppSelector } from '../../app/store/store'
 import { updateUser } from '../../entities/user/model/userSlice'
+import { getStep1Schema } from '../../shared/lib/validation'
+import { ValidationError } from 'yup'
 
-import { SearchInput } from '../../shared/ui/TextInput/SearchInput/SearchInput'
+import { SelectSearch } from '../../shared/ui/SelectSearch/SelectSearch'
 import { TextAreaInput } from '../../shared/ui/TextInput/TextInput/TextAreaInput'
+import { DataInput } from '../../shared/ui/DataInput/DataInput'
 import { TextInput } from '../../shared/ui/TextInput/TextInput/TextInput'
 import { Select } from '../../shared/ui/Select/Select'
-import calendarIcon from '../../shared/assets/icons/calendarIcon.svg'
 import edit from '../../shared/assets/icons/edit.svg'
 import request from '../../shared/assets/svg/request.svg'
 import messageText from '../../shared/assets/svg/messageText.svg'
@@ -17,6 +18,8 @@ import idea from '../../shared/assets/svg/idea.svg'
 import userIcon from '../../shared/assets/svg/user.svg'
 
 import styles from './ProfilePage.module.css'
+import { Button } from '../../shared/ui/Button'
+import { EditAvatar } from '../../shared/ui/EditAvatar'
 
 const ProfilePage = () => {
   const navigate = useNavigate()
@@ -26,15 +29,18 @@ const ProfilePage = () => {
   const isLoading = useAppSelector((state) => state.user.isLoadingUpdate)
   const users = useAppSelector((state) => state.user.allUsers)
   const user = useAppSelector((state) => state.user.profileUser)
+  const [emailError, setEmailError] = useState<string | undefined>(undefined)
+
   const safe = (v: unknown) => (typeof v === 'string' ? v : '')
 
   const [formData, setFormData] = useState({
-    email: '',
-    name: '',
-    birthday: '',
-    gender: '',
-    city: '',
-    about: '',
+    email: safe(user?.email),
+    name: safe(user?.name),
+    birthday: safe(user?.birthDate),
+    gender: safe(user?.gender),
+    city: safe(user?.city),
+    about: safe(user?.about),
+    avatarUrl: safe(user?.avatarUrl),
   })
 
   // Для автокомплита города, searchInput и textInput не поддерживают список вариантов городов
@@ -43,27 +49,31 @@ const ProfilePage = () => {
     [users],
   )
 
-  void cities
+  const otherEmails = useMemo(() => {
+    if (!user) return []
+    return users
+      .map((u) => u.email?.toLowerCase() || '')
+      .filter((email) => email !== user?.email?.toLowerCase())
+  }, [users, user])
 
-  useEffect(() => {
-    if (!user) return
+  const validateEmail = async (value: string) => {
+    if (!value) {
+      setEmailError('Email обязателен')
+      return false
+    }
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFormData({
-      email: safe(user.email),
-      name: safe(user.name),
-      birthday: safe(user.birthDate),
-      gender: safe(user.gender),
-      city: safe(user.city),
-      about: safe(user.about),
-    })
-  }, [user])
-
-  if (!user) {
-    return <p>Пожалуйста, войдите в аккаунт</p>
+    try {
+      const schema = getStep1Schema(otherEmails)
+      await schema.validateAt('email', { email: value })
+      setEmailError(undefined)
+      return true
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        setEmailError(err.message)
+        return false
+      }
+    }
   }
-  const initialBirthday = safe(user.birthDate)
-
   // Требуется по тз но TextInput принимает onChange?: (value: string) => void
 
   const updateField = (field: keyof typeof formData) => (value: string) => {
@@ -71,6 +81,9 @@ const ProfilePage = () => {
       ...prev,
       [field]: value,
     }))
+    if (field === 'email') {
+      validateEmail(value)
+    }
   }
 
   /*  const handleChange = (
@@ -83,18 +96,30 @@ const ProfilePage = () => {
     }))
   }*/
 
-  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+  const isPristine =
+    formData.name === safe(user?.name) &&
+    formData.email === safe(user?.email) &&
+    formData.city === safe(user?.city) &&
+    formData.about === safe(user?.about) &&
+    formData.gender === safe(user?.gender) &&
+    formData.birthday === safe(user?.birthDate) &&
+    formData.avatarUrl === safe(user?.avatarUrl)
+
+  const isFormComplete =
+    formData.email.trim() !== '' &&
+    formData.name.trim() !== '' &&
+    formData.birthday.trim() !== '' &&
+    formData.gender !== '' &&
+    formData.city.trim() !== '' &&
+    formData.avatarUrl.trim() !== ''
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const isEmailValid = await validateEmail(formData.email)
+    if (!isEmailValid) return
+    if (!isFormComplete) return
     dispatch(updateUser(formData))
   }
-
-  const isPristine =
-    formData.name === safe(user.name) &&
-    formData.email === safe(user.email) &&
-    formData.city === safe(user.city) &&
-    formData.about === safe(user.about) &&
-    formData.gender === safe(user.gender) &&
-    formData.birthday === initialBirthday
 
   return (
     <div className={styles.page}>
@@ -111,9 +136,8 @@ const ProfilePage = () => {
           </li>
 
           <li
-            className={`${styles.navItem} ${styles.clickable} ${
-              pathname === '/favorites' ? styles.active : ''
-            }`}
+            className={`${styles.navItem} ${styles.clickable} ${pathname === '/favorites' ? styles.active : ''
+              }`}
             onClick={() => navigate('/favorites')}
           >
             <img src={like} alt="иконка избранного" />
@@ -126,9 +150,8 @@ const ProfilePage = () => {
           </li>
 
           <li
-            className={`${styles.navItem} ${styles.clickable} ${
-              pathname === '/profile' ? styles.active : ''
-            }`}
+            className={`${styles.navItem} ${styles.clickable} ${pathname === '/profile' ? styles.active : ''
+              }`}
             onClick={() => navigate('/profile')}
           >
             <img src={userIcon} alt="иконка пользователя" />
@@ -139,12 +162,14 @@ const ProfilePage = () => {
 
       {/* Main */}
       <section className={styles.content}>
-        <form className={styles.form} onSubmit={handleSave}>
+        <form className={styles.form} onSubmit={handleSave} key={user?.email || 'empty'}>
           <TextInput
             label="Почта"
             name="email"
             type="email"
             autoComplete="email"
+            isError={!!emailError}
+            warningMessage={emailError}
             value={formData.email}
             onChange={updateField('email')}
             rightSlot={<img src={edit} alt="редактировать" />}
@@ -159,18 +184,24 @@ const ProfilePage = () => {
             value={formData.name}
             onChange={updateField('name')}
             rightSlot={<img src={edit} alt="редактировать" />}
+            maxLength={50}
           />
 
           <div className={styles.row}>
             <div className={styles.field}>
-              <TextInput
+              <DataInput
                 label="Дата рождения"
-                name="birthday"
-                className={styles.selectInput}
+                placeholder="дд.мм.гггг"
                 value={formData.birthday}
-                onChange={updateField('birthday')}
-                placeholder="ДД.ММ.ГГГГ"
-                rightSlot={<img src={calendarIcon} alt="календарь" />}
+                // Адаптируем onChange под логику вашего компонента
+                onChange={(e: React.ChangeEvent<HTMLInputElement> | string) => {
+                  const val = typeof e === 'string' ? e : e.target.value
+                  updateField('birthday')(val)
+                }}
+                // Если нужно выводить ошибку пустой даты, можно добавить стейт для birthdayError
+                error={formData.birthday.trim() === '' ? 'Обязательное поле' : undefined}
+                minDate={new Date('1925-01-01')}
+                maxDate={new Date()}
               />
             </div>
 
@@ -186,14 +217,16 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <SearchInput
+          <SelectSearch
+            className={styles.cityInputOverride}
             label="Город"
-            name="city"
+            placeholder="Выберите город"
+            options={cities}
             value={formData.city}
-            showIcon={false}
-            showClearButton={false}
-            onChange={updateField('city')}
-            placeholder="Город"
+            onChange={(val) => {
+              const valueStr = Array.isArray(val) ? val[0] : val
+              updateField('city')(valueStr)
+            }}
           />
 
           <TextAreaInput
@@ -201,20 +234,30 @@ const ProfilePage = () => {
             name="about"
             value={formData.about}
             onChange={updateField('about')}
+            maxLength={500}
             placeholder="Расскажите о себе"
             rightSlot={<img src={edit} alt="редактировать" />}
           />
-          <button type="submit" className={styles.saveButton} disabled={isPristine || isLoading}>
+          <Button
+            type="submit"
+            variant="primary"
+            className={styles.saveButton}
+            disabled={isPristine || isLoading || !isFormComplete}
+          >
             {isLoading ? 'Сохраняем...' : 'Сохранить'}
-          </button>
+          </Button>
         </form>
-        {/* Правая колонка (заглушка) */}
         <aside className={styles.rightColumn}>
-          <p>Заглушка профиля</p>
+          <EditAvatar
+            value={formData.avatarUrl}
+            avatarUrl={user?.avatarUrl}
+            onChange={(base64) => updateField('avatarUrl')(base64 || '')}
+          />
         </aside>
       </section>
     </div>
   )
 }
+
 
 export default ProfilePage

@@ -12,6 +12,7 @@ interface TextAreaInputProps {
   className?: string
   rightSlot?: React.ReactNode
   name?: string
+  maxLength?: number
 }
 
 export const TextAreaInput = ({
@@ -24,6 +25,7 @@ export const TextAreaInput = ({
   className,
   rightSlot,
   name,
+  maxLength,
 }: TextAreaInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -50,6 +52,7 @@ export const TextAreaInput = ({
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
           ref={textareaRef}
+          maxLength={maxLength}
         />
 
         {rightSlot && <div className={styles.rightSlot}>{rightSlot}</div>}

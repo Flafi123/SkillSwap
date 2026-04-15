@@ -22,7 +22,7 @@ export type skillState = {
   errorUpdateSkill: string | null
 }
 
-export const initialState: userState = {
+export const initialState: skillState = {
   allSkills: [],
   allCategories: [],
   allSubcategories: [],

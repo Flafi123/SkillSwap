@@ -8,10 +8,13 @@ import { Filters } from '../../widgets/Filters'
 import { OfferCreatedModal } from '../../widgets/Modals/OfferCreatedModal'
 import { resetDraftSkill } from '../../entities/Skill/model/skillSlice'
 import { resetDraftUser } from '../../entities/user/model/userSlice'
+import { useAppDispatch } from '../../app/store/store'
 
 const HomePage: FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
 
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(() => {
     const state = location.state as { openOfferCreatedModal?: boolean } | null
@@ -20,8 +23,8 @@ const HomePage: FC = () => {
 
   const handleCloseModal = () => {
     setIsOfferModalOpen(false)
-    resetDraftSkill()
-    resetDraftUser()
+    dispatch(resetDraftSkill())
+    dispatch(resetDraftUser())
     localStorage.removeItem('register_category')
   }
 

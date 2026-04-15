@@ -14,6 +14,7 @@ export type skillState = {
   allSubcategories: TSubcategory[]
   draftSkill: Partial<TSkill>
   profileSkill: TSkill | null
+  isForSwap: number[] //массив id навыков
   isLoading: boolean
   isLoadingCreateSkill: boolean
   isLoadingUpdateSkill: boolean
@@ -28,6 +29,7 @@ export const initialState: skillState = {
   allSubcategories: [],
   draftSkill: {},
   profileSkill: null,
+  isForSwap: [],
   isLoading: false,
   isLoadingCreateSkill: false,
   isLoadingUpdateSkill: false,
@@ -90,6 +92,9 @@ const skillSlice = createSlice({
     //вызывается, когда регистрация закончена успешно и скилл создан и привязан успешно
     resetDraftSkill(state) {
       state.draftSkill = {}
+    },
+    addToSwap(state, action: PayloadAction<number>) {
+      state.isForSwap.push(action.payload)
     },
   },
   extraReducers: (builder) => {
@@ -157,5 +162,5 @@ const skillSlice = createSlice({
   },
 })
 
-export const { updateDraftSkill, resetDraftSkill } = skillSlice.actions
+export const { updateDraftSkill, resetDraftSkill, addToSwap } = skillSlice.actions
 export default skillSlice.reducer

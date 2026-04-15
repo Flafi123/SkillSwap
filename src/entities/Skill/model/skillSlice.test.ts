@@ -8,6 +8,7 @@ import skillSlice, {
   updateSkill,
   updateDraftSkill,
   resetDraftSkill,
+  addToSwap,
   type skillState,
 } from './skillSlice'
 import type { TCategory, TSkill, TSubcategory } from '../../../shared/utils/types'
@@ -19,6 +20,7 @@ describe('Проверяем работу skillSlice', () => {
     allSubcategories: [],
     draftSkill: {},
     profileSkill: null,
+    isForSwap: [],
     isLoading: false,
     isLoadingCreateSkill: false,
     isLoadingUpdateSkill: false,
@@ -298,6 +300,11 @@ describe('Проверяем работу skillSlice', () => {
     test('resetDraftUser очищает все данные', () => {
       const newState = skillSlice(initialStateForDrafts, resetDraftSkill())
       expect(newState).toEqual({ ...initialStateForDrafts, draftSkill: {} })
+    })
+
+    test('addToSwap добавляет id навыков в массив для обмена', () => {
+      const newState = skillSlice(initialStateForDrafts, addToSwap(testListSkills[0].id))
+      expect(newState.isForSwap).toEqual([17])
     })
   })
 })

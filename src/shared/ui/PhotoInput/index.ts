@@ -1,1 +1,0 @@
-export { PhotoInput } from './PhotoInput'

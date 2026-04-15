@@ -136,7 +136,7 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
             onFocus={() => setIsOpen(true)}
           />
 
-          <div className={styles.rightSlots}>
+          <div className={styles.rightSlots} onClick={toggleOpen} style={{ cursor: 'pointer' }}>
             {inputValue && (
               <button
                 type="button"
@@ -147,12 +147,7 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
                 <CloseIcon />
               </button>
             )}
-            {/* Клик по стрелочке теперь работает надежно */}
-            <div
-              className={clsx(styles.arrow, isOpen && styles.arrowOpen)}
-              onClick={toggleOpen}
-              style={{ cursor: 'pointer' }}
-            >
+            <div className={clsx(styles.arrow, isOpen && styles.arrowOpen)}>
               <ArrowDown />
             </div>
           </div>
@@ -187,3 +182,4 @@ export const SelectSearch: React.FC<SelectSearchProps> = ({
     </div>
   )
 }
+

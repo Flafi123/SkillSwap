@@ -1,8 +1,12 @@
 .mainContainer {
+  position: relative;
+  z-index: 1;
+  height: 76px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 436px;
+  width: 100%;
+  max-width: 436px;
   font-family: Roboto, sans-serif;
   box-sizing: border-box;
 }
@@ -12,10 +16,16 @@
   line-height: 24px;
   letter-spacing: 0.02em;
   color: #253017;
+  cursor: pointer;
 }
 
 .field {
   width: 100%;
+  position: absolute;
+  top: 28px;
+  left: 0;
+  transition: all 0.2s ease;
+  background: transparent;
 }
 
 .fieldOpen {
@@ -24,6 +34,7 @@
   background: #fff;
   padding: 0 0 16px;
   overflow: hidden;
+  z-index: 10;
 }
 
 .inputContainer {
@@ -76,6 +87,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  z-index: 2;
 }
 
 /* Стили для стрелочки */

@@ -6,8 +6,8 @@ import galleryAddIcon from '../../assets/icons/gallery-add.png'
 import styles from './EditAvatar.module.css'
 
 interface EditAvatarProps {
-  value: File | null
-  onChange: (file: File | null) => void
+  value: string | null
+  onChange: (base64: string | null) => void
   avatarUrl?: string | null
   alt?: string
   className?: string
@@ -24,27 +24,24 @@ export const EditAvatar = ({
 }: EditAvatarProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const preview = useMemo(() => {
-    if (value) {
-      return URL.createObjectURL(value)
-    }
+  const preview = value || avatarUrl
 
-    return avatarUrl
-  }, [avatarUrl, value])
-
-  useEffect(() => {
-    if (!value || !preview) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    
+    if (!file) {
+      onChange(null)
       return
     }
 
-    return () => {
-      URL.revokeObjectURL(preview)
+    // Перевод файла в base64
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const base64 = reader.result as string
+      onChange(base64)
     }
-  }, [preview, value])
+    reader.readAsDataURL(file) // Отдаем наружу готовую строку!
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null
-    onChange(file)
     e.target.value = ''
   }
 

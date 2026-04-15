@@ -1,11 +1,10 @@
-import React, { useMemo, useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import React, { useMemo, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/store/store'
 import type { TSubcategory } from '../../shared/utils/types'
 import { Button } from '../../shared/ui/Button'
 import { IconButton } from '../../shared/ui/IconButton'
 import { SkillCard } from '../../widgets/SkillCard'
-import { OfferCreatedModal } from '../../widgets/Modals/OfferCreatedModal'
 import { UserList } from '../../widgets/UserList/UserList'
 import { UserCard } from '../../widgets/UserCard'
 import styles from './Skill.module.css'
@@ -37,18 +36,8 @@ const getSafeSubcategories = (
 
 const SkillPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
-  const location = useLocation()
   const navigate = useNavigate()
-  const [isOfferModalOpen, setIsOfferModalOpen] = useState(() => {
-    const locationState = location.state as { openOfferCreatedModal?: boolean } | null
-    return Boolean(locationState?.openOfferCreatedModal)
-  })
-  // Очисщаем состояние после прочтения
-  useEffect(() => {
-    if (isOfferModalOpen) {
-      window.history.replaceState({}, document.title)
-    }
-  }, [isOfferModalOpen])
+
   const skillId = Number(id)
 
   const skill = useAppSelector((state) =>
@@ -146,8 +135,6 @@ const SkillPage: React.FC = () => {
       navigate('/login')
       return
     }
-
-    setIsOfferModalOpen(true)
   }
 
   return (
@@ -211,8 +198,6 @@ const SkillPage: React.FC = () => {
         currentCategoryId={skill.categoryId}
         currentUserId={skill.userId}
       />
-
-      <OfferCreatedModal isOpen={isOfferModalOpen} onClose={() => setIsOfferModalOpen(false)} />
     </section>
   )
 }

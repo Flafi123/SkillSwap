@@ -23,7 +23,7 @@ import { step3Schema } from '../../../shared/lib/validation'
 // Стили и картинки
 import authStyles from '../Auth.module.css'
 import styles from './Step3.module.css'
-import step3Illustration from '../../../shared/assets/svg/step3-illustration.svg' // Замени на правильный путь
+import step3Illustration from '../../../shared/assets/svg/step3-illustration.svg'
 
 type Step3FormData = yup.InferType<typeof step3Schema>
 
@@ -84,7 +84,7 @@ const AuthStepThirdPage: React.FC = () => {
       setIsCompletingRegistration(true)
       const { skill } = await dispatch(completeRegistration()).unwrap()
       setIsModalOpen(false)
-      navigate(`/skill/${skill.id}`, { state: { openOfferCreatedModal: true } })
+      navigate(`/`, { state: { openOfferCreatedModal: true } })
     } catch (error) {
       console.error('Ошибка при завершении регистрации:', error)
     } finally {

@@ -1,4 +1,4 @@
-import type { Config } from 'jest';
+import type { Config } from 'jest'
 
 const config: Config = {
   preset: 'ts-jest',
@@ -10,7 +10,7 @@ const config: Config = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
 
-//   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  //   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
 
   clearMocks: true,
 
@@ -23,6 +23,6 @@ const config: Config = {
     'src/app/store/**/*.{ts,tsx}',
   ],
   coverageDirectory: 'coverage',
-};
+}
 
-export default config;
+export default config

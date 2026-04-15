@@ -64,7 +64,9 @@ export const Open: Story = {
     children: (
       <div style={{ padding: '24px', maxWidth: 360 }}>
         <h2 style={{ marginTop: 0 }}>Заголовок</h2>
-        <p style={{ marginBottom: 0 }}>Содержимое модального окна. Клик по фону или Esc закрывает окно.</p>
+        <p style={{ marginBottom: 0 }}>
+          Содержимое модального окна. Клик по фону или Esc закрывает окно.
+        </p>
       </div>
     ),
   },

@@ -121,9 +121,7 @@ export const Filters = () => {
   return (
     <aside className={styles.root} aria-label="Фильтры">
       <div className={styles.headerRow}>
-        <h2 className={styles.heading}>
-          Фильтры{appliedCount > 0 ? ` (${appliedCount})` : ''}
-        </h2>
+        <h2 className={styles.heading}>Фильтры{appliedCount > 0 ? ` (${appliedCount})` : ''}</h2>
         {appliedCount > 0 && (
           <button
             type="button"
@@ -199,9 +197,7 @@ export const Filters = () => {
                       aria-label={`Показать подкатегории: ${category.title}`}
                       onClick={() => toggleCategoryExpand(category.id)}
                     >
-                      <span
-                        className={styles.expandIcon}
-                      >
+                      <span className={styles.expandIcon}>
                         {isExpanded ? <ArrowUp /> : <ArrowDown />}
                       </span>
                     </button>

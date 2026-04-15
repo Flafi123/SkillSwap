@@ -172,7 +172,10 @@ export const Header = ({ withFakeNotifications = false, variant = 'default' }: P
                     <button
                       type="button"
                       className={clsx(styles.profileAction, styles.profileActionButton)}
-                      onClick={() => dispatch(logoutUser())}
+                      onClick={() => {
+                        dispatch(logoutUser())
+                        navigate('/')
+                      }}
                     >
                       <span>Выйти из аккаунта</span>
                       <img src={logoutIcon} alt="иконка выхода из аккаунта" />

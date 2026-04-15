@@ -12,6 +12,7 @@ const AuthStepThirdPage = lazy(() => import('../pages/Auth/Step3/Step3'))
 const LoginPage = lazy(() => import('../pages/Login/Login'))
 const NotFoundPage = lazy(() => import('../pages/Error/NotFoundPage'))
 const ServerErrorPage = lazy(() => import('../pages/Error/ServerErrorPage'))
+const ProtectedRoute = lazy(() => import('../shared/lib/ProtectedRoute'))
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,9 @@ const router = createBrowserRouter([
         path: 'profile',
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <ProfilePage />
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
           </Suspense>
         ),
       },
@@ -38,7 +41,9 @@ const router = createBrowserRouter([
         path: 'favorites',
         element: (
           <Suspense fallback={<div>Loading...</div>}>
-            <FavoritesPage />
+            <ProtectedRoute>
+              <FavoritesPage />
+            </ProtectedRoute>
           </Suspense>
         ),
       },

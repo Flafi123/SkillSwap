@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../../shared/ui/Button'
 import { getAge } from '../../shared/lib/getAge'
 import type { TUser, TSubcategory, TSkill } from '../../shared/utils/types'
@@ -46,10 +46,13 @@ export const UserCard = ({
   const localUserId = localUser ? JSON.parse(localUser).id : null
 
   const isLocalProfileUser = profileUser?.id === localUserId
+  const navigate = useNavigate()
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    if (!profileUser) return //здесь потом можно добавить навигацию на логин
+    if (!profileUser) {
+      navigate('/login')
+    } //здесь потом можно добавить навигацию на логин
     if (isLocalProfileUser) {
       dispatch(toggleFavorite(user.skillOfferedId))
       return

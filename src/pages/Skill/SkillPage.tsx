@@ -84,7 +84,9 @@ const SkillPage: React.FC = () => {
   const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault()
 
-    if (!profileUser) return
+    if (!profileUser) {
+      navigate('/login')
+    }
 
     const id = skill?.id
 

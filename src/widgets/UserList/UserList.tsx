@@ -1,20 +1,20 @@
 import styles from './UserList.module.css'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import sorticon from '/src/shared/assets/icons/sort.png'
+import arrowright from '/src/shared/assets/icons/arrowright.png'
 import { useAppSelector } from '../../app/store/store'
-import { selectPopularUsers } from '../../entities/user/model/selectors'
-import { selectNewUsers } from '../../entities/user/model/selectors'
-import { selectRecommendedUsers } from '../../entities/user/model/selectors'
-import { selectFilteredUsers } from '../../entities/user/model/selectors'
+import {
+  selectPopularUsers,
+  selectNewUsers,
+  selectRecommendedUsers,
+  selectFilteredUsers,
+} from '../../entities/user/model/selectors'
 import { UserCard } from '../UserCard/UserCard'
 import { isFiltersActive } from '../../entities/user/model/filterSlice'
 import { Button } from '../../shared/ui/Button'
-import { ArrowDown } from '../../shared/assets/icons'
-import type { TSkill, TSubcategory, TUser } from '../../shared/utils/types'
+import type { TSkill, TUser, TSubcategory } from '../../shared/utils/types'
 
 const PAGE_SIZE = 20
-const PREVIEW_COUNT = 3
-
 const DEFAULT_SKILL: TSkill = {
   id: 0,
   categoryId: 0,
@@ -26,20 +26,22 @@ const DEFAULT_SKILL: TSkill = {
 }
 
 function useInfiniteVisibleCount(totalLength: number, resetKey: unknown) {
-  const [visibleCount, setVisibleCount] = useState(() =>
-    Math.min(PAGE_SIZE, Math.max(0, totalLength)),
-  )
+  const [data, setData] = useState({ count: PAGE_SIZE, key: resetKey })
 
-  useEffect(() => {
-    setVisibleCount(Math.min(PAGE_SIZE, Math.max(0, totalLength)))
-  }, [totalLength, resetKey])
+  // Если resetKey изменился, сбрасываем состояние прямо во время рендера (это паттерн React)
+  if (data.key !== resetKey) {
+    setData({
+      count: Math.min(PAGE_SIZE, Math.max(0, totalLength)),
+      key: resetKey,
+    })
+  }
 
   const loadMore = useCallback(() => {
-    setVisibleCount((v) => Math.min(v + PAGE_SIZE, totalLength))
+    setData((prev) => ({ ...prev, count: Math.min(prev.count + PAGE_SIZE, totalLength) }))
   }, [totalLength])
 
-  const hasMore = visibleCount < totalLength
-  return { visibleCount, loadMore, hasMore }
+  const hasMore = data.count < totalLength
+  return { visibleCount: data.count, loadMore, hasMore }
 }
 
 function InfiniteScrollSentinel({
@@ -51,7 +53,10 @@ function InfiniteScrollSentinel({
 }) {
   const ref = useRef<HTMLLIElement>(null)
   const onLoadMoreRef = useRef(onLoadMore)
-  onLoadMoreRef.current = onLoadMore
+
+  useEffect(() => {
+    onLoadMoreRef.current = onLoadMore
+  }, [onLoadMore])
 
   useEffect(() => {
     const el = ref.current
@@ -60,186 +65,95 @@ function InfiniteScrollSentinel({
       ([entry]) => {
         if (entry?.isIntersecting) onLoadMoreRef.current()
       },
-      { root: null, rootMargin: '240px', threshold: 0 },
+      { rootMargin: '300px' },
     )
     obs.observe(el)
     return () => obs.disconnect()
   }, [hasMore])
 
   if (!hasMore) return null
-  return <li ref={ref} className={styles.infiniteSentinel} aria-hidden />
+  return <li ref={ref} style={{ listStyle: 'none', height: '1px' }} aria-hidden />
 }
 
-function listFingerprint(users: TUser[]) {
-  if (users.length === 0) return '0'
-  const last = users.length - 1
-  return `${users.length}:${users[0]?.id ?? ''}:${users[last]?.id ?? ''}`
-}
-
-type CardGridProps = {
-  users: TUser[]
-  listClassName: string
-  resetKey: unknown
-  allSubcategories: TSubcategory[]
+interface SkillLayoutProps {
+  currentCategoryId?: number
+  currentUserId?: number
+  allUsers: TUser[]
   allSkills: TSkill[]
-  usePreview?: boolean
-}
-
-function UserCardGrid({
-  users,
-  listClassName,
-  resetKey,
-  allSubcategories,
-  allSkills,
-  usePreview = false,
-}: CardGridProps) {
-  const [isExpanded, setIsExpanded] = useState(!usePreview)
-
-  useEffect(() => {
-    setIsExpanded(!usePreview)
-  }, [resetKey, usePreview])
-
-  const { visibleCount, loadMore, hasMore } = useInfiniteVisibleCount(users.length, resetKey)
-  const slice = users.slice(0, isExpanded ? visibleCount : PREVIEW_COUNT)
-  const shouldShowPreviewButton = usePreview && !isExpanded && users.length > PREVIEW_COUNT
-
-  return (
-    <>
-      <ul className={listClassName}>
-        {slice.map((user) => {
-          const userSubs = allSubcategories.filter((sub) => user.subcategoriesWanted.includes(sub.id))
-          const userSkill = allSkills.find((skill) => skill.userId === user.id)
-          return (
-            <UserCard
-              key={user.id}
-              user={user}
-              subcategories={userSubs}
-              skill={userSkill || DEFAULT_SKILL}
-            />
-          )
-        })}
-        {isExpanded && <InfiniteScrollSentinel hasMore={hasMore} onLoadMore={loadMore} />}
-      </ul>
-      {shouldShowPreviewButton && (
-        <div className={styles.showAllContainer}>
-          <Button variant="tertiary" className={styles.showAllButton} onClick={() => setIsExpanded(true)}>
-            Смотреть все
-            <span className={styles.showAllIcon}>
-              <ArrowDown />
-            </span>
-          </Button>
-        </div>
-      )}
-    </>
-  )
-}
-
-type SkillPair = { user: TUser; userSkill?: TSkill }
-
-function SkillCardGrid({
-  pairs,
-  listClassName,
-  resetKey,
-  allSubcategories,
-  usePreview = false,
-}: {
-  pairs: SkillPair[]
-  listClassName: string
-  resetKey: unknown
   allSubcategories: TSubcategory[]
-  usePreview?: boolean
-}) {
-  const [isExpanded, setIsExpanded] = useState(!usePreview)
-
-  useEffect(() => {
-    setIsExpanded(!usePreview)
-  }, [resetKey, usePreview])
-
-  const { visibleCount, loadMore, hasMore } = useInfiniteVisibleCount(pairs.length, resetKey)
-  const slice = pairs.slice(0, isExpanded ? visibleCount : PREVIEW_COUNT)
-  const shouldShowPreviewButton = usePreview && !isExpanded && pairs.length > PREVIEW_COUNT
-
-  return (
-    <>
-      <ul className={listClassName}>
-        {slice.map(({ user, userSkill }) => {
-          const userSubs = allSubcategories.filter((sub) => user.subcategoriesWanted.includes(sub.id))
-          return (
-            <UserCard
-              key={user.id}
-              user={user}
-              subcategories={userSubs}
-              skill={userSkill || DEFAULT_SKILL}
-            />
-          )
-        })}
-        {isExpanded && <InfiniteScrollSentinel hasMore={hasMore} onLoadMore={loadMore} />}
-      </ul>
-      {shouldShowPreviewButton && (
-        <div className={styles.showAllContainer}>
-          <Button variant="tertiary" className={styles.showAllButton} onClick={() => setIsExpanded(true)}>
-            Смотреть все
-            <span className={styles.showAllIcon}>
-              <ArrowDown />
-            </span>
-          </Button>
-        </div>
-      )}
-    </>
-  )
 }
 
-function HomepageFilteredSection({
-  displayedUsers,
-  filteredUsersLength,
-  filteredScrollResetKey,
-  isNewFirst,
-  toggleSort,
-  allSubcategories,
+export const SkillLayout = ({
+  currentCategoryId,
+  currentUserId,
+  allUsers,
   allSkills,
-}: {
-  displayedUsers: TUser[]
-  filteredUsersLength: number
-  filteredScrollResetKey: string
-  isNewFirst: boolean
-  toggleSort: () => void
-  allSubcategories: TSubcategory[]
-  allSkills: TSkill[]
-}) {
-  const [isExpanded, setIsExpanded] = useState(false)
+  allSubcategories,
+}: SkillLayoutProps) => {
+  const [showAllSkillpage, setShowAllSkillpage] = useState(false)
 
-  useEffect(() => {
-    setIsExpanded(false)
-  }, [filteredScrollResetKey])
+  if (!currentCategoryId) return null
 
-  const { visibleCount, loadMore, hasMore } = useInfiniteVisibleCount(
-    displayedUsers.length,
-    filteredScrollResetKey,
+  const usersWithSkills = allUsers.map((user) => {
+    const userSkill = allSkills.find((skill) => skill.userId === user.id)
+    return { user, userSkill }
+  })
+
+  const similarUsers = usersWithSkills.filter(
+    ({ user, userSkill }) =>
+      userSkill?.categoryId === currentCategoryId && user.id !== currentUserId,
   )
-  const slice = displayedUsers.slice(0, isExpanded ? visibleCount : PREVIEW_COUNT)
-  const shouldShowPreviewButton = !isExpanded && displayedUsers.length > PREVIEW_COUNT
 
   return (
     <div className={styles.container}>
       <section className={styles.resultsHeader}>
-        <h2 className={styles.resultsTitle}>Подходящие предложения: {filteredUsersLength}</h2>
-        <div className={styles.resultsActions}>
-          {shouldShowPreviewButton && (
-            <Button variant="tertiary" className={styles.showAllButton} onClick={() => setIsExpanded(true)}>
-              Смотреть все
-              <span className={styles.showAllIcon}>
-                <ArrowDown />
-              </span>
-            </Button>
-          )}
-          <Button variant="tertiary" onClick={toggleSort}>
-            <img src={sorticon} alt="сортировка" className={styles.imgBtn} />
-            {isNewFirst ? 'Сначала новые' : 'По алфавиту'}
-          </Button>
-        </div>
+        <h2 className={styles.resultsTitle}>Похожие предложения</h2>
+        <Button variant="tertiary" onClick={() => setShowAllSkillpage(!showAllSkillpage)}>
+          Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
+        </Button>
       </section>
+      <ul className={styles.userListSkill}>
+        {(showAllSkillpage ? similarUsers : similarUsers.slice(0, 4)).map(({ user, userSkill }) => {
+          const userSubs = allSubcategories.filter((sub) =>
+            user.subcategoriesWanted.includes(sub.id),
+          )
+
+          return (
+            <UserCard
+              key={user.id}
+              user={user}
+              subcategories={userSubs}
+              skill={userSkill || DEFAULT_SKILL}
+            />
+          )
+        })}
+      </ul>
+    </div>
+  )
+}
+
+interface FavoritesLayoutProps {
+  allUsers: TUser[]
+  favoriteSkillIds: number[]
+  allSubcategories: TSubcategory[]
+  allSkills: TSkill[]
+}
+
+export const FavoritesLayout = ({
+  allUsers,
+  favoriteSkillIds,
+  allSubcategories,
+  allSkills,
+}: FavoritesLayoutProps) => {
+  const favoriteUsers = allUsers.filter((user) => favoriteSkillIds.includes(user.skillOfferedId))
+  const { visibleCount, loadMore, hasMore } = useInfiniteVisibleCount(
+    favoriteUsers.length,
+    'favorites',
+  )
+  return (
+    <div className={styles.container}>
       <ul className={styles.userList}>
-        {slice.map((user) => {
+        {favoriteUsers.slice(0, visibleCount).map((user) => {
           const userSubs = allSubcategories.filter((sub) =>
             user.subcategoriesWanted.includes(sub.id),
           )
@@ -253,72 +167,8 @@ function HomepageFilteredSection({
             />
           )
         })}
-        {isExpanded && <InfiniteScrollSentinel hasMore={hasMore} onLoadMore={loadMore} />}
+        <InfiniteScrollSentinel hasMore={hasMore} onLoadMore={loadMore} />
       </ul>
-    </div>
-  )
-}
-
-function HomepageDefaultSections({
-  usersPopular,
-  usersNew,
-  usersRecommended,
-  allSubcategories,
-  allSkills,
-}: {
-  usersPopular: TUser[]
-  usersNew: TUser[]
-  usersRecommended: TUser[]
-  allSubcategories: TSubcategory[]
-  allSkills: TSkill[]
-}) {
-  const popularKey = listFingerprint(usersPopular)
-  const newKey = listFingerprint(usersNew)
-  const recommendedKey = listFingerprint(usersRecommended)
-
-  return (
-    <div className={styles.container}>
-      <section className={styles.section}>
-        <section className={styles.resultsHeader}>
-          <h2 className={styles.resultsTitle}>Популярное</h2>
-        </section>
-        <UserCardGrid
-          users={usersPopular}
-          listClassName={styles.userList}
-          resetKey={popularKey}
-          allSubcategories={allSubcategories}
-          allSkills={allSkills}
-          usePreview
-        />
-      </section>
-
-      <section className={styles.section}>
-        <section className={styles.resultsHeader}>
-          <h2 className={styles.resultsTitle}>Новое</h2>
-        </section>
-        <UserCardGrid
-          users={usersNew}
-          listClassName={styles.userList}
-          resetKey={newKey}
-          allSubcategories={allSubcategories}
-          allSkills={allSkills}
-          usePreview
-        />
-      </section>
-
-      <section className={styles.section}>
-        <section className={styles.resultsHeader}>
-          <h2 className={styles.resultsTitle}>Рекомендуем</h2>
-        </section>
-        <UserCardGrid
-          users={usersRecommended}
-          listClassName={styles.userList}
-          resetKey={recommendedKey}
-          allSubcategories={allSubcategories}
-          allSkills={allSkills}
-          usePreview
-        />
-      </section>
     </div>
   )
 }
@@ -332,123 +182,200 @@ export const UserList = ({
   currentCategoryId?: number
   currentUserId?: number
 }) => {
+  // Состояния для отображения
+  const [showAllPopular, toggleShowAllPopular] = useState(false)
+  const [showAllNew, toggleShowAllNew] = useState(false)
+
+  // состояние сортировки
   const [isNewFirst, setIsNewFirst] = useState(true)
   const toggleSort = () => {
     setIsNewFirst(!isNewFirst)
+    // Здесь также можно вызвать функцию самой сортировки filteredUsers
   }
-
+  //вытаскиваем все фильтры
   const filters = useAppSelector((state) => state.filter)
+  //вытаскиваем всех пользователей
   const allUsers = useAppSelector((state) => state.user.allUsers)
+  //вытаскиваем пользователей, отфильтрованных по популярности
   const usersPopular = useAppSelector(selectPopularUsers)
+  //вытаскиваем всех пользователей, отфильтрованных по дате
   const usersNew = useAppSelector(selectNewUsers)
+  //вытаскиваем пользователей-список рекомендаций
   const usersRecommended = useAppSelector(selectRecommendedUsers)
+  //вытаскиваем все подкатегории
   const allSubcategories = useAppSelector((state) => state.skill.allSubcategories)
+  //вытаскиваем все скиллы
   const allSkills = useAppSelector((state) => state.skill.allSkills)
+  //вытаскиваем отфильтрованных пользователей или найденных по поиску
   const filteredUsers = useAppSelector(selectFilteredUsers)
+  //подключаем сортировку по новизне для отфильтрованных пользователей
   const filteredPlusNewUsers = useAppSelector((state) => selectNewUsers(state, filteredUsers))
   const displayedUsers = isNewFirst ? filteredUsers : filteredPlusNewUsers
+  //
   const favoriteSkillIds = useAppSelector((state) => state.user.profileUser?.favoritesSkills || [])
+  // Для стабильности работы
+  const filtersActive = isFiltersActive(filters)
 
-  const filteredScrollResetKey = useMemo(
-    () =>
-      [
-        filters.skillsType,
-        filters.gender,
-        [...filters.selectedCategoryIds].sort((a, b) => a - b).join(','),
-        [...filters.selectedSubcategoryIds].sort((a, b) => a - b).join(','),
-        [...filters.city].sort((a, b) => a.localeCompare(b)).join(','),
-        filters.searchText,
-        String(isNewFirst),
-      ].join('\u0001'),
-    [
-      filters.skillsType,
-      filters.gender,
-      filters.selectedCategoryIds,
-      filters.selectedSubcategoryIds,
-      filters.city,
-      filters.searchText,
-      isNewFirst,
-    ],
-  )
-
-  const filtersActive =
-    filters.skillsType !== initialState.skillsType ||
-    filters.gender !== initialState.gender ||
-    filters.selectedCategoryIds.length > 0 ||
-    filters.selectedSubcategoryIds.length > 0 ||
-    filters.city.length > 0 ||
-    filters.searchText.trim() !== ''
+  const {
+    visibleCount: fVis,
+    loadMore: fLoad,
+    hasMore: fHas,
+  } = useInfiniteVisibleCount(filteredUsers.length, filtersActive)
+  const {
+    visibleCount: pVis,
+    loadMore: pLoad,
+    hasMore: pHas,
+  } = useInfiniteVisibleCount(usersPopular.length, showAllPopular)
+  const {
+    visibleCount: nVis,
+    loadMore: nLoad,
+    hasMore: nHas,
+  } = useInfiniteVisibleCount(usersNew.length, showAllNew)
+  const {
+    visibleCount: rVis,
+    loadMore: rLoad,
+    hasMore: rHas,
+  } = useInfiniteVisibleCount(usersRecommended.length, 'recommended')
 
   if (allSubcategories.length === 0) return null
-
-  if (variant === 'homepage') {
-    if (filtersActive) {
-      return (
-        <HomepageFilteredSection
-          displayedUsers={displayedUsers}
-          filteredUsersLength={filteredUsers.length}
-          filteredScrollResetKey={filteredScrollResetKey}
-          isNewFirst={isNewFirst}
-          toggleSort={toggleSort}
-          allSubcategories={allSubcategories}
-          allSkills={allSkills}
-        />
-      )
-    }
+  // Сценарий 1: Пользователь что-то ищет или применил фильтры
+  if (variant === 'skillpage') {
     return (
-      <HomepageDefaultSections
-        usersPopular={usersPopular}
-        usersNew={usersNew}
-        usersRecommended={usersRecommended}
-        allSubcategories={allSubcategories}
+      <SkillLayout
+        allUsers={allUsers}
         allSkills={allSkills}
+        allSubcategories={allSubcategories}
+        currentCategoryId={currentCategoryId}
+        currentUserId={currentUserId}
       />
     )
   }
 
-  if (variant === 'skillpage') {
-    if (!currentCategoryId) return null
-    const usersWithSkills = allUsers.map((user) => {
-      const userSkill = allSkills.find((skill) => skill.userId === user.id)
-      return { user, userSkill }
-    })
-    const similarUsers = usersWithSkills.filter(
-      ({ user, userSkill }) =>
-        userSkill?.categoryId === currentCategoryId && user.id !== currentUserId,
+  if (variant === 'favoritpage') {
+    return (
+      <FavoritesLayout
+        allUsers={allUsers}
+        allSkills={allSkills}
+        allSubcategories={allSubcategories}
+        favoriteSkillIds={favoriteSkillIds}
+      />
     )
-    const skillResetKey = `${currentCategoryId}:${currentUserId ?? ''}:${listFingerprint(similarUsers.map((p) => p.user))}`
+  }
+
+  if (filtersActive) {
+    const slice = displayedUsers.slice(0, fVis)
 
     return (
       <div className={styles.container}>
         <section className={styles.resultsHeader}>
-          <h2 className={styles.resultsTitle}>Похожие предложения</h2>
+          <h2 className={styles.resultsTitle}>Подходящие предложения: {filteredUsers.length}</h2>
+          <Button variant="tertiary" onClick={toggleSort}>
+            <img src={sorticon} alt="сортировка" className={styles.imgBtn} />
+            {isNewFirst ? 'Сначала новые' : 'По алфавиту'}
+          </Button>
         </section>
-        <SkillCardGrid
-          pairs={similarUsers}
-          listClassName={styles.userListSkill}
-          resetKey={skillResetKey}
-          allSubcategories={allSubcategories}
-        />
+        <ul className={styles.userList}>
+          {slice.map((user) => {
+            const userSubs = allSubcategories.filter((sub) =>
+              user.subcategoriesWanted.includes(sub.id),
+            )
+            const userSkill = allSkills.find((skill) => skill.userId === user.id)
+            return (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={userSubs}
+                skill={userSkill || DEFAULT_SKILL}
+              />
+            )
+          })}
+          <InfiniteScrollSentinel hasMore={fHas} onLoadMore={fLoad} />
+        </ul>
       </div>
     )
   }
 
-  if (variant === 'favoritpage') {
-    const favoriteUsers = allUsers.filter((user) => favoriteSkillIds.includes(user.skillOfferedId))
-    const favKey = `${favoriteSkillIds.slice().sort((a, b) => a - b).join(',')}:${listFingerprint(favoriteUsers)}`
+  // Сценарий 2: Дефолтная главная страница (блоки по категориям)
+  return (
+    <div className={styles.container}>
+      <section className={styles.section}>
+        <section className={styles.resultsHeader}>
+          <h2 className={styles.resultsTitle}>Популярное</h2>
+          {!showAllPopular && (
+            <Button variant="tertiary" onClick={() => toggleShowAllPopular(!showAllPopular)}>
+              Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
+            </Button>
+          )}
+        </section>
+        <ul className={styles.userList}>
+          {(showAllPopular ? usersPopular.slice(0, pVis) : usersPopular.slice(0, 3)).map((user) => {
+            const userSubs = allSubcategories.filter((sub) =>
+              user.subcategoriesWanted.includes(sub.id),
+            )
+            const userSkill = allSkills.find((skill) => skill.userId === user.id)
+            return (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={userSubs}
+                skill={userSkill || DEFAULT_SKILL}
+              />
+            )
+          })}
+          {showAllPopular && <InfiniteScrollSentinel hasMore={pHas} onLoadMore={pLoad} />}
+        </ul>
+      </section>
 
-    return (
-      <div className={styles.container}>
-        <UserCardGrid
-          users={favoriteUsers}
-          listClassName={styles.userList}
-          resetKey={favKey}
-          allSubcategories={allSubcategories}
-          allSkills={allSkills}
-        />
-      </div>
-    )
-  }
+      <section className={styles.section}>
+        <section className={styles.resultsHeader}>
+          <h2 className={styles.resultsTitle}>Новое</h2>
+          {!showAllNew && (
+            <Button variant="tertiary" onClick={() => toggleShowAllNew(!showAllNew)}>
+              Смотреть все <img className={styles.imgBtn} src={arrowright} alt="стрелка" />
+            </Button>
+          )}
+        </section>
+        <ul className={styles.userList}>
+          {(showAllNew ? usersNew.slice(0, nVis) : usersNew.slice(0, 3)).map((user) => {
+            const userSubs = allSubcategories.filter((sub) =>
+              user.subcategoriesWanted.includes(sub.id),
+            )
+            const userSkill = allSkills.find((skill) => skill.userId === user.id)
+            return (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={userSubs}
+                skill={userSkill || DEFAULT_SKILL}
+              />
+            )
+          })}
+          {showAllNew && <InfiniteScrollSentinel hasMore={nHas} onLoadMore={nLoad} />}
+        </ul>
+      </section>
 
-  return null
+      <section className={styles.section}>
+        <section className={styles.resultsHeader}>
+          <h2 className={styles.resultsTitle}>Рекомендуем</h2>
+        </section>
+        <ul className={styles.userList}>
+          {usersRecommended.slice(0, rVis).map((user) => {
+            const userSubs = allSubcategories.filter((sub) =>
+              user.subcategoriesWanted.includes(sub.id),
+            )
+            const userSkill = allSkills.find((skill) => skill.userId === user.id)
+            return (
+              <UserCard
+                key={user.id}
+                user={user}
+                subcategories={userSubs}
+                skill={userSkill || DEFAULT_SKILL}
+              />
+            )
+          })}
+          <InfiniteScrollSentinel hasMore={rHas} onLoadMore={rLoad} />
+        </ul>
+      </section>
+    </div>
+  )
 }

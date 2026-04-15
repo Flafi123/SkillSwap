@@ -1,6 +1,7 @@
 .mainContainer {
   --select-border: #69735d;
   --select-border-focus: #508826;
+
   position: relative;
   z-index: 1;
   display: flex;

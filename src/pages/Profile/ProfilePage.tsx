@@ -136,8 +136,9 @@ const ProfilePage = () => {
           </li>
 
           <li
-            className={`${styles.navItem} ${styles.clickable} ${pathname === '/favorites' ? styles.active : ''
-              }`}
+            className={`${styles.navItem} ${styles.clickable} ${
+              pathname === '/favorites' ? styles.active : ''
+            }`}
             onClick={() => navigate('/favorites')}
           >
             <img src={like} alt="иконка избранного" />
@@ -150,8 +151,9 @@ const ProfilePage = () => {
           </li>
 
           <li
-            className={`${styles.navItem} ${styles.clickable} ${pathname === '/profile' ? styles.active : ''
-              }`}
+            className={`${styles.navItem} ${styles.clickable} ${
+              pathname === '/profile' ? styles.active : ''
+            }`}
             onClick={() => navigate('/profile')}
           >
             <img src={userIcon} alt="иконка пользователя" />
@@ -258,6 +260,5 @@ const ProfilePage = () => {
     </div>
   )
 }
-
 
 export default ProfilePage

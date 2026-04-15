@@ -11,6 +11,12 @@
   margin-bottom: 32px;
 }
 
+.resultsActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .resultsTitle {
   font-family: Jost, arial, sans-serif;
   font-weight: 500;
@@ -81,4 +87,38 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(300px, 1fr));
   gap: 24px;
+}
+
+.infiniteSentinel {
+  grid-column: 1 / -1;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.showAllContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.showAllButton {
+  gap: 4px;
+}
+
+.showAllIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #253017;
+}
+
+.showAllIcon svg {
+  width: 24px;
+  height: 24px;
 }

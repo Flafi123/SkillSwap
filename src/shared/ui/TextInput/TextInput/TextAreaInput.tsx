@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useId } from 'react'
 import styles from './TextInput.module.css'
 import clsx from 'clsx'
 
@@ -10,6 +10,8 @@ interface TextAreaInputProps {
   warningMessage?: string
   placeholder?: string
   className?: string
+  rightSlot?: React.ReactNode
+  name?: string
 }
 
 export const TextAreaInput = ({
@@ -20,6 +22,8 @@ export const TextAreaInput = ({
   warningMessage,
   placeholder,
   className,
+  rightSlot,
+  name,
 }: TextAreaInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -29,18 +33,26 @@ export const TextAreaInput = ({
       element.style.height = element.scrollHeight + 'px'
     }
   }, [value])
+  const generatedId = useId()
+  const textareaId = name || generatedId
   return (
-    <label className={styles.mainContainer}>
+    <label htmlFor={textareaId} className={styles.mainContainer}>
       {label && <span className={styles.label}>{label}</span>}
 
       <div className={styles.inputContainer}>
         <textarea
+          id={textareaId}
+          name={name || textareaId}
+          autoComplete={name}
+          spellCheck={false}
           className={clsx(styles.input, isError && styles.errorInput, styles.textarea, className)}
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
           ref={textareaRef}
         />
+
+        {rightSlot && <div className={styles.rightSlot}>{rightSlot}</div>}
       </div>
 
       {warningMessage && (

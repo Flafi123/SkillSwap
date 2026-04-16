@@ -40,8 +40,10 @@ export const UserCard = ({
   const [uiLiked, setUiLiked] = useState<boolean | null>(null)
   const dispatch = useAppDispatch()
   const profileUser = useAppSelector((state) => state.user.profileUser)
+  const profileSkill = useAppSelector((state) => state.skill.isForSwap)
   const isLikedFromStore = profileUser?.favoritesSkills?.includes(user.skillOfferedId)
   const isLiked = uiLiked ?? isLikedFromStore
+  const isForSwap = profileSkill?.includes(user.skillOfferedId);
   const localUser = localStorage.getItem('draftUser')
   const localUserId = localUser ? JSON.parse(localUser).id : null
 
@@ -134,8 +136,20 @@ export const UserCard = ({
       {variant === 'compact' && (
         <div className={styles.bottom}>
           <Link to={`/skill/${user.skillOfferedId}`}>
-            <Button variant="primary" className={styles.detailsButton}>
-              Подробнее
+            <Button
+              variant={isForSwap ? "secondary" : "primary"}
+              className={clsx(styles.detailsButton, {
+                [styles.activeSwap]: isForSwap
+              })}
+            >
+              {isForSwap ? (
+                <>
+                  <img src="/src/shared/assets/icons/time.png" alt="иконка обмена" className={styles.icon} />
+                  <span>Обмен предложен</span>
+                </>
+              ) : (
+                'Подробнее'
+              )}
             </Button>
           </Link>
         </div>

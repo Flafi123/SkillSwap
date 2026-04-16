@@ -47,6 +47,14 @@
 
 .exchangeButton {
   width: 100%;
+  gap: 8px;
+}
+
+.exchangeButton:disabled {
+  opacity: 1;
+  background-color: #ffffff; 
+  color: #253017 !important;
+  border: 1px solid #ABD27A !important;
 }
 
 .notFoundCard {
@@ -71,4 +79,13 @@
   font-size: 16px;
   line-height: 24px;
   color: #69735d;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.activeSwap {
+  border-color: #ABD27A;
 }

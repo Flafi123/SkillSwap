@@ -7,12 +7,15 @@ import { IconButton } from '../../shared/ui/IconButton'
 import { SkillCard } from '../../widgets/SkillCard'
 import { UserList } from '../../widgets/UserList/UserList'
 import { UserCard } from '../../widgets/UserCard'
+import { ExchangeOfferedModal } from '../../widgets/Modals/ExchangeOfferedModal'
 import styles from './Skill.module.css'
 // import likeOutlineIcon from '../../shared/assets/icons/like-outline.png'
 import shareIcon from '../../shared/assets/icons/share.png'
 import moreSquareIcon from '../../shared/assets/icons/more-square.png'
 import { useAppDispatch } from '../../app/store/store'
 import { toggleFavorite } from '../../entities/user/model/userSlice'
+import { addToSwap } from '../../entities/Skill/model/skillSlice'
+import clsx from 'clsx'
 
 const FALLBACK_IMAGE = '/images/skills/sk1-1.png'
 
@@ -51,6 +54,8 @@ const SkillPage: React.FC = () => {
   const allSubcategories = useAppSelector((state) => state.skill.allSubcategories)
   const allCategories = useAppSelector((state) => state.skill.allCategories)
   const profileUser = useAppSelector((state) => state.user.profileUser)
+  const profileSkill = useAppSelector((state) => state.skill.isForSwap)
+
 
   const userSubcategories = useMemo(
     () => getSafeSubcategories(user?.subcategoriesWanted, allSubcategories),
@@ -70,13 +75,18 @@ const SkillPage: React.FC = () => {
 
   const [uiLiked, setUiLiked] = useState<boolean | null>(null)
   const dispatch = useAppDispatch()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const isLikedFromStore =
     typeof skill?.id === 'number' && !Number.isNaN(skill?.id)
       ? profileUser?.favoritesSkills?.includes(skill?.id)
       : false
   const isLiked = uiLiked ?? isLikedFromStore
-
+  const isForSwapFromStore =
+    typeof skill?.id === 'number'
+      ? profileSkill?.includes(skill.id) 
+      : false
+  const isForSwap = isForSwapFromStore
   const localUser = localStorage.getItem('draftUser')
   const localUserId = localUser ? JSON.parse(localUser).id : null
   const isLocalProfileUser = profileUser?.id === localUserId
@@ -137,6 +147,11 @@ const SkillPage: React.FC = () => {
       navigate('/login')
       return
     }
+    const id = skill?.id
+    if (typeof id !== 'number') return
+
+    dispatch(addToSwap(id))
+    setIsModalOpen(true)
   }
 
   return (
@@ -188,8 +203,26 @@ const SkillPage: React.FC = () => {
             description={skill.description}
             images={skill.imagesUrl.length > 0 ? skill.imagesUrl : [FALLBACK_IMAGE]}
           >
-            <Button className={styles.exchangeButton} onClick={handleOfferClick}>
+            {/* <Button className={styles.exchangeButton} onClick={handleOfferClick} disabled={isForSwap} >
               Предложить обмен
+            </Button> */}
+            <Button
+              variant={isForSwap ? "secondary" : "primary"}
+              // disabled={isForSwap}
+              onClick={handleOfferClick}
+              className={clsx(styles.exchangeButton, {
+                [styles.activeSwap]: isForSwap
+              })}
+              disabled={isForSwap}
+            >
+              {isForSwap ? (
+                <>
+                  <img src="/src/shared/assets/icons/time.png" alt="иконка обмена" className={styles.icon}/>
+                  <span>Обмен предложен</span>
+                </>
+              ) : (
+                'Предложить обмен'
+              )}
             </Button>
           </SkillCard>
         </div>
@@ -200,6 +233,7 @@ const SkillPage: React.FC = () => {
         currentCategoryId={skill.categoryId}
         currentUserId={skill.userId}
       />
+      <ExchangeOfferedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   )
 }

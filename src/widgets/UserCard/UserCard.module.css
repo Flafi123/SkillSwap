@@ -110,32 +110,14 @@
 
 .detailsButton {
   width: 100%;
+  gap: 8px
 }
 
-/* .business {
-  background: #EEE7F7;
+.icon {
+  width: 20px;
+  height: 20px;
 }
 
-.art {
-  background: #F7E7F2;
+.activeSwap {
+  border-color: #ABD27A;
 }
-
-.languages {
-  background: #EBE5C5;
-}
-
-.education {
-  background: #E7F2F6;
-}
-
-.home {
-  background: #F7EBE5;
-}
-
-.lifestyle {
-  background: #E9F7E7;
-}
-
-.default {
-  background: #808080;
-} */

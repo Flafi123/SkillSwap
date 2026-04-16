@@ -38,6 +38,13 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'error',
     },
   },
+  {
+    files: ['**/*.stories.{ts,tsx}'],
+    rules: {
+      // Отключаем проверку setState внутри useEffect для сторибука
+      'react-hooks/set-state-in-effect': 'off',
+    },
+  },
   eslintPluginPrettierRecommended,
   eslintConfigPrettier,
   storybook.configs['flat/recommended'],

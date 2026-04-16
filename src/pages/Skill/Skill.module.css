@@ -52,9 +52,9 @@
 
 .exchangeButton:disabled {
   opacity: 1;
-  background-color: #ffffff; 
+  background-color: #fff;
   color: #253017 !important;
-  border: 1px solid #ABD27A !important;
+  border: 1px solid #abd27a !important;
 }
 
 .notFoundCard {
@@ -87,5 +87,5 @@
 }
 
 .activeSwap {
-  border-color: #ABD27A;
+  border-color: #abd27a;
 }

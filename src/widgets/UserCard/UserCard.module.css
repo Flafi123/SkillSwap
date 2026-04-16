@@ -110,7 +110,7 @@
 
 .detailsButton {
   width: 100%;
-  gap: 8px
+  gap: 8px;
 }
 
 .icon {
@@ -119,5 +119,5 @@
 }
 
 .activeSwap {
-  border-color: #ABD27A;
+  border-color: #abd27a;
 }

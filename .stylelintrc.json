@@ -10,6 +10,15 @@
       {
         "message": "Expected class selector to be camelCase"
       }
-    ]
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "global"
+        ]
+      }
+    ],
+    "keyframes-name-pattern": null
   }
 }

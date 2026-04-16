@@ -56,7 +56,6 @@ const SkillPage: React.FC = () => {
   const profileUser = useAppSelector((state) => state.user.profileUser)
   const profileSkill = useAppSelector((state) => state.skill.isForSwap)
 
-
   const userSubcategories = useMemo(
     () => getSafeSubcategories(user?.subcategoriesWanted, allSubcategories),
     [user?.subcategoriesWanted, allSubcategories],
@@ -82,10 +81,8 @@ const SkillPage: React.FC = () => {
       ? profileUser?.favoritesSkills?.includes(skill?.id)
       : false
   const isLiked = uiLiked ?? isLikedFromStore
-  const isForSwap = profileUser &&
-    typeof skill?.id === 'number'
-      ? profileSkill?.includes(skill.id) 
-      : false
+  const isForSwap =
+    profileUser && typeof skill?.id === 'number' ? profileSkill?.includes(skill.id) : false
   const localUser = localStorage.getItem('draftUser')
   const localUserId = localUser ? JSON.parse(localUser).id : null
   const isLocalProfileUser = profileUser?.id === localUserId
@@ -206,17 +203,21 @@ const SkillPage: React.FC = () => {
               Предложить обмен
             </Button> */}
             <Button
-              variant={isForSwap ? "secondary" : "primary"}
+              variant={isForSwap ? 'secondary' : 'primary'}
               // disabled={isForSwap}
               onClick={handleOfferClick}
               className={clsx(styles.exchangeButton, {
-                [styles.activeSwap]: isForSwap
+                [styles.activeSwap]: isForSwap,
               })}
               disabled={isForSwap}
             >
               {isForSwap ? (
                 <>
-                  <img src="/src/shared/assets/icons/time.png" alt="иконка обмена" className={styles.icon}/>
+                  <img
+                    src="/src/shared/assets/icons/time.png"
+                    alt="иконка обмена"
+                    className={styles.icon}
+                  />
                   <span>Обмен предложен</span>
                 </>
               ) : (

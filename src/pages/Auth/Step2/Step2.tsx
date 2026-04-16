@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -44,7 +44,6 @@ const AuthStepSecondPage: React.FC = () => {
 
   // Настройка формы
   const {
-    watch,
     handleSubmit,
     setValue,
     getValues,
@@ -66,7 +65,11 @@ const AuthStepSecondPage: React.FC = () => {
     },
   })
 
-  const currentCatId = watch('categoryId')
+  const currentCatId = useWatch({
+    control,
+    name: 'categoryId',
+  })
+
   const filteredSubcategories = currentCatId
     ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
     : subcategories

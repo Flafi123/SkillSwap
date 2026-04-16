@@ -82,11 +82,10 @@ const SkillPage: React.FC = () => {
       ? profileUser?.favoritesSkills?.includes(skill?.id)
       : false
   const isLiked = uiLiked ?? isLikedFromStore
-  const isForSwapFromStore =
+  const isForSwap = profileUser &&
     typeof skill?.id === 'number'
       ? profileSkill?.includes(skill.id) 
       : false
-  const isForSwap = isForSwapFromStore
   const localUser = localStorage.getItem('draftUser')
   const localUserId = localUser ? JSON.parse(localUser).id : null
   const isLocalProfileUser = profileUser?.id === localUserId

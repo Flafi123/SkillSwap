@@ -43,7 +43,7 @@ export const UserCard = ({
   const profileSkill = useAppSelector((state) => state.skill.isForSwap)
   const isLikedFromStore = profileUser?.favoritesSkills?.includes(user.skillOfferedId)
   const isLiked = uiLiked ?? isLikedFromStore
-  const isForSwap = profileSkill?.includes(user.skillOfferedId);
+  const isForSwap = profileUser ? profileSkill?.includes(user.skillOfferedId): false;
   const localUser = localStorage.getItem('draftUser')
   const localUserId = localUser ? JSON.parse(localUser).id : null
 

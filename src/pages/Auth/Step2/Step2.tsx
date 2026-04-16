@@ -44,6 +44,7 @@ const AuthStepSecondPage: React.FC = () => {
 
   // Настройка формы
   const {
+    watch,
     handleSubmit,
     setValue,
     getValues,
@@ -65,7 +66,7 @@ const AuthStepSecondPage: React.FC = () => {
     },
   })
 
-  const currentCatId = getValues('categoryId')
+  const currentCatId = watch('categoryId')
   const filteredSubcategories = currentCatId
     ? subcategories.filter((sub) => String(sub.categoryId) === String(currentCatId))
     : subcategories

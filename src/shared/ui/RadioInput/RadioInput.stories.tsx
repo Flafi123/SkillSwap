@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { RadioInput } from './RadioInput'
 
 const meta: Meta<typeof RadioInput> = {
@@ -47,6 +47,10 @@ type Story = StoryObj<typeof RadioInput>
 
 const RadioStory = (args: React.ComponentProps<typeof RadioInput>) => {
   const [checked, setChecked] = useState(args.checked)
+
+  useEffect(() => {
+    setChecked(args.checked)
+  }, [args.checked])
 
   return (
     <RadioInput

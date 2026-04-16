@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Checkbox } from './CheckboxInput'
 
 const meta: Meta<typeof Checkbox> = {
@@ -52,6 +52,10 @@ type Story = StoryObj<typeof Checkbox>
 
 const CheckboxStory = (args: React.ComponentProps<typeof Checkbox>) => {
   const [checked, setChecked] = useState(args.checked)
+
+  useEffect(() => {
+    setChecked(args.checked)
+  }, [args.checked])
 
   return (
     <Checkbox

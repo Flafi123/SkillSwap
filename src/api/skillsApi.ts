@@ -10,7 +10,7 @@ type TSkillResponse = {
 //метод для получения всех навыков из json
 export const getSkillsApi = async (): Promise<TSkill[]> => {
   await delay()
-  const data = await request<TSkillResponse>('/db/skills.json')
+  const data = await request<TSkillResponse>('db/skills.json')
   return data.skills
 }
 

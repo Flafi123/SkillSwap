@@ -10,7 +10,7 @@ type TUserResponse = {
 //метод для получения всех пользователей из json
 export const getUsersApi = async (): Promise<TUser[]> => {
   await delay()
-  const data = await request<TUserResponse>('/db/users.json')
+  const data = await request<TUserResponse>('db/users.json')
   return data.users
 }
 

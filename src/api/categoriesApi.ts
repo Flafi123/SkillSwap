@@ -9,6 +9,6 @@ type TCategoryResponse = {
 //метод для получения всех категорий из json
 export const getCategoriesApi = async (): Promise<TCategory[]> => {
   await delay()
-  const data = await request<TCategoryResponse>('/db/categories.json')
+  const data = await request<TCategoryResponse>('db/categories.json')
   return data.categoryList
 }

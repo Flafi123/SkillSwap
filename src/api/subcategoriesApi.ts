@@ -9,7 +9,7 @@ type TSubcategoryResponse = {
 //метод для получения всех подкатегорий из json
 export const getSubcategoriesApi = async (): Promise<TSubcategory[]> => {
   await delay()
-  const data = await request<TSubcategoryResponse>('/db/subcategories.json')
+  const data = await request<TSubcategoryResponse>('db/subcategories.json')
   return data.subcategoryList
 }
 

@@ -9,6 +9,10 @@ import { IconButton } from '../../shared/ui/IconButton'
 import { useAppDispatch, useAppSelector } from '../../app/store/store'
 import { toggleFavorite } from '../../entities/user/model/userSlice'
 
+import heartFilledIcon from '../../shared/assets/icons/HeartFilled.png'
+import heartEmptyIcon from '../../shared/assets/icons/HeartIcon.png'
+import timeIcon from '../../shared/assets/icons/time.png'
+
 const categoryColors: Record<number, string> = {
   1: '#EEE7F7',
   2: '#F7E7F2',
@@ -70,11 +74,7 @@ export const UserCard = ({
           <IconButton
             icon={
               <img
-                src={
-                  isLiked
-                    ? 'src/shared/assets/icons/HeartFilled.png'
-                    : 'src/shared/assets/icons/HeartIcon.png'
-                }
+                src={isLiked ? heartFilledIcon : heartEmptyIcon}
                 alt="лайк"
               />
             }
@@ -82,7 +82,7 @@ export const UserCard = ({
             onClick={handleLikeClick}
           />
         )}
-        <img className={styles.avatar} src={user.avatarUrl} alt={user.name} />
+        <img className={styles.avatar} src={`${import.meta.env.BASE_URL}${user.avatarUrl}`} alt={user.name} />
         <div className={styles.userInfo}>
           <h3 className={styles.name}>{user.name}</h3>
           <p className={styles.meta}>
@@ -145,7 +145,7 @@ export const UserCard = ({
               {isForSwap ? (
                 <>
                   <img
-                    src="src/shared/assets/icons/time.png"
+                    src={timeIcon}
                     alt="иконка обмена"
                     className={styles.icon}
                   />

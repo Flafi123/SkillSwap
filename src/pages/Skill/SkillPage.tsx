@@ -9,15 +9,18 @@ import { UserList } from '../../widgets/UserList/UserList'
 import { UserCard } from '../../widgets/UserCard'
 import { ExchangeOfferedModal } from '../../widgets/Modals/ExchangeOfferedModal'
 import styles from './Skill.module.css'
-// import likeOutlineIcon from '../../shared/assets/icons/like-outline.png'
-import shareIcon from '../../shared/assets/icons/share.png'
-import moreSquareIcon from '../../shared/assets/icons/more-square.png'
 import { useAppDispatch } from '../../app/store/store'
 import { toggleFavorite } from '../../entities/user/model/userSlice'
 import { addToSwap } from '../../entities/Skill/model/skillSlice'
 import clsx from 'clsx'
 
-const FALLBACK_IMAGE = '/images/skills/sk1-1.png'
+import heartFilledIcon from '../../shared/assets/icons/HeartFilled.png'
+import heartEmptyIcon from '../../shared/assets/icons/HeartIcon.png'
+import shareIcon from '../../shared/assets/icons/share.png'
+import moreSquareIcon from '../../shared/assets/icons/more-square.png'
+import timeIcon from '../../shared/assets/icons/time.png'
+
+const FALLBACK_IMAGE = 'images/skills/sk1-1.png'
 
 const getSafeSubcategories = (
   wantedIds: number[] | undefined,
@@ -166,11 +169,7 @@ const SkillPage: React.FC = () => {
             <IconButton
               icon={
                 <img
-                  src={
-                    isLiked
-                      ? '/src/shared/assets/icons/HeartFilled.png'
-                      : '/src/shared/assets/icons/HeartIcon.png'
-                  }
+                  src={isLiked ? heartFilledIcon : heartEmptyIcon}
                   alt="избранное"
                 />
               }
@@ -214,7 +213,7 @@ const SkillPage: React.FC = () => {
               {isForSwap ? (
                 <>
                   <img
-                    src="/src/shared/assets/icons/time.png"
+                    src={timeIcon}
                     alt="иконка обмена"
                     className={styles.icon}
                   />

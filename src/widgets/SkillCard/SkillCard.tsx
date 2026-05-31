@@ -40,7 +40,11 @@ export const SkillCard: React.FC<SkillCardProps> = ({
           <Swiper onSwiper={(swiper) => (swiperRef.current = swiper)} className={styles.swiper}>
             {images.map((img, index) => (
               <SwiperSlide key={index}>
-                <img src={img} alt={title} className={styles.mainImage} />
+                <img
+                  src={`${import.meta.env.BASE_URL}${img}`}
+                  alt={title}
+                  className={styles.mainImage}
+                />{' '}
               </SwiperSlide>
             ))}
           </Swiper>

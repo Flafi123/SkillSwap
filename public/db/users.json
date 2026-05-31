@@ -14,7 +14,7 @@
       "favoritesSkills": [4, 7, 15, 34, 40],
       "createdAt": "2025-11-05T12:34:00Z",
       "updatedAt": "2025-12-05T12:34:00Z",
-      "avatarUrl": "/images/users/1.png"
+      "avatarUrl": "images/users/1.png"
     },
     {
       "id": 2,
@@ -30,7 +30,7 @@
       "favoritesSkills": [4, 7, 14, 25, 26],
       "createdAt": "2025-01-12T09:20:00Z",
       "updatedAt": "2025-02-05T12:34:00Z",
-      "avatarUrl": "/images/users/2.png"
+      "avatarUrl": "images/users/2.png"
     },
     {
       "id": 3,
@@ -46,7 +46,7 @@
       "favoritesSkills": [2, 4, 7, 34, 35],
       "createdAt": "2025-03-12T09:20:00Z",
       "updatedAt": "2025-04-05T12:34:00Z",
-      "avatarUrl": "/images/users/3.png"
+      "avatarUrl": "images/users/3.png"
     },
     {
       "id": 4,
@@ -62,7 +62,7 @@
       "favoritesSkills": [9, 15, 21, 27, 34],
       "createdAt": "2025-07-12T09:20:00Z",
       "updatedAt": "2025-08-05T12:34:00Z",
-      "avatarUrl": "/images/users/4.png"
+      "avatarUrl": "images/users/4.png"
     },
     {
       "id": 5,
@@ -78,7 +78,7 @@
       "favoritesSkills": [7, 9, 21, 35, 40],
       "createdAt": "2026-01-10T12:00:00Z",
       "updatedAt": "2026-02-10T12:00:00Z",
-      "avatarUrl": "/images/users/5.png"
+      "avatarUrl": "images/users/5.png"
     },
     {
       "id": 6,
@@ -94,7 +94,7 @@
       "favoritesSkills": [9, 15, 16, 21, 25],
       "createdAt": "2026-01-23T10:00:00Z",
       "updatedAt": "2026-01-24T10:00:00Z",
-      "avatarUrl": "/images/users/6.png"
+      "avatarUrl": "images/users/6.png"
     },
     {
       "id": 7,
@@ -110,7 +110,7 @@
       "favoritesSkills": [14, 21, 25, 35, 41],
       "createdAt": "2026-01-24T10:00:00Z",
       "updatedAt": "2026-01-25T10:00:00Z",
-      "avatarUrl": "/images/users/7.png"
+      "avatarUrl": "images/users/7.png"
     },
     {
       "id": 8,
@@ -126,7 +126,7 @@
       "favoritesSkills": [9, 14, 21, 27, 35],
       "createdAt": "2026-02-01T14:10:00Z",
       "updatedAt": "2026-03-01T14:10:00Z",
-      "avatarUrl": "/images/users/8.png"
+      "avatarUrl": "images/users/8.png"
     },
     {
       "id": 9,
@@ -142,7 +142,7 @@
       "favoritesSkills": [7, 14, 21, 27, 41],
       "createdAt": "2026-01-02T10:00:00Z",
       "updatedAt": "2026-02-03T12:34:00Z",
-      "avatarUrl": "/images/users/9.png"
+      "avatarUrl": "images/users/9.png"
     },
     {
       "id": 10,
@@ -158,7 +158,7 @@
       "favoritesSkills": [7, 9, 13, 21, 41],
       "createdAt": "2025-03-12T09:24:00Z",
       "updatedAt": "2025-04-05T12:35:00Z",
-      "avatarUrl": "/images/users/10.png"
+      "avatarUrl": "images/users/10.png"
     },
     {
       "id": 11,
@@ -174,7 +174,7 @@
       "favoritesSkills": [9, 16, 21, 22, 35],
       "createdAt": "2025-01-18T08:20:00Z",
       "updatedAt": "2026-01-18T08:20:00Z",
-      "avatarUrl": "/images/users/11.png"
+      "avatarUrl": "images/users/11.png"
     },
     {
       "id": 12,
@@ -190,7 +190,7 @@
       "favoritesSkills": [2, 4, 24, 25, 41],
       "createdAt": "2026-01-08T10:00:00Z",
       "updatedAt": "2026-01-08T11:00:00Z",
-      "avatarUrl": "/images/users/12.png"
+      "avatarUrl": "images/users/12.png"
     },
     {
       "id": 13,
@@ -206,7 +206,7 @@
       "favoritesSkills": [4, 9, 16, 22, 35],
       "createdAt": "2026-01-09T10:00:00Z",
       "updatedAt": "2026-01-09T11:00:00Z",
-      "avatarUrl": "/images/users/13.png"
+      "avatarUrl": "images/users/13.png"
     },
     {
       "id": 14,
@@ -222,7 +222,7 @@
       "favoritesSkills": [4, 6, 8, 9, 27],
       "createdAt": "2025-03-12T09:24:00Z",
       "updatedAt": "2026-02-05T10:10:00Z",
-      "avatarUrl": "/images/users/14.png"
+      "avatarUrl": "images/users/14.png"
     },
     {
       "id": 15,
@@ -238,7 +238,7 @@
       "favoritesSkills": [4, 6, 13, 27, 36],
       "createdAt": "2026-01-03T10:00:00Z",
       "updatedAt": "2026-02-03T10:00:00Z",
-      "avatarUrl": "/images/users/15.png"
+      "avatarUrl": "images/users/15.png"
     },
     {
       "id": 16,
@@ -254,7 +254,7 @@
       "favoritesSkills": [6, 16, 22, 27, 36],
       "createdAt": "2026-01-12T10:00:00Z",
       "updatedAt": "2026-02-12T10:00:00Z",
-      "avatarUrl": "/images/users/16.png"
+      "avatarUrl": "images/users/16.png"
     },
     {
       "id": 17,
@@ -270,7 +270,7 @@
       "favoritesSkills": [13, 16, 24, 27, 32],
       "createdAt": "2025-03-12T06:20:00Z",
       "updatedAt": "2026-01-12T13:00:00Z",
-      "avatarUrl": "/images/users/17.png"
+      "avatarUrl": "images/users/17.png"
     },
     {
       "id": 18,
@@ -286,7 +286,7 @@
       "favoritesSkills": [5, 22, 27, 28, 36],
       "createdAt": "2025-01-30T10:00:00Z",
       "updatedAt": "2026-01-30T10:00:00Z",
-      "avatarUrl": "/images/users/18.png"
+      "avatarUrl": "images/users/18.png"
     },
     {
       "id": 19,
@@ -302,7 +302,7 @@
       "favoritesSkills": [5, 16, 22, 28, 36],
       "createdAt": "2026-01-30T15:30:00Z",
       "updatedAt": "2026-02-20T15:30:00Z",
-      "avatarUrl": "/images/users/19.png"
+      "avatarUrl": "images/users/19.png"
     },
     {
       "id": 20,
@@ -318,7 +318,7 @@
       "favoritesSkills": [10, 13, 22, 23, 32],
       "createdAt": "2026-02-14T09:00:00Z",
       "updatedAt": "2026-03-14T09:00:00Z",
-      "avatarUrl": "/images/users/20.png"
+      "avatarUrl": "images/users/20.png"
     },
     {
       "id": 21,
@@ -334,7 +334,7 @@
       "favoritesSkills": [10, 13, 16, 24, 36],
       "createdAt": "2026-01-10T10:00:00Z",
       "updatedAt": "2026-01-10T11:00:00Z",
-      "avatarUrl": "/images/users/21.png"
+      "avatarUrl": "images/users/21.png"
     },
     {
       "id": 22,
@@ -350,7 +350,7 @@
       "favoritesSkills": [1, 5, 8, 24, 32],
       "createdAt": "2025-07-12T09:20:00Z",
       "updatedAt": "2026-01-22T17:00:00Z",
-      "avatarUrl": "/images/users/22.png"
+      "avatarUrl": "images/users/22.png"
     },
     {
       "id": 23,
@@ -366,7 +366,7 @@
       "favoritesSkills": [2, 8, 10, 16, 36],
       "createdAt": "2026-01-06T10:00:00Z",
       "updatedAt": "2026-02-06T10:00:00Z",
-      "avatarUrl": "/images/users/23.png"
+      "avatarUrl": "images/users/23.png"
     },
     {
       "id": 24,
@@ -382,7 +382,7 @@
       "favoritesSkills": [3, 16, 28, 29, 36],
       "createdAt": "2026-01-05T08:00:00Z",
       "updatedAt": "2026-02-05T08:00:00Z",
-      "avatarUrl": "/images/users/24.png"
+      "avatarUrl": "images/users/24.png"
     },
     {
       "id": 25,
@@ -398,7 +398,7 @@
       "favoritesSkills": [8, 16, 17, 29, 32, 36],
       "createdAt": "2026-01-10T10:00:00Z",
       "updatedAt": "2026-01-22T08:00:00Z",
-      "avatarUrl": "/images/users/25.png"
+      "avatarUrl": "images/users/25.png"
     },
     {
       "id": 26,
@@ -414,7 +414,7 @@
       "favoritesSkills": [3, 8, 18, 29, 36],
       "createdAt": "2025-03-12T09:20:00Z",
       "updatedAt": "2026-02-02T11:00:00Z",
-      "avatarUrl": "/images/users/26.png"
+      "avatarUrl": "images/users/26.png"
     },
     {
       "id": 27,
@@ -430,7 +430,7 @@
       "favoritesSkills": [3, 10, 12, 32, 37],
       "createdAt": "2026-01-04T10:00:00Z",
       "updatedAt": "2026-01-05T10:00:00Z",
-      "avatarUrl": "/images/users/27.png"
+      "avatarUrl": "images/users/27.png"
     },
     {
       "id": 28,
@@ -446,7 +446,7 @@
       "favoritesSkills": [2, 18, 23, 37, 38],
       "createdAt": "2025-03-12T09:21:00Z",
       "updatedAt": "2026-03-07T18:00:00Z",
-      "avatarUrl": "/images/users/28.png"
+      "avatarUrl": "images/users/28.png"
     },
     {
       "id": 29,
@@ -462,7 +462,7 @@
       "favoritesSkills": [5, 6, 29, 30, 32],
       "createdAt": "2026-01-01T10:00:00Z",
       "updatedAt": "2026-01-03T10:00:00Z",
-      "avatarUrl": "/images/users/29.png"
+      "avatarUrl": "images/users/29.png"
     },
     {
       "id": 30,
@@ -478,7 +478,7 @@
       "favoritesSkills": [6, 11, 18, 23, 37],
       "createdAt": "2026-01-16T09:00:00Z",
       "updatedAt": "2026-02-02T11:05:00Z",
-      "avatarUrl": "/images/users/30.png"
+      "avatarUrl": "images/users/30.png"
     },
     {
       "id": 31,
@@ -494,7 +494,7 @@
       "favoritesSkills": [6, 11, 23, 30, 40],
       "createdAt": "2026-01-11T08:30:00Z",
       "updatedAt": "2026-02-02T12:00:00Z",
-      "avatarUrl": "/images/users/31.png"
+      "avatarUrl": "images/users/31.png"
     },
     {
       "id": 32,
@@ -510,7 +510,7 @@
       "favoritesSkills": [1, 18, 30, 32, 38, 39],
       "createdAt": "2026-01-27T10:00:00Z",
       "updatedAt": "2026-01-28T10:00:00Z",
-      "avatarUrl": "/images/users/32.png"
+      "avatarUrl": "images/users/32.png"
     },
     {
       "id": 33,
@@ -526,7 +526,7 @@
       "favoritesSkills": [6, 19, 30, 38, 39],
       "createdAt": "2026-01-28T10:00:00Z",
       "updatedAt": "2026-01-29T10:00:00Z",
-      "avatarUrl": "/images/users/33.png"
+      "avatarUrl": "images/users/33.png"
     },
     {
       "id": 34,
@@ -542,7 +542,7 @@
       "favoritesSkills": [12, 18, 30, 31, 38],
       "createdAt": "2026-02-10T10:30:00Z",
       "updatedAt": "2026-03-02T11:00:00Z",
-      "avatarUrl": "/images/users/34.png"
+      "avatarUrl": "images/users/34.png"
     },
     {
       "id": 35,
@@ -558,7 +558,7 @@
       "favoritesSkills": [6, 12, 23, 32, 38],
       "createdAt": "2025-01-01T10:00:00Z",
       "updatedAt": "2026-01-01T10:00:00Z",
-      "avatarUrl": "/images/users/35.png"
+      "avatarUrl": "images/users/35.png"
     },
     {
       "id": 36,
@@ -574,7 +574,7 @@
       "favoritesSkills": [11, 19, 31, 32, 41],
       "createdAt": "2026-02-03T15:00:00Z",
       "updatedAt": "2026-02-06T11:00:00Z",
-      "avatarUrl": "/images/users/36.png"
+      "avatarUrl": "images/users/36.png"
     },
     {
       "id": 37,
@@ -590,7 +590,7 @@
       "favoritesSkills": [3, 20, 31, 32],
       "createdAt": "2026-01-16T10:00:00Z",
       "updatedAt": "2026-02-09T11:00:00Z",
-      "avatarUrl": "/images/users/37.png"
+      "avatarUrl": "images/users/37.png"
     },
     {
       "id": 38,
@@ -606,7 +606,7 @@
       "favoritesSkills": [11, 20, 23, 32, 33],
       "createdAt": "2026-02-06T12:00:00Z",
       "updatedAt": "2026-03-06T12:00:00Z",
-      "avatarUrl": "/images/users/38.png"
+      "avatarUrl": "images/users/38.png"
     },
     {
       "id": 39,
@@ -622,7 +622,7 @@
       "favoritesSkills": [1, 20, 21, 33, 34],
       "createdAt": "2026-01-20T10:00:00Z",
       "updatedAt": "2026-02-20T10:00:00Z",
-      "avatarUrl": "/images/users/39.png"
+      "avatarUrl": "images/users/39.png"
     },
     {
       "id": 40,
@@ -638,7 +638,7 @@
       "favoritesSkills": [1, 2, 20, 31, 34],
       "createdAt": "2025-01-11T10:00:00Z",
       "updatedAt": "2026-01-11T10:00:00Z",
-      "avatarUrl": "/images/users/40.png"
+      "avatarUrl": "images/users/40.png"
     },
     {
       "id": 41,
@@ -654,7 +654,7 @@
       "favoritesSkills": [2, 21, 31, 34],
       "createdAt": "2025-01-12T10:00:00Z",
       "updatedAt": "2026-01-12T10:00:00Z",
-      "avatarUrl": "/images/users/41.png"
+      "avatarUrl": "images/users/41.png"
     }
   ]
 }

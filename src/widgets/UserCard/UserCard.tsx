@@ -72,8 +72,8 @@ export const UserCard = ({
               <img
                 src={
                   isLiked
-                    ? '/src/shared/assets/icons/HeartFilled.png'
-                    : '/src/shared/assets/icons/HeartIcon.png'
+                    ? 'src/shared/assets/icons/HeartFilled.png'
+                    : 'src/shared/assets/icons/HeartIcon.png'
                 }
                 alt="лайк"
               />
@@ -145,7 +145,7 @@ export const UserCard = ({
               {isForSwap ? (
                 <>
                   <img
-                    src="/src/shared/assets/icons/time.png"
+                    src="src/shared/assets/icons/time.png"
                     alt="иконка обмена"
                     className={styles.icon}
                   />
